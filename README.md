@@ -123,13 +123,13 @@ int GetNumberOfK(vector<int> data ,int k) {
 [leetcode.445 分发饼干 easy](https://leetcode-cn.com/problems/assign-cookies/)
 
 ```c++
-// 思路：从胃口最小的孩子开始，从最小的饼干开始喂直到能满足位置
+// 思路：从胃口最小的孩子开始，从最小的饼干开始喂直到能满足为止
 int findContentChildren(vector<int>& g, vector<int>& s) {
     sort(g.begin(), g.end());
     sort(s.begin(), s.end());
     int cnt = 0;
     int i = 0, j = 0;
-    // 从胃口最小的孩子依次开始喂饼干
+    // 从胃口最小的孩子喂饼干，从最小的饼干开始喂
     while(i < g.size() && j < s.size()){
         if(g[i] <= s[j]){
             ++cnt;
@@ -190,5 +190,85 @@ int candy(vector<int>& ratings) {
 }
 ```
 
+[leetcode.122 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
+```c++
+// 思路：只要p[i] > p[i - 1]，就在i-1买入并在i卖出。某天既买入又卖出可视为没有做任何操作
+int maxProfit(vector<int>& prices) {
+    if(prices.size() <= 1)
+        return 0;
+    int prof = 0;
+    for(int i = 1; i < prices.size(); ++i)
+        prof += (prices[i] > prices[i - 1]) ? prices[i] - prices[i - 1] : 0;
+    return prof;
+}
 
+```
+
+[leetcode.605 种花问题](https://leetcode-cn.com/problems/can-place-flowers/)
+
+```c++
+// 思路：直接遍历，满足条件就种下。注意两类特殊情况和花坛两端
+bool canPlaceFlowers(vector<int>& bed, int n) {
+    int seeds = 0;
+    if(n == 0)
+        return true;
+    if(bed.size() == 1)
+        return bed[0] == 0;
+
+    if(bed.size() >= 2 && bed[0] == 0 && bed[1] == 0){
+        ++seeds;
+        bed[0] = 1;
+    }
+    for(int i = 1; i < bed.size() - 1; ++i)
+        if(bed[i - 1] == 0 && bed[i] == 0 && bed[i + 1] == 0){
+            ++seeds;
+            bed[i] = 1;
+        }
+    if(bed.size() >= 2 && bed[bed.size() - 2] == 0 && bed.back() == 0)
+        ++seeds;
+
+    return seeds >= n;
+}
+
+```
+
+[leetcode.665 非递减数列](https://leetcode-cn.com/problems/non-decreasing-array/)
+
+```c++
+// 思路：对逆序的数对进行计数，同时需要确认是否可以修正
+// 找到nums[i] > nums[i + 1]的位置，再对nums[i] or nums[i + 1]进行更改
+bool checkPossibility(vector<int>& nums) {
+    int cnt = 0;
+    for(int i = 0; i < nums.size() - 1; ++i)
+        if(nums[i] > nums[i + 1]){
+            ++cnt;
+            // 优先考虑更改nums[i]为它能接受的最小值，即nums[i - 1]
+            if(i == 0)
+                continue;
+            if(nums[i - 1] <= nums[i + 1])
+                nums[i] = nums[i - 1];	// 2 4(i) 2 5 => 改4为2
+            else
+                nums[i + 1] = nums[i];	// 3 4(i) 2 5 => 不能改4
+        }
+    return cnt <= 1;
+}
+
+```
+
+[leetcode.392 判断子序列](https://leetcode-cn.com/problems/is-subsequence/)
+
+```c++
+// 思路：直接比对每一个字母即可
+bool isSubsequence(string s, string t) {
+    if(s.empty())
+        return true;
+    int p = 0;
+    for(auto c:t)
+        if(s[p] == c)
+            if(++p == s.size())
+                return true;
+    return false;
+}
+
+```
