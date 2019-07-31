@@ -149,7 +149,6 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 int findMinArrowShots(vector<vector<int>>& points) {
     if(points.size() <= 1)
         return points.size();
-
     sort(points.begin(), points.end());
     int cnt = 1;
     int rightEdge = points[0][1];   // 第一个圆右侧为右边界
@@ -163,7 +162,6 @@ int findMinArrowShots(vector<vector<int>>& points) {
             rightEdge = points[idx][1];
         }
     }
-
     return cnt;
 }
 ```
@@ -272,3 +270,39 @@ bool isSubsequence(string s, string t) {
 }
 
 ```
+
+[leetcode.763 划分字母区间](https://leetcode-cn.com/problems/partition-labels/)
+
+```c++
+// 思路: 第一遍遍历得到每个字母最后出现的位置map
+//       第二遍通过left,right指示区间，cur指示当前遍历到的位置
+//       	使用right = max(map[s[cur]], right)扩张右侧边界
+//       	cur==right时说明区间内的字母未出现在其它区域
+vector<int> partitionLabels(string str) {
+    map<char, int> map;
+    for(int i = 0; i < str.size(); ++i)
+        map[str[i]] = i;
+
+    int left = 0, right = map[str[0]], cur = 0;
+    vector<int> res;
+    while(right < str.size()){
+        right = max(right, map[str[cur]]);	// 更新右边界
+        if(right == cur){				   // 此时[left,right]之间的字母未出现在其它位置
+            res.push_back(right - left + 1);
+            left = right + 1;
+            right = (cur < str.size() - 1) ? map[str[cur + 1]] : str.size();
+        }
+        ++cur;
+    }
+
+    return res;
+}
+
+```
+
+[leetcode.406 根据身高重建队列](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
+
+```c++
+
+```
+
