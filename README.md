@@ -71,7 +71,7 @@ int arrangeCoins(int n) {
 }
 ```
 
-[leetcode.50 Pow(x,n)](https://leetcode-cn.com/problems/powx-n/)
+[leetcode.50 Pow(x,n) middle](https://leetcode-cn.com/problems/powx-n/)
 
 ```C++
 // 思路：对x依次做1,2,4,...次幂，得到x, x*x, x*x*x*x，直到指数次数为不大于n的最大值
@@ -142,7 +142,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 }
 ```
 
-[leetcode.452 用最少数量的箭引爆气球](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+[leetcode.452 用最少数量的箭引爆气球 middle](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
 
 ```c++
 // 思路：左往右依次射箭，每次保证引爆最多的气球
@@ -188,7 +188,7 @@ int candy(vector<int>& ratings) {
 }
 ```
 
-[leetcode.122 买卖股票的最佳时机 II](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+[leetcode.122 买卖股票的最佳时机 II easy](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 ```c++
 // 思路：只要p[i] > p[i - 1]，就在i-1买入并在i卖出。某天既买入又卖出可视为没有做任何操作
@@ -203,7 +203,7 @@ int maxProfit(vector<int>& prices) {
 
 ```
 
-[leetcode.605 种花问题](https://leetcode-cn.com/problems/can-place-flowers/)
+[leetcode.605 种花问题 easy](https://leetcode-cn.com/problems/can-place-flowers/)
 
 ```c++
 // 思路：直接遍历，满足条件就种下。注意两类特殊情况和花坛两端
@@ -231,7 +231,7 @@ bool canPlaceFlowers(vector<int>& bed, int n) {
 
 ```
 
-[leetcode.665 非递减数列](https://leetcode-cn.com/problems/non-decreasing-array/)
+[leetcode.665 非递减数列 easy](https://leetcode-cn.com/problems/non-decreasing-array/)
 
 ```c++
 // 思路：对逆序的数对进行计数，同时需要确认是否可以修正
@@ -254,7 +254,7 @@ bool checkPossibility(vector<int>& nums) {
 
 ```
 
-[leetcode.392 判断子序列](https://leetcode-cn.com/problems/is-subsequence/)
+[leetcode.392 判断子序列 middle](https://leetcode-cn.com/problems/is-subsequence/)
 
 ```c++
 // 思路：直接比对每一个字母即可
@@ -271,7 +271,7 @@ bool isSubsequence(string s, string t) {
 
 ```
 
-[leetcode.763 划分字母区间](https://leetcode-cn.com/problems/partition-labels/)
+[leetcode.763 划分字母区间 middle](https://leetcode-cn.com/problems/partition-labels/)
 
 ```c++
 // 思路: 第一遍遍历得到每个字母最后出现的位置map
@@ -300,7 +300,7 @@ vector<int> partitionLabels(string str) {
 
 ```
 
-[leetcode.406 根据身高重建队列](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
+[leetcode.406 根据身高重建队列 middle](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
 
 ```c++
 
