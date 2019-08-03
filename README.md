@@ -5,6 +5,10 @@
 - [算法思想](#算法思想)
   - [二分查找](二分查找)
   - [贪心思想](#贪心思想)
+  - [双指针思想](#双指针思想)
+  - 
+
+
 
 # 算法思想
 
@@ -262,7 +266,7 @@ bool isSubsequence(string s, string t) {
     if(s.empty())
         return true;
     int p = 0;
-    for(auto c:t)
+    for(const auto &c:t)
         if(s[p] == c)
             if(++p == s.size())
                 return true;
@@ -303,6 +307,262 @@ vector<int> partitionLabels(string str) {
 [leetcode.406 根据身高重建队列 middle](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
 
 ```c++
+// 思路
+// 将所有人(h,k)按身高h降序，k升序进行排列得 [7,0],[7,1],[6,1],[5,0],[5,2],[4,4]
+// 此时所有人前面的人均不低于它，只需将(hi,ki)往前swap直到ki = i为止
+bool comp(const vector<int> &p1, const vector<int> &p2){
+    return p1[0] > p2[0] || (p1[0] == p2[0] && p1[1] < p2[1]);
+}
+vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
+    sort(people.begin(), people.end(), comp);
 
+    for(int i = 0; i < people.size(); ++i)
+        for(int k = i; k > people[k][1]; --k)
+            swap(people[k], people[k - 1]);
+
+    return people;
+}
+```
+
+[leetcode.621 任务调度器 midle](https://leetcode-cn.com/problems/task-scheduler/)
+
+```c++
+// 思路：统计每个任务出现次数，假设为AAAABBBBCCC,n=3
+// 放A: |A---|A---|A---|A 
+// 放B：|AB--|AB--|AB--|AB   => 执行时间 = (4 - 1) * (n + 1) + 2
+// 放C：|ABC-|ABC-|ABC-|AB	 其中4是最多的次数，2是最多次数的任务
+// 另外，当出现AAABBBCCDD,n=2时，总能通过尽量稀疏分布使得不需要等待时间
+// 放A：|A--|A--|A--|
+// 放B: |AB-|AB-|AB-|
+// 放C：|ABC|AB-|ABC|		(这里是关键)
+// 放D：|ABC|ABD|ABC|D
+int leastInterval(vector<char>& tasks, int n) {
+    vector<int> stat(26, 0);
+    for(const auto &c:tasks)
+        ++stat[c - 'A'];
+    sort(stat.begin(), stat.end());
+
+    int max_task = stat[25], max_cnt = 0;
+    for(const auto &cnt:stat)
+        max_cnt += cnt == stat[25] ? 1 : 0;
+
+    int time = (max_task - 1) * (n + 1) + max_cnt;
+    time = time > tasks.size() ? time : tasks.size();
+
+    return time;
+}
+```
+
+[leetcode.861 翻转矩阵后的得分 middle](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
+
+```c++
+// 思路:首先每行翻转，保证第一位是1, 1000 > 0111
+//      然后第二列开始，每列翻转保证该列1数量比0多
+void reverseRow(vector<vector<int>> &A, int row){
+    for(auto &c:A[row])
+        c ^= 1;
+}
+void reverseCol(vector<vector<int>> &A, int col){
+    for(int i = 0; i < A.size(); ++i)
+        A[i][col] ^= 1;
+}
+int matrixScore(vector<vector<int>>& A) {
+    if(A.empty() || A[0].empty())
+        return 0;
+    // 每行变换，保证每行第一位是1
+    for(int row = 0; row < A.size(); ++row)
+        if(A[row][0] == 0)
+            reverseRow(A, row);
+    // 列变换，保证每列1数量比0多
+    for(int col = 1; col < A[0].size(); ++col){
+        int ones = 0, zeros = 0;
+        for(int i = 0; i < A.size(); ++i)
+            A[i][col] == 0 ? ++ones : ++zeros;
+        if(ones > zeros)
+            reverseCol(A, col);
+    }
+    int sum = 0;	// 计算最终结果
+    for(const auto &row:A){
+        int sum_row = 0;
+        for(const auto &i:row)
+            sum_row = (sum_row << 1) + i;	// 移位运算符优先级很低，需要打上括号
+        sum += sum_row;
+    }
+    return sum;
+}
+```
+
+## 双指针思想
+
+[leetcode.167 两数之和II - 输入有序数组 easy](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
+
+```c++
+// 思路：两个下标分别指向首、尾，同时向中间靠拢以搜索两数
+vector<int> twoSum(vector<int>& nums, int target) {
+    int left = 0, right = nums.size() - 1;
+    while(left <= right){
+        int sum = nums[left] + nums[right];
+        if(sum == target)
+            return { left + 1, right + 1 };
+        else if(sum < target)
+            ++left;
+        else
+            --right;
+    }
+    return {0,0};	// 题目必有解，不会执行到这里，但没有这句话无法通过编译
+}
+```
+
+[leetcode.345 翻转字符串中的元音字母 easy](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/)
+
+```c++
+const set<char> sc = { 'a','e','i','o','u' };
+string reverseVowels(string s) {
+    int left = 0, right = s.size() - 1;
+    while(left <= right){
+        while(left < s.size() && sc.count(tolower(s[left])) == 0)
+            ++left;	// 左往右定位到元音
+        while(right >= 0 && sc.count(tolower(s[right])) == 0)
+            --right;// 右往左定位到元音
+        if(left <= right)
+            swap(s[left++], s[right--]);
+    }
+    return s;
+}
+```
+
+[leetcode.633 平方数之和 easy](https://leetcode-cn.com/problems/sum-of-square-numbers/)
+
+```c++
+bool judgeSquareSum(int c) {
+    long long left = 0, right = sqrt(c);
+    while(left <= right){
+        long long num = left * left + right * right;
+        if(num < c)
+            ++left;
+        else if(num > c)
+            --right;
+        else if(num == c)
+            return true;                
+    }
+    return false;
+}
+```
+
+[leetcode.680 验证回文字符串 II easy](https://leetcode-cn.com/problems/valid-palindrome-ii/)
+
+```c++
+// 思路：定位到第一个非回文的位置，刨除左字母或右字母后验证剩余部分是否为回文串
+bool valid(const string &s, int left, int right){
+    while(left <= right)
+        if(s[left++] != s[right--])
+            return false;
+    return true;
+}
+bool validPalindrome(string s) {
+    int left = 0, right = s.size() - 1;
+    while(left <= right){
+        if(s[left] != s[right])	// 定位后验证
+            return valid(s, left + 1, right) || valid(s, left, right - 1);
+        ++left;
+        --right;
+    }
+    return true;
+}
+```
+
+[leetcode.88 合并两个有序数组 easy](https://leetcode-cn.com/problems/merge-sorted-array/)
+
+```c++
+// 思路：从num1的m+n-1位置处往前填充数字
+// nums1 = 1 2 3 0 0 0, nums2 = 2 3 5
+//             p1   idx             p2
+void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+    int idx = m + n - 1;
+    int p1 = m - 1, p2 = n - 1;
+    while(idx >= 0)
+        if(p1 >= 0 && p2 >= 0){ // 在num1,nums2中都还有未融合的数才进行
+            nums1[idx--] = max(nums1[p1], nums2[p2]);
+            nums1[p1] > nums2[p2] ? --p1 : --p2;
+        }else
+            break;
+    // p2>=0说明nums2中存在数没融合，将它放到nums1中； p1>=0，此时nums1中已经排好无需再管
+    while(p2 >= 0)
+        nums1[idx--] = nums2[p2--];
+}
+```
+
+[leetcode.141 环形链表 easy](https://leetcode-cn.com/problems/linked-list-cycle/)
+
+```c++
+// 思路：快慢指针法，若有环则必然在某个点相遇
+// 另外：也可以用set或者map对已出现的节点进行记录，需要额外空间O(n)
+bool hasCycle(ListNode *head) {
+    ListNode *fast = head, *slow = head;
+    while(fast != nullptr && fast->next != nullptr){
+        fast = fast->next->next;
+        slow = slow->next;
+        if(fast == slow)
+            return true;
+    }
+    return false;
+}
+```
+
+[剑指Offer - 链表中环的入口节点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=13&tqId=11208&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+
+```c++
+// __a__.______ b  a,b,c分为为各段长度
+//     c \_____*  <---- 快慢指针相遇点
+//  若有环，快慢指针在图中 * 处相遇，存在关系 fast = a+b+(b+c)*k = 2*slow =2*(a+b), k为快指针圈数
+//  解得： a = (b + c)*(k - 1) + c
+//  即：从头结点和相遇点分别出发，必然在入口节点相遇
+ListNode* EntryNodeOfLoop(ListNode* head){
+    ListNode* fast = head, *slow = head;
+    while(fast != nullptr && fast->next != nullptr){
+        fast = fast->next->next;
+        slow = slow->next;
+        if(slow == fast){	// 在*相遇
+            fast = head;	// fast从头出发，slow从相遇点出发，一次跳一格
+            while(fast != slow){
+                fast = fast->next;
+                slow = slow->next;
+            }
+            return fast;	// 入口接单相遇后返回fast或slow都可以
+        }
+    }
+    return nullptr;
+}
+```
+
+[leetcode.524 通过删除字母匹配到字典里最长单词 middle](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
+
+```c++
+// 思路:为字典里每个字符串分配一个指针idx, 表示该字符串已经匹配到了idx
+//      遍历给定字符串str每个字母c，看c是否能与字典中字符串target_s[idx]进行匹配，匹配则idx+1
+//      遍历完成后，看字典中每个字符串的idx==target_s.size()与否，相等则表示已匹配到
+string findLongestWord(string str, vector<string>& vs) {
+    unordered_map<string, int> dict;
+    for(const auto &item:vs)
+        dict[item] = 0;		// 分配指针
+    
+    for(const auto &c:str) // 比对
+        for(auto &m:dict)  // 注意，这里一定要 auto &，否则更改后不会作用到m上
+            if(c == m.first[m.second])
+                ++m.second;
+
+    string res = "";
+    int maxLen = 0;
+    for(const auto &m:dict)
+        if(m.second == m.first.size()){ // 匹配成功的
+            if(m.first.size() > maxLen){
+                res = m.first;
+                maxLen = m.first.size();
+            }else if(m.first.size() == maxLen)
+                res = res < m.first ? res : m.first;    // 字典序更小的
+        }
+
+    return res;
+}
 ```
 
