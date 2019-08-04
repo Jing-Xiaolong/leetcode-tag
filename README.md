@@ -5,17 +5,21 @@
 - [算法思想](#算法思想)
 
   - [排序](#排序算法)
-
     - [七大基于比较的排序算法](#七大基于比较的排序算法)
     - [利用排序思想的算法](#利用排序思想的算法)
-
   - [二分查找](#二分查找)
-
   - [贪心思想](#贪心思想)
-
   - [双指针思想](#双指针思想)
+  - [搜索](#搜索)
+    - [广度优先搜索BFS](#广度优先搜索BFS)
+    - [深度优先搜索DFS](#深度优先搜索)
 
-    
+- [数据结构](#数据结构)
+
+  - [二叉树](#二叉树)
+    - [二叉树的遍历](#二叉树的遍历)
+
+  
 
 
 
@@ -38,6 +42,8 @@ void bubbleSort(vector<int> &ivec){
 }
 ```
 
+<br>
+
 #### 选择排序
 
 ```c++
@@ -54,6 +60,8 @@ void selectionSort(vector<int> &ivec){
 }
 ```
 
+
+
 #### 插入排序
 
 ```c++
@@ -66,6 +74,8 @@ void insertionSort(vector<int> &ivec){
 	}
 }
 ```
+
+
 
 #### 归并排序
 
@@ -97,6 +107,8 @@ void mergeSort(vector<int> &ivec){
 }
 ```
 
+
+
 #### 快速排序
 
 ```c++
@@ -122,6 +134,8 @@ void quickSort(vector<int> &ivec){
 	quickSort(ivec, 0, ivec.size() - 1);
 }
 ```
+
+
 
 #### 堆排序
 
@@ -154,7 +168,7 @@ void heapSort(vector<int> &ivec){
 
 ### 利用排序思想的算法
 
-[leetcode.215 数组中的第K个最大元素](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)（或前K个最大的元素）
+[leetcode.215 数组中的第K个最大元素 middle](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)（或前K个最大的元素）
 
 > 在未排序的数组中找到第 **k** 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
 >
@@ -379,7 +393,7 @@ double myPow(double x, int n) {
 }
 ```
 
-[剑指offer 数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)\
+[剑指offer 数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 
 > 统计一个数字在排序数组中出现的次数。
 
@@ -404,7 +418,7 @@ int GetNumberOfK(vector<int> data ,int k) {
 }
 ```
 
-[leetcode.162 寻找峰值](https://leetcode-cn.com/problems/find-peak-element/)
+[leetcode.162 寻找峰值 middle](https://leetcode-cn.com/problems/find-peak-element/)
 
 > 峰值元素是指其值大于左右相邻值的元素。给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。你可以假设 nums[-1] = nums[n] = -∞。要求O(logN)时间复杂度
 >
@@ -709,7 +723,7 @@ vector<int> partitionLabels(string str) {
 
 ```
 
-[leetcode.56 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
+[leetcode.56 合并区间 middle](https://leetcode-cn.com/problems/merge-intervals/)
 
 > 给出一个区间的集合，请合并所有重叠的区间。
 >
@@ -785,7 +799,7 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 }
 ```
 
-[leetcode.621 任务调度器 midle](https://leetcode-cn.com/problems/task-scheduler/)
+[leetcode.621 任务调度器 middle](https://leetcode-cn.com/problems/task-scheduler/)
 
 > 给定一个用字符数组表示的 CPU 需要执行的任务列表。其中包含使用大写的 A - Z 字母表示的26 种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。CPU 在任何一个单位时间内都可以执行一个任务，或者在待命状态。然而，两个相同种类的任务之间必须有长度为 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。你需要计算完成所有任务所需要的最短时间。
 >
@@ -986,7 +1000,7 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 }
 ```
 
-[leetcode.283 移动零](https://leetcode-cn.com/problems/move-zeroes/)
+[leetcode.283 移动零 easy](https://leetcode-cn.com/problems/move-zeroes/)
 
 > 给定一个数组 `nums`，编写一个函数将所有 `0`移动到数组的末尾，同时保持非零元素的相对顺序。
 >
@@ -1023,7 +1037,7 @@ void moveZeros(vector<int> &nums){
 
 
 
-[leetcode.19 删除链表的倒数第N个节点](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+[leetcode.19 删除链表的倒数第N个节点 middle](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 ```c++
 // 思路：快慢指针，快指针先走n次，然后快、慢一起走，快指针到达nullptr时慢指针即倒数第n个
@@ -1173,5 +1187,317 @@ string findLongestWord(string str, vector<string>& vs) {
 
     return res;
 }
+```
+
+
+
+## 搜索
+
+广度优先搜索BFS、深度优先搜索DFS是最长用的两种搜索方法，广泛应用在图、二维数组、树的搜索和遍历中。它们最本质的区别：<font color="red">**BSF是先入先出的遍历过程，DFS是先入后出的遍历过程**</font>；因此，在搜索过程中，<font color="red">**BFS一般借助于队列，DFS一般借助于栈**</font>，这一点要非常明确！
+
+### 广度优先搜索BFS
+
+[leetcode.102 二叉树的层次遍历](https://leetcode-cn.com/problems/binary-tree-level-order-traversal/)
+
+> 二叉树的层次遍历是及其典型的广度优先搜索。广度优先即：一层一层向下，距离根同一距离的节点遍历完后再遍历深一层的节点，例如：
+>
+> ```
+> 给定二叉树: [3,9,20,null,null,15,7],
+> 	3
+>    / \
+>   9  20
+>     /  \
+>    15   7
+> 层次遍历结果为：[[3], [9,20], [15,7]]
+> ```
+
+```c++
+// 注意：返回结果是每一层的节点作为一个vector，所有层再作为一个vector
+vector<vector<int>> levelOrder(TreeNode* root) {
+    if(root == nullptr)
+        return {};
+    vector<vector<int>> res;
+    queue<TreeNode*> q;
+    q.push(root);
+    while(!q.empty()){
+        int cnt = q.size(); // 每层的节点数量
+        vector<int> level_nums;
+        while(cnt-- > 0){	
+            auto tmp = q.front();
+            q.pop();
+            level_nums.push_back(tmp->val);
+            if(tmp->left != nullptr)
+                q.push(tmp->left);
+            if(tmp->right != nullptr)
+                q.push(tmp->right);
+        }
+        res.push_back(level_nums);
+    }
+    return res;
+}
+
+// 如果整体返回一个 vector<int>，则写法如下：
+vector<int> levelOrder(TreeNode* root) {
+    if(root == nullptr)
+        return {};
+    vector<int> res;
+    queue<TreeNode*> q;
+    q.push(root);
+    while(!q.empty()){
+        auto tmp = q.front();
+        q.pop();
+        res.push_back(tmp->val);
+        if(tmp->left != nullptr)
+            q.push(tmp->left);
+        if(tmp->right != nullptr)
+            q.push(tmp->right);
+    }
+    return res;
+}
+```
+
+
+
+[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+> 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3,null,5,null,4]
+> 输出: [1, 3, 4]
+> 解释:
+> 
+>    1            <---
+>  /   \
+> 2     3         <---
+>  \     \
+>   5     4       <---
+> ```
+
+```c++
+// 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
+```
+
+注：使用深度优先搜索也可以求解，查看[数据结构-树-树的遍历](#二叉树的遍历)、或[深度优先搜索DFS](#深度优先搜索DFS)
+
+
+
+[leetcode.101 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+
+> 给定一个二叉树，检查它是否是镜像对称的。
+>
+> ```
+>     1
+>    / \
+>   2   2
+>  / \ / \
+> 3  4 4  3
+> ```
+
+```c++
+// 递归法，递归不需要借助queue
+bool isSymmetric(TreeNode* root) {
+    if(root == nullptr)
+        return true;
+    return check(root->left, root->right);
+}
+bool check(TreeNode* l, TreeNode *r){
+    if(l == nullptr && r == nullptr)
+        return true;
+    if(l == nullptr || r == nullptr || l->val != r->val)
+        return false;
+    return check(l->left, r->right) && check(r->left, l->right);
+}
+
+// 迭代法，借助queue实现
+bool isSymmetric(TreeNode* root) {
+    if(root == nullptr)
+        return true;
+    queue<TreeNode*> ql;
+    queue<TreeNode*> qr;
+    ql.push(root->left);
+    qr.push(root->right);
+    while(!ql.empty() && !qr.empty()){
+        auto l = ql.front();
+        auto r = qr.front();
+        ql.pop();
+        qr.pop();
+        if(l == nullptr && r == nullptr)
+            continue;
+        if(l == nullptr || r == nullptr || l->val != r->val)
+            return false;
+        ql.push(l->left);
+        qr.push(r->right);
+        ql.push(l->right);
+        qr.push(r->left);
+    }
+    return true;
+}
+```
+
+[leetcode.127 单词接龙 middle](https://leetcode-cn.com/problems/word-ladder/)
+
+> 给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：每次转换只能改变一个字母;转换过程中的中间单词必须是字典中的单词。说明:
+>
+> 如果不存在这样的转换序列，返回 0。
+> 所有单词具有相同的长度。
+> 所有单词只由小写字母组成。
+> 字典中不存在重复的单词。
+> 你可以假设 beginWord 和 endWord 是非空的，且二者不相同。
+>
+> 示例 1:
+>
+> ```
+> 输入:
+> beginWord = "hit",
+> endWord = "cog",
+> wordList = ["hot","dot","dog","lot","log","cog"]
+> 输出: 5
+> 解释: 一个最短转换序列是 "hit" -> "hot" -> "dot" -> "dog" -> "cog",
+>      返回它的长度 5。
+> ```
+
+```c++
+// 对beginword里的每一个字母，将它替换为26个字母（26个搜索方向），若替换后存在于wordList中，则可以作为下一层
+// 示例1的搜索变换过程为 [hit] -> [hot] -> [dot, lot] -> [dog, log] -> [cog]
+int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
+    unordered_set<string> dict(wordList.begin(), wordList.end());
+    if(dict.count(endWord) == 0)   // 词典中必然存在endWord才能转换
+        return 0;
+    dict.erase(beginWord);
+
+    queue<string> q;    // 一般使用queue辅助广度优先搜索
+    q.push(beginWord);
+    int level = 1;      // beginWord算一层
+
+    while(!q.empty()){
+        int node_num = q.size();	// 该层的节点数
+        while(node_num-- > 0){		// 遍历该层的所有节点
+            string node = q.front();
+            q.pop();
+            if(node == endWord)
+                return level;
+            for(int i = 0; i < node.size(); ++i){	// 对每个字母
+                char node_i = node[i];
+                for(char c = 'a'; c < 'z'; ++c){	// 26个搜索方向，即替换为a-z
+                    node[i] = c;
+                    if(dict.count(node) > 0){
+                        q.push(node);
+                        dict.erase(node);   // 剔除该节点，防止后面再次搜索到
+                    }
+                }
+                node[i] = node_i;
+            }
+        }
+        ++level;
+    }
+    return 0;   // 遍历到这说明没搜索到
+}
+```
+
+
+
+### 深度优先搜索DFS
+
+[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+> 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3,null,5,null,4]
+> 输出: [1, 3, 4]
+> 解释:
+> 
+>    1            <---
+>  /   \
+> 2     3         <---
+>  \     \
+>   5     4       <---
+> ```
+
+```c++
+// 思路：DFS-先序遍历（右侧开始），某层最先达到的节点即为该层最右侧的节点
+vector<int> rightSideView(TreeNode* root) {
+    if(root == nullptr)
+        return {};
+
+    vector<int> res;
+    preorder(root, 0, res);        
+    return res;
+}
+void preorder(TreeNode *root, int level, vector<int> &nums){
+    if(root == nullptr)
+        return;
+    if(nums.size() == level)
+        nums.push_back(root->val);
+    preorder(root->right, level + 1, nums);
+    preorder(root->left, level + 1, nums);
+}
+// 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
+// 注：树的前、中、后序遍历均是深度优先搜索
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# 数据结构
+
+## 二叉树
+
+### 二叉树的遍历
+
+[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+> 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3,null,5,null,4]
+> 输出: [1, 3, 4]
+> 解释:
+> 
+>    1            <---
+>  /   \
+> 2     3         <---
+>  \     \
+>   5     4       <---
+> ```
+
+```c++
+// 思路：DFS-先序遍历（右侧开始），某层最先达到的节点即为该层最右侧的节点
+vector<int> rightSideView(TreeNode* root) {
+    if(root == nullptr)
+        return {};
+
+    vector<int> res;
+    preorder(root, 0, res);        
+    return res;
+}
+void preorder(TreeNode *root, int level, vector<int> &nums){
+    if(root == nullptr)
+        return;
+    if(nums.size() == level)
+        nums.push_back(root->val);
+    preorder(root->right, level + 1, nums);
+    preorder(root->left, level + 1, nums);
+}
+
+// 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
 ```
 
