@@ -3,7 +3,6 @@
 
 
 - [算法思想](#算法思想)
-
   - [排序](#排序算法)
     - [七大基于比较的排序算法](#七大基于比较的排序算法)
     - [利用排序思想的算法](#利用排序思想的算法)
@@ -13,15 +12,11 @@
   - [搜索](#搜索)
     - [广度优先搜索BFS](#广度优先搜索BFS)
     - [深度优先搜索DFS](#深度优先搜索)
-
 - [数据结构](#数据结构)
-
   - [二叉树](#二叉树)
     - [二叉树的遍历](#二叉树的遍历)
 
-  
-
-
+<br>
 
 # 算法思想
 
@@ -60,7 +55,7 @@ void selectionSort(vector<int> &ivec){
 }
 ```
 
-
+<br>
 
 #### 插入排序
 
@@ -75,7 +70,7 @@ void insertionSort(vector<int> &ivec){
 }
 ```
 
-
+<br>
 
 #### 归并排序
 
@@ -107,7 +102,7 @@ void mergeSort(vector<int> &ivec){
 }
 ```
 
-
+<br>
 
 #### 快速排序
 
@@ -135,7 +130,7 @@ void quickSort(vector<int> &ivec){
 }
 ```
 
-
+<br>
 
 #### 堆排序
 
@@ -164,7 +159,7 @@ void heapSort(vector<int> &ivec){
 }
 ```
 
-
+<br>
 
 ### 利用排序思想的算法
 
@@ -198,7 +193,7 @@ int findKthLargest(vector<int>& nums, int k) {
 }
 ```
 
-[剑指offer 数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=13&tqId=11188&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+<br>[剑指offer 数组中的逆序对](https://www.nowcoder.com/practice/96bd6684e04a44eb80e6a68efc0ec6c5?tpId=13&tqId=11188&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 
 > 在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007
 >
@@ -246,11 +241,7 @@ void merge(vector<int> &nums, int left, int mid, int right, int &cnt){
 }
 ```
 
-
-
-
-
-
+<br>
 
 ## 二分查找
 
@@ -288,7 +279,7 @@ int mySqrt(int x) {
 }
 ```
 
-[leetcode.367 有效的完全平方数 easy](https://leetcode-cn.com/problems/valid-perfect-square/)
+<br>[leetcode.367 有效的完全平方数 easy](https://leetcode-cn.com/problems/valid-perfect-square/)
 
 > 给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
 >
@@ -322,7 +313,7 @@ bool isPerfectSquare(int num) {
 }
 ```
 
-[leetcode.441 排列硬币 easy](https://leetcode-cn.com/problems/arranging-coins/)
+<br>[leetcode.441 排列硬币 easy](https://leetcode-cn.com/problems/arranging-coins/)
 
 > 你总共有 n 枚硬币，你需要将它们摆成一个阶梯形状，第 k 行就必须正好有 k 枚硬币。给定一个数字 n，找出可形成完整阶梯行的总行数。n 是一个非负整数，并且在32位有符号整型的范围内。
 >
@@ -356,7 +347,7 @@ int arrangeCoins(int n) {
 }
 ```
 
-[leetcode.50 Pow(x,n) middle](https://leetcode-cn.com/problems/powx-n/)
+<br>[leetcode.50 Pow(x,n) middle](https://leetcode-cn.com/problems/powx-n/)
 
 > 实现 [pow(*x*, *n*)](https://www.cplusplus.com/reference/valarray/pow/) ，即计算 x 的 n 次幂函数。
 >
@@ -393,7 +384,7 @@ double myPow(double x, int n) {
 }
 ```
 
-[剑指offer 数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+<br>[剑指offer 数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 
 > 统计一个数字在排序数组中出现的次数。
 
@@ -418,7 +409,7 @@ int GetNumberOfK(vector<int> data ,int k) {
 }
 ```
 
-[leetcode.162 寻找峰值 middle](https://leetcode-cn.com/problems/find-peak-element/)
+<br>[leetcode.162 寻找峰值 middle](https://leetcode-cn.com/problems/find-peak-element/)
 
 > 峰值元素是指其值大于左右相邻值的元素。给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。你可以假设 nums[-1] = nums[n] = -∞。要求O(logN)时间复杂度
 >
@@ -453,7 +444,7 @@ int findPeakElement(vector<int>& nums) {
 
 
 
-
+<br>
 
 ## 贪心思想
 
@@ -497,7 +488,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 }
 ```
 
-[leetcode.452 用最少数量的箭引爆气球 middle](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+<br>[leetcode.452 用最少数量的箭引爆气球 middle](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
 
 > 在二维空间中有许多球形的气球。对于每个气球，提供的输入是水平方向上，气球直径的开始和结束坐标。由于它是水平的，所以y坐标并不重要，因此只要知道开始和结束的x坐标就足够了。开始坐标总是小于结束坐标。平面内最多存在104个气球。
 >
@@ -536,7 +527,7 @@ int findMinArrowShots(vector<vector<int>>& points) {
 }
 ```
 
-[leetcode.135 分发糖果 hard](https://leetcode-cn.com/problems/candy/)
+<br>[leetcode.135 分发糖果 hard](https://leetcode-cn.com/problems/candy/)
 
 > 老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
 >
@@ -579,7 +570,7 @@ int candy(vector<int>& ratings) {
 }
 ```
 
-[leetcode.122 买卖股票的最佳时机 II easy](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+<br>[leetcode.122 买卖股票的最佳时机 II easy](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
 > 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）
 
@@ -596,7 +587,7 @@ int maxProfit(vector<int>& prices) {
 
 ```
 
-[leetcode.605 种花问题 easy](https://leetcode-cn.com/problems/can-place-flowers/)
+<br>[leetcode.605 种花问题 easy](https://leetcode-cn.com/problems/can-place-flowers/)
 
 > 给定一个花坛（表示为一个数组包含0和1，其中0表示没种植花，1表示种植了花），和一个数 n 。能否在不打破种植规则的情况下种入 n 朵花？能则返回True，不能则返回False。
 
@@ -626,7 +617,7 @@ bool canPlaceFlowers(vector<int>& bed, int n) {
 
 ```
 
-[leetcode.665 非递减数列 easy](https://leetcode-cn.com/problems/non-decreasing-array/)
+<br>[leetcode.665 非递减数列 easy](https://leetcode-cn.com/problems/non-decreasing-array/)
 
 > 给定一个长度为 n 的整数数组，你的任务是判断在最多改变 1 个元素的情况下，该数组能否变成一个非递减数列。我们是这样定义一个非递减数列的： 对于数组中所有的 i (1 <= i < n)，满足 array[i] <= array[i + 1]。
 >
@@ -663,7 +654,7 @@ bool checkPossibility(vector<int>& nums) {
 
 ```
 
-[leetcode.392 判断子序列 middle](https://leetcode-cn.com/problems/is-subsequence/)
+<br>[leetcode.392 判断子序列 middle](https://leetcode-cn.com/problems/is-subsequence/)
 
 > 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
 
@@ -682,7 +673,7 @@ bool isSubsequence(string s, string t) {
 
 ```
 
-[leetcode.763 划分字母区间 middle](https://leetcode-cn.com/problems/partition-labels/)
+<br>[leetcode.763 划分字母区间 middle](https://leetcode-cn.com/problems/partition-labels/)
 
 > 字符串 `S` 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，同一个字母只会出现在其中的一个片段。返回一个表示每个字符串片段的长度的列表。
 >
@@ -723,7 +714,7 @@ vector<int> partitionLabels(string str) {
 
 ```
 
-[leetcode.56 合并区间 middle](https://leetcode-cn.com/problems/merge-intervals/)
+<br>[leetcode.56 合并区间 middle](https://leetcode-cn.com/problems/merge-intervals/)
 
 > 给出一个区间的集合，请合并所有重叠的区间。
 >
@@ -762,11 +753,7 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 }
 ```
 
-
-
-
-
-[leetcode.406 根据身高重建队列 middle](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
+<br>[leetcode.406 根据身高重建队列 middle](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
 
 > 假设有打乱顺序的一群人站成一个队列。 每个人由一个整数对(h, k)表示，其中h是这个人的身高，k是排在这个人前面且身高大于或等于h的人数。 编写一个算法来重建这个队列。
 >
@@ -799,7 +786,7 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 }
 ```
 
-[leetcode.621 任务调度器 middle](https://leetcode-cn.com/problems/task-scheduler/)
+<br>[leetcode.621 任务调度器 middle](https://leetcode-cn.com/problems/task-scheduler/)
 
 > 给定一个用字符数组表示的 CPU 需要执行的任务列表。其中包含使用大写的 A - Z 字母表示的26 种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。CPU 在任何一个单位时间内都可以执行一个任务，或者在待命状态。然而，两个相同种类的任务之间必须有长度为 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。你需要计算完成所有任务所需要的最短时间。
 >
@@ -838,7 +825,7 @@ int leastInterval(vector<char>& tasks, int n) {
 }
 ```
 
-[leetcode.861 翻转矩阵后的得分 middle](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
+<br>[leetcode.861 翻转矩阵后的得分 middle](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
 
 > 有一个二维矩阵 A 其中每个元素的值为 0 或 1 。移动是指选择任一行或列，并转换该行或列中的每一个值：将所有 0 都更改为 1，将所有 1 都更改为 0。在做出任意次数的移动后，将该矩阵的每一行都按照二进制数来解释，矩阵的得分就是这些数字的总和。返回尽可能高的分数。
 >
@@ -887,13 +874,11 @@ int matrixScore(vector<vector<int>>& A) {
 }
 ```
 
-
-
-
+<br>
 
 ## 双指针思想
 
-[leetcode.167 两数之和II - 输入有序数组 easy](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
+<br>[leetcode.167 两数之和II - 输入有序数组 easy](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
 
 ```c++
 // 思路：两个下标分别指向首、尾，同时向中间靠拢以搜索两数
@@ -912,7 +897,7 @@ vector<int> twoSum(vector<int>& nums, int target) {
 }
 ```
 
-[leetcode.345 翻转字符串中的元音字母 easy](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/)
+<br>[leetcode.345 翻转字符串中的元音字母 easy](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/)
 
 ```c++
 const set<char> sc = { 'a','e','i','o','u' };
@@ -930,7 +915,7 @@ string reverseVowels(string s) {
 }
 ```
 
-[leetcode.633 平方数之和 easy](https://leetcode-cn.com/problems/sum-of-square-numbers/)
+<br>[leetcode.633 平方数之和 easy](https://leetcode-cn.com/problems/sum-of-square-numbers/)
 
 ```c++
 bool judgeSquareSum(int c) {
@@ -948,7 +933,7 @@ bool judgeSquareSum(int c) {
 }
 ```
 
-[leetcode.680 验证回文字符串 II easy](https://leetcode-cn.com/problems/valid-palindrome-ii/)
+<br>[leetcode.680 验证回文字符串 II easy](https://leetcode-cn.com/problems/valid-palindrome-ii/)
 
 ```c++
 // 思路：定位到第一个非回文的位置，刨除左字母或右字母后验证剩余部分是否为回文串
@@ -970,7 +955,7 @@ bool validPalindrome(string s) {
 }
 ```
 
-[leetcode.88 合并两个有序数组 easy](https://leetcode-cn.com/problems/merge-sorted-array/)
+<br>[leetcode.88 合并两个有序数组 easy](https://leetcode-cn.com/problems/merge-sorted-array/)
 
 > 给定两个有序整数数组 *nums1* 和 *nums2*，将 *nums2* 合并到 *nums1* 中*，*使得 *num1* 成为一个有序数组。
 >
@@ -1000,7 +985,7 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 }
 ```
 
-[leetcode.283 移动零 easy](https://leetcode-cn.com/problems/move-zeroes/)
+<br>[leetcode.283 移动零 easy](https://leetcode-cn.com/problems/move-zeroes/)
 
 > 给定一个数组 `nums`，编写一个函数将所有 `0`移动到数组的末尾，同时保持非零元素的相对顺序。
 >
@@ -1037,7 +1022,7 @@ void moveZeros(vector<int> &nums){
 
 
 
-[leetcode.19 删除链表的倒数第N个节点 middle](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+<br>[leetcode.19 删除链表的倒数第N个节点 middle](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 ```c++
 // 思路：快慢指针，快指针先走n次，然后快、慢一起走，快指针到达nullptr时慢指针即倒数第n个
@@ -1066,7 +1051,7 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
 }
 ```
 
-[leetcode.141 环形链表 easy](https://leetcode-cn.com/problems/linked-list-cycle/)
+<br>[leetcode.141 环形链表 easy](https://leetcode-cn.com/problems/linked-list-cycle/)
 
 ```c++
 // 思路：快慢指针法，若有环则必然在某个点相遇
@@ -1083,7 +1068,7 @@ bool hasCycle(ListNode *head) {
 }
 ```
 
-[剑指Offer - 链表中环的入口节点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=13&tqId=11208&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+<br>[剑指Offer - 链表中环的入口节点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=13&tqId=11208&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 
 ```c++
 // __a__.______ b  a,b,c分为为各段长度
@@ -1109,7 +1094,7 @@ ListNode* EntryNodeOfLoop(ListNode* head){
 }
 ```
 
-[leetcode.3 无重复字符的最长子串 middle](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+<br>[leetcode.3 无重复字符的最长子串 middle](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 > 给定一个字符串，请你找出其中不含有重复字符的 **最长子串** 的长度。
 >
@@ -1146,7 +1131,7 @@ int lengthOfLongestSubstring(string s) {
 }
 ```
 
-[leetcode.524 通过删除字母匹配到字典里最长单词 middle](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
+<br>[leetcode.524 通过删除字母匹配到字典里最长单词 middle](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
 
 > 给定一个字符串和一个字符串字典，找到字典里面最长的字符串，该字符串可以通过删除给定字符串的某些字符来得到。如果答案不止一个，返回长度最长且字典顺序最小的字符串。如果答案不存在，则返回空字符串。
 >
@@ -1256,9 +1241,7 @@ vector<int> levelOrder(TreeNode* root) {
 }
 ```
 
-
-
-[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+<br>[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
 
 > 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
 >
@@ -1276,15 +1259,11 @@ vector<int> levelOrder(TreeNode* root) {
 >   5     4       <---
 > ```
 
-```c++
-// 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
-```
+思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
 
 注：使用深度优先搜索也可以求解，查看[数据结构-树-树的遍历](#二叉树的遍历)、或[深度优先搜索DFS](#深度优先搜索DFS)
 
-
-
-[leetcode.101 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
+<br>[leetcode.101 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
 > 给定一个二叉树，检查它是否是镜像对称的。
 >
@@ -1337,7 +1316,7 @@ bool isSymmetric(TreeNode* root) {
 }
 ```
 
-[leetcode.127 单词接龙 middle](https://leetcode-cn.com/problems/word-ladder/)
+<br>[leetcode.127 单词接龙 middle](https://leetcode-cn.com/problems/word-ladder/)
 
 > 给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：每次转换只能改变一个字母;转换过程中的中间单词必须是字典中的单词。说明:
 >
@@ -1453,7 +1432,7 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 
 
 
-
+<br><br><br>
 
 # 数据结构
 
