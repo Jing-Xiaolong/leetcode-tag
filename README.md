@@ -1,22 +1,208 @@
 [h2pl/leetcode](https://github.com/h2pl/leetcode)的C++实现，附带一些扩充。用于秋招第一遍分tag刷题，查漏补缺，并建立手撸算法的基本手感。
 
+算法思想
 
+排序
 
-- [算法思想](#算法思想)
-  - [二分查找](二分查找)
-  - [贪心思想](#贪心思想)
-  - [双指针思想](#双指针思想)
-  - 
+七大基于比较的排序算法
 
+利用排序思想的算法
 
+二分查找
 
-# 算法思想
+贪心思想
 
-## 二分查找
+双指针思想
 
-[leecode.69 x的平方根 easy](https://leetcode-cn.com/problems/sqrtx/)
+算法思想
+排序
+七大基于比较的排序算法
+冒泡排序
+稳定，
+// O(n^2)，稳定，从后往前遍历时发现逆序即立刻交换
+void bubbleSort(vector<int> &ivec){
+    int len = ivec.size();
+    for(int i = 0; i < len; ++i)
+        for(int j = 0; j < len - i - 1; ++j)
+            if(ivec[j] > ivec[j + 1])   
+                swap(ivec[j], ivec[j + 1]);
+}
+选择排序
+稳定，
+// O(n^2)，不稳定，第i次遍历时，选择下标[i, n)中数值最小的数放在i处
+void selectionSort(vector<int> &ivec){
+    int len = ivec.size();
+    for(int i = 0; i < len; ++i){
+        int minIdx = i;
+        for(int j = i + 1; j < len; ++j)
+            if(ivec[j] < ivec[i])   
+                minIdx = j;
+        swap(ivec[i], ivec[minIdx]);
+    }
+}
+插入排序
+稳定，
+// O(n^2)，稳定，遍历第i个数时，一直将它往前交换直到不再比前一个数更大
+void insertionSort(vector<int> &ivec){
+    for(int i = 1; i < ivec.size(); ++i){
+        int j = i - 1;
+        while(j >= 0 && ivec[j + 1] < ivec[j])
+            swap(ivec[j + 1], ivec[j]), --j;
+    }
+}
+归并排序
+// 排序入口
+// O(nlogn)，稳定，不断分成更小的数组进行归并
+void merge(vector<int> &ivec, int low, int mid, int high){
+    vector<int> helper;
+    int L = low, R = mid + 1;
+    while(L <= mid && R <= high)
+        ivec[L] < ivec[R] ? helper.push_back(ivec[L++]) : helper.push_back(ivec[R++]);
+    while(L <= mid)
+        helper.push_back(ivec[L++]);
+    while(R <= high)
+        helper.push_back(ivec[R++]);
+    for(int i = low; i <= high; ++i)
+        ivec[i] = helper[i - low];
+}
+void mergeSort(vector<int> &ivec, int low, int high){
+    if(low >= high)
+        return;
+    int mid = (high - low) / 2 + low;
+    mergeSort(ivec, low, mid);
+    mergeSort(ivec, mid + 1, high);
+    merge(ivec, low, mid, high);
+}
+// 排序入口
+void mergeSort(vector<int> &ivec){
+    mergeSort(ivec, 0, ivec.size() - 1);
+}
+快速排序
+//O(nlogn)，不稳定，找到第i个数，使[0,i)中均比它小且(i,n)中均比它大，再对[0,i)和(i,n)进行快排
+void quickSort(vector<int> &ivec, int low, int high){
+    if(low >= high)
+        return;
+    // 找到pivot_value满足上述条件
+    int pivot_value = ivec[low];
+    int pivot = low;
+    for(int i = low + 1; i <= high; ++i)
+        if(ivec[i] < pivot_value){
+            ++pivot;
+            swap(ivec[i], ivec[pivot]);
+        }
+    swap(ivec[low], ivec[pivot]);
+    // 对[i,pivot),(pivot, n)继续快排
+    quickSort(ivec, low, pivot - 1);
+    quickSort(ivec, pivot + 1, high);
+}
+// 排序入口
+void quickSort(vector<int> &ivec){
+    quickSort(ivec, 0, ivec.size() - 1);
+}
+堆排序
+// 自己网上找资料看吧
+void heapDown(vector<int> &ivec, int beg, int end){ // 调整 ivec[beg...end] 使之满足大顶堆要求
+    for(int cur = beg, child = beg * 2 + 1; child <= end; cur = child, child = child * 2 + 1){
+        if(child < end && ivec[child] < ivec[child + 1])
+            ++child;
+        if(ivec[cur] > ivec[child]) // 调整父节点和子节点的关系
+            break;
+        else
+            swap(ivec[cur], ivec[child]);
+    }
+}
+// 排序入口
+void heapSort(vector<int> &ivec){
+    // 构造大顶堆
+    for(int i = ivec.size() / 2 - 1; i >= 0; --i)
+        heapDown(ivec, i, ivec.size() - 1);
+    // 交换堆顶元素，并再次调整为大顶堆
+    for(int i = ivec.size() - 1; i > 0; --i){
+        swap(ivec[0], ivec[i]);
+        heapDown(ivec, 0, i - 1);
+    }
+}
+利用排序思想的算法
+leetcode.215 数组中的第K个最大元素（或前K个最大的元素）
 
-```C++
+在未排序的数组中找到第 k 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
+
+示例:
+
+输入: [3,2,1,5,6,4] 和 k = 2
+输出: 5
+​
+输入: [3,2,3,1,2,4,5,5,6] 和 k = 4
+输出: 4
+// 思路：利用堆排序，第K次弹出大顶堆的堆顶即为第K大的元素。其中heapDown函数见堆排序
+int findKthLargest(vector<int>& nums, int k) {
+    // 构造大顶堆
+    for(int i = nums.size() / 2 - 1; i >= 0; --i)
+        heapDown(nums, i, nums.size() - 1);
+    // 前k-1次换到数组末尾后，堆顶nums[0]即为第k大
+    int cnt = 0;
+    while(++cnt < k){   // 注意：条件 (++cnt < k) 进行 k-1 次操作， (cnt++ < k) 进行 k 次操作
+        swap(nums[0], nums[nums.size() - cnt]);
+        heapDown(nums, 0, nums.size() - cnt - 1);
+    }
+    return nums[0];     // k-1次操作之后的堆顶即为第k大的元素
+}
+剑指offer 数组中的逆序对
+
+在数组中的两个数字，如果前面一个数字大于后面的数字，则这两个数字组成一个逆序对。输入一个数组,求出这个数组中的逆序对的总数P。并将P对1000000007取模的结果输出。 即输出P%1000000007
+
+题目保证输入的数组中没有的相同的数字, 数据范围：对于%50的数据,size<=10^4, 对于%75的数据,size<=10^5, 对于%100的数据,size<=2*10^5
+
+示例：
+
+输入：1,2,3,4,5,6,7,0
+输出：7
+// 思路：在归并排序的过程中对逆序对进行统计
+int InversePairs(vector<int> nums) {
+    int cnt = 0;
+    mergeCount(nums, 0, nums.size() - 1, cnt);
+    return cnt;
+}
+​
+void mergeCount(vector<int> &nums, int left, int right, int &cnt){
+    if(left >= right)
+        return;
+    int mid = (right - left) / 2 + left;
+    mergeCount(nums, left, mid, cnt);
+    mergeCount(nums, mid + 1, right, cnt);
+    merge(nums, left, mid, right, cnt);
+}
+void merge(vector<int> &nums, int left, int mid, int right, int &cnt){
+    vector<int> tmp;
+    int l = left, r = mid + 1;
+    while(l <= mid && r <= right)
+        if(nums[l] <= nums[r])
+            tmp.push_back(nums[l++]);
+    else{
+        cnt = (cnt + mid - l + 1) % 1000000007;
+        tmp.push_back(nums[r++]);
+    }
+    while(l <= mid)
+        tmp.push_back(nums[l++]);
+    while(r <= right)
+        tmp.push_back(nums[r++]);
+    for(int i = left; i <= right; ++i)
+        nums[i] = tmp[i - left];
+}
+二分查找
+leecode.69 x的平方根 easy
+
+描述：实现 int sqrt(int x) 函数。计算并返回 x 的平方根，其中 x 是非负整数。由于返回类型是整数，结果只保留整数的部分，小数部分将被舍去。
+
+示例 :
+
+输入: 4
+输出: 2
+​
+输入: 8
+输出: 2
+说明: 8 的平方根是 2.82842..., 
+     由于返回类型是整数，小数部分将被舍去。
 int mySqrt(int x) {
     if(x <= 1)
         return x;
@@ -32,11 +218,19 @@ int mySqrt(int x) {
     }
     return high;
 }
-```
+leetcode.367 有效的完全平方数 easy
 
-[leetcode.367 有效的完全平方数 easy](https://leetcode-cn.com/problems/valid-perfect-square/)
+给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
 
-```C++
+说明：不要使用任何内置的库函数，如  sqrt。
+
+示例 ：
+
+输入：16
+输出：True
+​
+输入：14
+输出：False
 bool isPerfectSquare(int num) {
     if(num < 1)
         return false;
@@ -52,11 +246,18 @@ bool isPerfectSquare(int num) {
     }
     return false;
 }
-```
+leetcode.441 排列硬币 easy
 
-[leetcode.441 排列硬币 easy](https://leetcode-cn.com/problems/arranging-coins/)
+你总共有 n 枚硬币，你需要将它们摆成一个阶梯形状，第 k 行就必须正好有 k 枚硬币。给定一个数字 n，找出可形成完整阶梯行的总行数。n 是一个非负整数，并且在32位有符号整型的范围内。
 
-```C++
+示例 :
+
+n = 5
+硬币可排列成以下几行:
+¤
+¤ ¤
+¤ ¤
+因为第三行不完整，所以返回2.
 int arrangeCoins(int n) {
     if(n < 1)
         return 0;
@@ -73,11 +274,18 @@ int arrangeCoins(int n) {
     }
     return high;
 }
-```
+leetcode.50 Pow(x,n) middle
 
-[leetcode.50 Pow(x,n) middle](https://leetcode-cn.com/problems/powx-n/)
+实现 pow(x, n) ，即计算 x 的 n 次幂函数。
 
-```C++
+示例:
+
+输入: 2.00000, 10
+输出: 1024.00000
+​
+输入: 2.00000, -2
+输出: 0.25000
+解释: 2-2 = 1/22 = 1/4 = 0.25
 // 思路：对x依次做1,2,4,...次幂，得到x, x*x, x*x*x*x，直到指数次数为不大于n的最大值
 // 保存x*x*x*x...，并从n中减去该指数次数
 // 重复操作，将所有x*x...连续乘起来即为所求
@@ -97,11 +305,10 @@ double myPow(double x, int n) {
     }
     return sign ? 1.0/res : res;
 }
-```
+剑指offer 数字在排序数组中出现的次数\
 
-[剑指offer 数字在排序数组中出现的次数](https://www.nowcoder.com/practice/70610bf967994b22bb1c26f9ae901fa2?tpId=13&tqId=11190&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+统计一个数字在排序数组中出现的次数。
 
-```C++
 // 思路：二分搜索num+0.5，num-0.5的位置，它们区间内个数即为所求
 int biSearch(const vector<int> &data, double num){
     // 对数组data = 1 2 3a 3b 3c 4 4 5
@@ -120,13 +327,52 @@ int biSearch(const vector<int> &data, double num){
 int GetNumberOfK(vector<int> data ,int k) {
     return biSearch(data, k + 0.5) - biSearch(data, k - 0.5);
 }
-```
+leetcode.162 寻找峰值
 
-## 贪心思想
+峰值元素是指其值大于左右相邻值的元素。给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。你可以假设 nums[-1] = nums[n] = -∞。要求O(logN)时间复杂度
 
-[leetcode.445 分发饼干 easy](https://leetcode-cn.com/problems/assign-cookies/)
+示例 1:
 
-```c++
+输入: nums = [1,2,3,1]
+输出: 2
+解释: 3 是峰值元素，你的函数应该返回其索引 2。
+​
+输入: nums = [1,2,1,3,5,6,4]
+输出: 1 或 5 
+解释: 你的函数可以返回索引 1，其峰值元素为 2；或者返回索引 5， 其峰值元素为 6。
+都
+// 思路：采用二分查找法，left = 0, right = nums.size() - 1为起点
+// nums[mid] < nums[mid + 1]，局部上升，右侧必然有峰值       (注意，mid+1必然是存在的, mid-1不一定)
+// nums[mid] > nums[mid + 1]，局部下降，左侧必然有峰值
+int findPeakElement(vector<int>& nums) {
+    int left = 0, right = nums.size() - 1;
+    while(left < right){
+        int mid = (right - left) / 2 + left;
+        if(nums[mid] < nums[mid + 1])   // 是否取等，后面if-else-都需要仔细调整
+            left = mid + 1;
+        else
+            right = mid;
+    }
+    return right;        
+}
+贪心思想
+leetcode.445 分发饼干 easy
+
+假设你是一位很棒的家长，想要给你的孩子们一些小饼干。但是，每个孩子最多只能给一块饼干。对每个孩子 i ，都有一个胃口值 gi ，这是能让孩子们满足胃口的饼干的最小尺寸；并且每块饼干 j ，都有一个尺寸 sj 。如果 sj >= gi ，我们可以将这个饼干 j 分配给孩子 i ，这个孩子会得到满足。你的目标是尽可能满足越多数量的孩子，并输出这个最大数值。
+
+注意：
+
+你可以假设胃口值为正。
+一个小朋友最多只能拥有一块饼干。
+
+示例 1:
+
+输入: [1,2,3], [1,1]
+输出: 1
+解释: 
+你有三个孩子和两块小饼干，3个孩子的胃口值分别是：1,2,3。
+虽然你有两块小饼干，由于他们的尺寸都是1，你只能让胃口值是1的孩子满足。
+所以你应该输出1。
 // 思路：从胃口最小的孩子开始，从最小的饼干开始喂直到能满足为止
 int findContentChildren(vector<int>& g, vector<int>& s) {
     sort(g.begin(), g.end());
@@ -144,11 +390,20 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
     }
     return cnt;
 }
-```
+leetcode.452 用最少数量的箭引爆气球 middle
 
-[leetcode.452 用最少数量的箭引爆气球 middle](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+在二维空间中有许多球形的气球。对于每个气球，提供的输入是水平方向上，气球直径的开始和结束坐标。由于它是水平的，所以y坐标并不重要，因此只要知道开始和结束的x坐标就足够了。开始坐标总是小于结束坐标。平面内最多存在104个气球。
 
-```c++
+一支弓箭可以沿着x轴从不同点完全垂直地射出。在坐标x处射出一支箭，若有一个气球的直径的开始和结束坐标为 xstart，xend， 且满足  xstart ≤ x ≤ xend，则该气球会被引爆。可以射出的弓箭的数量没有限制。 弓箭一旦被射出之后，可以无限地前进。我们想找到使得所有气球全部被引爆，所需的弓箭的最小数量。
+
+示例:
+
+输入:
+[[10,16], [2,8], [1,6], [7,12]]
+输出:
+2
+解释:
+对于该样例，我们可以在x = 6（射爆[2,8],[1,6]两个气球）和 x = 11（射爆另外两个气球）。
 // 思路：左往右依次射箭，每次保证引爆最多的气球
 int findMinArrowShots(vector<vector<int>>& points) {
     if(points.size() <= 1)
@@ -168,33 +423,47 @@ int findMinArrowShots(vector<vector<int>>& points) {
     }
     return cnt;
 }
-```
+leetcode.135 分发糖果 hard
 
-[leetcode.135 分发糖果 hard](https://leetcode-cn.com/problems/candy/)
+老师想给孩子们分发糖果，有 N 个孩子站成了一条直线，老师会根据每个孩子的表现，预先给他们评分。
 
-```c++
+你需要按照以下要求，帮助老师给这些孩子分发糖果：
+
+每个孩子至少分配到 1 个糖果。
+相邻的孩子中，评分高的孩子必须获得更多的糖果。
+那么这样下来，老师至少需要准备多少颗糖果呢？
+
+示例:
+
+输入: [1,0,2]
+输出: 5
+解释: 你可以分别给这三个孩子分发 2、1、2 颗糖果。
+​
+输入: [1,2,2]
+输出: 4
+解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。
+     第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
 // 思路：
 // 步骤1. 先每个人发一颗糖果
 // 步骤2. 从左往右遍历，i比i-1表现好就在i-1基础上+1糖果
 // 步骤3. 从右往左遍历，i比i+1表现好就在i+1基础上+1糖果（需判断已有糖果是否已经比i+1多）
 int candy(vector<int>& ratings) {
     vector<int> candies(ratings.size(), 1);
-
+​
     for(int i = 1; i < candies.size(); ++i)
         if(ratings[i] > ratings[i - 1])
             candies[i] = candies[i - 1] + 1;
-
+​
     for(int i = candies.size() - 2; i >= 0; --i)
         if(ratings[i] > ratings[i + 1])
             candies[i] = max(candies[i], candies[i + 1] + 1);
-
+​
     return accumulate(candies.begin(), candies.end(), 0);
 }
-```
+leetcode.122 买卖股票的最佳时机 II easy
 
-[leetcode.122 买卖股票的最佳时机 II easy](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
+给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）
 
-```c++
 // 思路：只要p[i] > p[i - 1]，就在i-1买入并在i卖出。某天既买入又卖出可视为没有做任何操作
 int maxProfit(vector<int>& prices) {
     if(prices.size() <= 1)
@@ -204,12 +473,11 @@ int maxProfit(vector<int>& prices) {
         prof += (prices[i] > prices[i - 1]) ? prices[i] - prices[i - 1] : 0;
     return prof;
 }
+​
+leetcode.605 种花问题 easy
 
-```
+给定一个花坛（表示为一个数组包含0和1，其中0表示没种植花，1表示种植了花），和一个数 n 。能否在不打破种植规则的情况下种入 n 朵花？能则返回True，不能则返回False。
 
-[leetcode.605 种花问题 easy](https://leetcode-cn.com/problems/can-place-flowers/)
-
-```c++
 // 思路：直接遍历，满足条件就种下。注意两类特殊情况和花坛两端
 bool canPlaceFlowers(vector<int>& bed, int n) {
     int seeds = 0;
@@ -217,7 +485,7 @@ bool canPlaceFlowers(vector<int>& bed, int n) {
         return true;
     if(bed.size() == 1)
         return bed[0] == 0;
-
+​
     if(bed.size() >= 2 && bed[0] == 0 && bed[1] == 0){
         ++seeds;
         bed[0] = 1;
@@ -229,15 +497,23 @@ bool canPlaceFlowers(vector<int>& bed, int n) {
         }
     if(bed.size() >= 2 && bed[bed.size() - 2] == 0 && bed.back() == 0)
         ++seeds;
-
+​
     return seeds >= n;
 }
+​
+leetcode.665 非递减数列 easy
 
-```
+给定一个长度为 n 的整数数组，你的任务是判断在最多改变 1 个元素的情况下，该数组能否变成一个非递减数列。我们是这样定义一个非递减数列的： 对于数组中所有的 i (1 <= i < n)，满足 array[i] <= array[i + 1]。
 
-[leetcode.665 非递减数列 easy](https://leetcode-cn.com/problems/non-decreasing-array/)
+示例 1:
 
-```c++
+输入: [4,2,3]
+输出: True
+解释: 你可以通过把第一个4变成1来使得它成为一个非递减数列。
+​
+输入: [4,2,1]
+输出: False
+解释: 你不能在只改变一个元素的情况下将其变为非递减数列。
 // 思路：对逆序的数对进行计数，同时需要确认是否可以修正
 // 找到nums[i] > nums[i + 1]的位置，再对nums[i] or nums[i + 1]进行更改
 bool checkPossibility(vector<int>& nums) {
@@ -249,18 +525,17 @@ bool checkPossibility(vector<int>& nums) {
             if(i == 0)
                 continue;
             if(nums[i - 1] <= nums[i + 1])
-                nums[i] = nums[i - 1];	// 2 4(i) 2 5 => 改4为2
+                nums[i] = nums[i - 1];  // 2 4(i) 2 5 => 改4为2
             else
-                nums[i + 1] = nums[i];	// 3 4(i) 2 5 => 不能改4
+                nums[i + 1] = nums[i];  // 3 4(i) 2 5 => 不能改4
         }
     return cnt <= 1;
 }
+​
+leetcode.392 判断子序列 middle
 
-```
+给定字符串 s 和 t ，判断 s 是否为 t 的子序列。你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
 
-[leetcode.392 判断子序列 middle](https://leetcode-cn.com/problems/is-subsequence/)
-
-```c++
 // 思路：直接比对每一个字母即可
 bool isSubsequence(string s, string t) {
     if(s.empty())
@@ -272,12 +547,18 @@ bool isSubsequence(string s, string t) {
                 return true;
     return false;
 }
+​
+leetcode.763 划分字母区间 middle
 
-```
+字符串 S 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，同一个字母只会出现在其中的一个片段。返回一个表示每个字符串片段的长度的列表。
 
-[leetcode.763 划分字母区间 middle](https://leetcode-cn.com/problems/partition-labels/)
+示例 1:
 
-```c++
+输入: S = "ababcbacadefegdehijhklij"
+输出: [9,7,8]
+解释:
+划分结果为 "ababcbaca", "defegde", "hijhklij"。每个字母最多出现在一个片段中。像 "ababcbacadefegde", "hijhklij" 的划分是错误的，因为划分的片段数较少
+​
 // 思路: 第一遍遍历得到每个字母最后出现的位置map
 //       第二遍通过left,right指示区间，cur指示当前遍历到的位置
 //       	使用right = max(map[s[cur]], right)扩张右侧边界
@@ -302,11 +583,75 @@ vector<int> partitionLabels(string str) {
     return res;
 }
 
-```
+// 思路: 第一遍遍历得到每个字母最后出现的位置map
+//       第二遍通过left,right指示区间，cur指示当前遍历到的位置
+//          使用right = max(map[s[cur]], right)扩张右侧边界
+//          cur==right时说明区间内的字母未出现在其它区域
+vector<int> partitionLabels(string str) {
+    map<char, int> map;
+    for(int i = 0; i < str.size(); ++i)
+        map[str[i]] = i;
+​
+    int left = 0, right = map[str[0]], cur = 0;
+    vector<int> res;
+    while(right < str.size()){
+        right = max(right, map[str[cur]]);  // 更新右边界
+        if(right == cur){                  // 此时[left,right]之间的字母未出现在其它位置
+            res.push_back(right - left + 1);
+            left = right + 1;
+            right = (cur < str.size() - 1) ? map[str[cur + 1]] : str.size();
+        }
+        ++cur;
+    }
+​
+    return res;
+}
+​
+[leetcode.56 合并区间](https://leetcode-cn.com/problems/merge-intervals/)
 
-[leetcode.406 根据身高重建队列 middle](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
+给出一个区间的集合，请合并所有重叠的区间。
 
-```c++
+示例 1:
+
+输入: [[1,3],[2,6],[8,10],[15,18]]
+输出: [[1,6],[8,10],[15,18]]
+解释: 区间 [1,3] 和 [2,6] 重叠, 将它们合并为 [1,6].
+​
+输入: [[1,4],[4,5]]
+输出: [[1,5]]
+解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
+// 思路：
+// 将所有区间从小到大排序
+// 选择第一个区间右端点作为界限，不断向右扩展其势力范围内的其它区间
+vector<vector<int>> merge(vector<vector<int>>& intervals) {
+    if(intervals.size() <= 1)
+        return intervals;
+    sort(intervals.begin(), intervals.end());
+    vector<vector<int>> res;
+    auto tmp = intervals[0];
+    for(int i = 1; i < intervals.size(); ++i){
+        if(intervals[i][0] <= tmp[1])
+            tmp[1] = max(tmp[1], intervals[i][1]);
+        else{
+            res.push_back(tmp);
+            tmp = intervals[i];
+        }
+    }
+    res.push_back(it0); // 最后一个tmp由于没有进入到for循环中的else语句，需要额外加入到res中
+    return res;
+}
+leetcode.406 根据身高重建队列 middle
+
+假设有打乱顺序的一群人站成一个队列。 每个人由一个整数对(h, k)表示，其中h是这个人的身高，k是排在这个人前面且身高大于或等于h的人数。 编写一个算法来重建这个队列。
+
+注意：总人数少于1100人。
+
+示例
+
+输入:
+[[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
+输出:
+[[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
 // 思路
 // 将所有人(h,k)按身高h降序，k升序进行排列得 [7,0],[7,1],[6,1],[5,0],[5,2],[4,4]
 // 此时所有人前面的人均不低于它，只需将(hi,ki)往前swap直到ki = i为止
@@ -315,47 +660,56 @@ bool comp(const vector<int> &p1, const vector<int> &p2){
 }
 vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
     sort(people.begin(), people.end(), comp);
-
+​
     for(int i = 0; i < people.size(); ++i)
         for(int k = i; k > people[k][1]; --k)
             swap(people[k], people[k - 1]);
-
+​
     return people;
 }
-```
+leetcode.621 任务调度器 midle
 
-[leetcode.621 任务调度器 midle](https://leetcode-cn.com/problems/task-scheduler/)
+给定一个用字符数组表示的 CPU 需要执行的任务列表。其中包含使用大写的 A - Z 字母表示的26 种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。CPU 在任何一个单位时间内都可以执行一个任务，或者在待命状态。然而，两个相同种类的任务之间必须有长度为 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。你需要计算完成所有任务所需要的最短时间。
 
-```c++
+示例 1：
+
+输入: tasks = ["A","A","A","B","B","B"], n = 2
+输出: 8
+执行顺序: A -> B -> (待命) -> A -> B -> (待命) -> A -> B.
 // 思路：统计每个任务出现次数，假设为AAAABBBBCCC,n=3
 // 放A: |A---|A---|A---|A 
 // 放B：|AB--|AB--|AB--|AB   => 执行时间 = (4 - 1) * (n + 1) + 2
-// 放C：|ABC-|ABC-|ABC-|AB	 其中4是最多的次数，2是最多次数的任务
+// 放C：|ABC-|ABC-|ABC-|AB     其中4是最多的次数，2是最多次数的任务
 // 另外，当出现AAABBBCCDD,n=2时，总能通过尽量稀疏分布使得不需要等待时间
 // 放A：|A--|A--|A--|
 // 放B: |AB-|AB-|AB-|
-// 放C：|ABC|AB-|ABC|		(这里是关键)
+// 放C：|ABC|AB-|ABC|     (这里是关键)
 // 放D：|ABC|ABD|ABC|D
 int leastInterval(vector<char>& tasks, int n) {
     vector<int> stat(26, 0);
     for(const auto &c:tasks)
         ++stat[c - 'A'];
     sort(stat.begin(), stat.end());
-
+​
     int max_task = stat[25], max_cnt = 0;
     for(const auto &cnt:stat)
         max_cnt += cnt == stat[25] ? 1 : 0;
-
+​
     int time = (max_task - 1) * (n + 1) + max_cnt;
     time = time > tasks.size() ? time : tasks.size();
-
+​
     return time;
 }
-```
+leetcode.861 翻转矩阵后的得分 middle
 
-[leetcode.861 翻转矩阵后的得分 middle](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
+有一个二维矩阵 A 其中每个元素的值为 0 或 1 。移动是指选择任一行或列，并转换该行或列中的每一个值：将所有 0 都更改为 1，将所有 1 都更改为 0。在做出任意次数的移动后，将该矩阵的每一行都按照二进制数来解释，矩阵的得分就是这些数字的总和。返回尽可能高的分数。
 
-```c++
+示例：
+
+ => 
+输入：[[0,0,1,1],[1,0,1,0],[1,1,0,0]]
+输出：39
+解释：转换为 [[1,1,1,1],[1,0,0,1],[1,1,1,1]] => 0b1111 + 0b1001 + 0b1111 = 15 + 9 + 15 = 39
 // 思路:首先每行翻转，保证第一位是1, 1000 > 0111
 //      然后第二列开始，每列翻转保证该列1数量比0多
 void reverseRow(vector<vector<int>> &A, int row){
@@ -381,22 +735,18 @@ int matrixScore(vector<vector<int>>& A) {
         if(ones > zeros)
             reverseCol(A, col);
     }
-    int sum = 0;	// 计算最终结果
+    int sum = 0;    // 计算最终结果
     for(const auto &row:A){
         int sum_row = 0;
         for(const auto &i:row)
-            sum_row = (sum_row << 1) + i;	// 移位运算符优先级很低，需要打上括号
+            sum_row = (sum_row << 1) + i;   // 移位运算符优先级很低，需要打上括号
         sum += sum_row;
     }
     return sum;
 }
-```
+双指针思想
+leetcode.167 两数之和II - 输入有序数组 easy
 
-## 双指针思想
-
-[leetcode.167 两数之和II - 输入有序数组 easy](https://leetcode-cn.com/problems/two-sum-ii-input-array-is-sorted/)
-
-```c++
 // 思路：两个下标分别指向首、尾，同时向中间靠拢以搜索两数
 vector<int> twoSum(vector<int>& nums, int target) {
     int left = 0, right = nums.size() - 1;
@@ -409,19 +759,16 @@ vector<int> twoSum(vector<int>& nums, int target) {
         else
             --right;
     }
-    return {0,0};	// 题目必有解，不会执行到这里，但没有这句话无法通过编译
+    return {0,0};   // 题目必有解，不会执行到这里，但没有这句话无法通过编译
 }
-```
+leetcode.345 翻转字符串中的元音字母 easy
 
-[leetcode.345 翻转字符串中的元音字母 easy](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/)
-
-```c++
 const set<char> sc = { 'a','e','i','o','u' };
 string reverseVowels(string s) {
     int left = 0, right = s.size() - 1;
     while(left <= right){
         while(left < s.size() && sc.count(tolower(s[left])) == 0)
-            ++left;	// 左往右定位到元音
+            ++left; // 左往右定位到元音
         while(right >= 0 && sc.count(tolower(s[right])) == 0)
             --right;// 右往左定位到元音
         if(left <= right)
@@ -429,11 +776,8 @@ string reverseVowels(string s) {
     }
     return s;
 }
-```
+leetcode.633 平方数之和 easy
 
-[leetcode.633 平方数之和 easy](https://leetcode-cn.com/problems/sum-of-square-numbers/)
-
-```c++
 bool judgeSquareSum(int c) {
     long long left = 0, right = sqrt(c);
     while(left <= right){
@@ -447,11 +791,8 @@ bool judgeSquareSum(int c) {
     }
     return false;
 }
-```
+leetcode.680 验证回文字符串 II easy
 
-[leetcode.680 验证回文字符串 II easy](https://leetcode-cn.com/problems/valid-palindrome-ii/)
-
-```c++
 // 思路：定位到第一个非回文的位置，刨除左字母或右字母后验证剩余部分是否为回文串
 bool valid(const string &s, int left, int right){
     while(left <= right)
@@ -462,21 +803,24 @@ bool valid(const string &s, int left, int right){
 bool validPalindrome(string s) {
     int left = 0, right = s.size() - 1;
     while(left <= right){
-        if(s[left] != s[right])	// 定位后验证
+        if(s[left] != s[right]) // 定位后验证
             return valid(s, left + 1, right) || valid(s, left, right - 1);
         ++left;
         --right;
     }
     return true;
 }
-```
+leetcode.88 合并两个有序数组 easy
 
-[leetcode.88 合并两个有序数组 easy](https://leetcode-cn.com/problems/merge-sorted-array/)
+给定两个有序整数数组 nums1 和 nums2，将 nums2 合并到 nums1 中，使得 num1 成为一个有序数组。
 
-```c++
+示例:
+
+输入:
+    nums1 = [1,2,3,0,0,0], m = 3
+    nums2 = [2,5,6],       n = 3
+输出: [1,2,2,3,5,6]
 // 思路：从num1的m+n-1位置处往前填充数字
-// nums1 = 1 2 3 0 0 0, nums2 = 2 3 5
-//             p1   idx             p2
 void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
     int idx = m + n - 1;
     int p1 = m - 1, p2 = n - 1;
@@ -490,11 +834,63 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
     while(p2 >= 0)
         nums1[idx--] = nums2[p2--];
 }
-```
+leetcode.283 移动零
 
-[leetcode.141 环形链表 easy](https://leetcode-cn.com/problems/linked-list-cycle/)
+给定一个数组 nums，编写一个函数将所有 0移动到数组的末尾，同时保持非零元素的相对顺序。
 
-```c++
+示例:
+
+输入: [0,1,0,3,12]
+输出: [1,3,12,0,0]
+// 与leetcode.88类似，不过这里从前往后填充
+void moveZeroes(vector<int>& nums) {
+    int p1 = 0, p2 = 0;
+    while(p2 < nums.size()){
+        if(nums[p2] != 0)
+            nums[p1++] = nums[p2];
+        ++p2;
+    }
+    while(p1 < nums.size())
+        nums[p1++] = 0;
+}
+​
+// 写得更紧凑一些
+void moveZeros(vector<int> &nums){
+    int p = 0;
+    for(auto num:nums)
+        if(num != 0)
+            nums[p++] = num;
+    while(p < nums.size())
+        nums[p++] = 0;
+}
+leetcode.19 删除链表的倒数第N个节点
+
+// 思路：快慢指针，快指针先走n次，然后快、慢一起走，快指针到达nullptr时慢指针即倒数第n个
+// 注意：题目保证n有效，即1 <= n <= 总节点数
+ListNode* removeNthFromEnd(ListNode* head, int n) {
+    ListNode *fast = head, *slow = head;
+    int cnt = 0;
+    while(cnt++ < n)
+        fast = fast->next;
+    // n == 总节点数，倒数第n个节点即头结点
+    if(fast == nullptr){
+        ListNode *tmp_head = head->next;
+        delete head;
+        return tmp_head;
+    }
+    // 其余情况：条件fast->next != nullptr可将slow定位到待删节点前一个
+    //          条件fast != nullptr可将slow定位到待删节点。    注意区分使用
+    while(fast->next != nullptr){
+        fast = fast->next;
+        slow = slow->next;
+    }
+    auto tmp = slow->next->next;
+    delete slow->next;
+    slow->next = tmp;
+    return head;
+}
+leetcode.141 环形链表 easy
+
 // 思路：快慢指针法，若有环则必然在某个点相遇
 // 另外：也可以用set或者map对已出现的节点进行记录，需要额外空间O(n)
 bool hasCycle(ListNode *head) {
@@ -507,11 +903,8 @@ bool hasCycle(ListNode *head) {
     }
     return false;
 }
-```
+剑指Offer - 链表中环的入口节点
 
-[剑指Offer - 链表中环的入口节点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=13&tqId=11208&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
-
-```c++
 // __a__.______ b  a,b,c分为为各段长度
 //     c \_____*  <---- 快慢指针相遇点
 //  若有环，快慢指针在图中 * 处相遇，存在关系 fast = a+b+(b+c)*k = 2*slow =2*(a+b), k为快指针圈数
@@ -522,35 +915,72 @@ ListNode* EntryNodeOfLoop(ListNode* head){
     while(fast != nullptr && fast->next != nullptr){
         fast = fast->next->next;
         slow = slow->next;
-        if(slow == fast){	// 在*相遇
-            fast = head;	// fast从头出发，slow从相遇点出发，一次跳一格
+        if(slow == fast){   // 在*相遇
+            fast = head;    // fast从头出发，slow从相遇点出发，一次跳一格
             while(fast != slow){
                 fast = fast->next;
                 slow = slow->next;
             }
-            return fast;	// 入口接单相遇后返回fast或slow都可以
+            return fast;    // 入口接单相遇后返回fast或slow都可以
         }
     }
     return nullptr;
 }
-```
+leetcode.3 无重复字符的最长子串 middle
 
-[leetcode.524 通过删除字母匹配到字典里最长单词 middle](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
+给定一个字符串，请你找出其中不含有重复字符的 最长子串 的长度。
 
-```c++
+示例 1:
+
+输入: "abcabcbb"
+输出: 3 
+解释: 因为无重复字符的最长子串是 "abc"，所以其长度为 3。
+​
+输入: "bbbbb"
+输出: 1
+解释: 因为无重复字符的最长子串是 "b"，所以其长度为 1。
+​
+输入: "pwwkew"
+输出: 3
+解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
+     请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
+// 思路：用left, right表示无重复字符的窗口，用一个map记录right之前所有字符最后出现的位置loc
+// 依次遍历每个字符的位置作为右端right，判断s[right]最后出现的位置是否在[left, right]内
+int lengthOfLongestSubstring(string s) {
+    int left = 0, maxLen = 0;
+    map<char, int> loc; // 记录已遍历字符最后出现的位置
+    for(int right = 0; right < s.size(); ++right){
+        if(loc.count(s[right]) > 0 && loc[s[right]] >= left)    // 判断
+            left = loc[s[right]] + 1;
+        loc[s[right]] = right;
+        maxLen = max(maxLen, right - left + 1);
+    }
+    return maxLen;
+}
+leetcode.524 通过删除字母匹配到字典里最长单词 middle
+
+给定一个字符串和一个字符串字典，找到字典里面最长的字符串，该字符串可以通过删除给定字符串的某些字符来得到。如果答案不止一个，返回长度最长且字典顺序最小的字符串。如果答案不存在，则返回空字符串。
+
+示例 1:
+
+输入:s = "abpcplea", d = ["ale","apple","monkey","plea"]
+输出: "apple"
+​
+输入:s = "abpcplea", d = ["a","b","c"]
+输出: "a"
 // 思路:为字典里每个字符串分配一个指针idx, 表示该字符串已经匹配到了idx
 //      遍历给定字符串str每个字母c，看c是否能与字典中字符串target_s[idx]进行匹配，匹配则idx+1
 //      遍历完成后，看字典中每个字符串的idx==target_s.size()与否，相等则表示已匹配到
 string findLongestWord(string str, vector<string>& vs) {
     unordered_map<string, int> dict;
     for(const auto &item:vs)
-        dict[item] = 0;		// 分配指针
+        dict[item] = 0;     // 分配指针
     
     for(const auto &c:str) // 比对
         for(auto &m:dict)  // 注意，这里一定要 auto &，否则更改后不会作用到m上
             if(c == m.first[m.second])
                 ++m.second;
-
+​
     string res = "";
     int maxLen = 0;
     for(const auto &m:dict)
@@ -561,8 +991,6 @@ string findLongestWord(string str, vector<string>& vs) {
             }else if(m.first.size() == maxLen)
                 res = res < m.first ? res : m.first;    // 字典序更小的
         }
-
+​
     return res;
 }
-```
-
