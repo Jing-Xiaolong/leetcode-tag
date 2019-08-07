@@ -12,6 +12,7 @@
   - [搜索](#搜索)
     - [广度优先搜索BFS](#广度优先搜索BFS)
     - [深度优先搜索DFS](#深度优先搜索DFS)
+    - [回溯法backtracking](#回溯法backtracking)
 - [数据结构](#数据结构)
   - [二叉树](#二叉树)
     - [二叉树的遍历](#二叉树的遍历)
@@ -163,7 +164,7 @@ void heapSort(vector<int> &ivec){
 
 ### 利用排序思想的算法
 
-[leetcode.215 数组中的第K个最大元素 middle](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)（或前K个最大的元素）
+[leetcode.215 数组中的第K个最大元素 medium](https://leetcode-cn.com/problems/kth-largest-element-in-an-array/)（或前K个最大的元素）
 
 > 在未排序的数组中找到第 **k** 个最大的元素。请注意，你需要找的是数组排序后的第 k 个最大的元素，而不是第 k 个不同的元素。
 >
@@ -258,7 +259,7 @@ void merge(vector<int> &nums, int left, int mid, int right, int &cnt){
 > 输入: 8
 > 输出: 2
 > 说明: 8 的平方根是 2.82842..., 
->      由于返回类型是整数，小数部分将被舍去。
+>   由于返回类型是整数，小数部分将被舍去。
 > ```
 
 ```C++
@@ -347,7 +348,7 @@ int arrangeCoins(int n) {
 }
 ```
 
-<br>[leetcode.50 Pow(x,n) middle](https://leetcode-cn.com/problems/powx-n/)
+<br>[leetcode.50 Pow(x,n) medium](https://leetcode-cn.com/problems/powx-n/)
 
 > 实现 [pow(*x*, *n*)](https://www.cplusplus.com/reference/valarray/pow/) ，即计算 x 的 n 次幂函数。
 >
@@ -409,7 +410,7 @@ int GetNumberOfK(vector<int> data ,int k) {
 }
 ```
 
-<br>[leetcode.162 寻找峰值 middle](https://leetcode-cn.com/problems/find-peak-element/)
+<br>[leetcode.162 寻找峰值 medium](https://leetcode-cn.com/problems/find-peak-element/)
 
 > 峰值元素是指其值大于左右相邻值的元素。给定一个输入数组 nums，其中 nums[i] ≠ nums[i+1]，找到峰值元素并返回其索引。数组可能包含多个峰值，在这种情况下，返回任何一个峰值所在位置即可。你可以假设 nums[-1] = nums[n] = -∞。要求O(logN)时间复杂度
 >
@@ -488,7 +489,7 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 }
 ```
 
-<br>[leetcode.452 用最少数量的箭引爆气球 middle](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
+<br>[leetcode.452 用最少数量的箭引爆气球 medium](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
 
 > 在二维空间中有许多球形的气球。对于每个气球，提供的输入是水平方向上，气球直径的开始和结束坐标。由于它是水平的，所以y坐标并不重要，因此只要知道开始和结束的x坐标就足够了。开始坐标总是小于结束坐标。平面内最多存在104个气球。
 >
@@ -547,7 +548,7 @@ int findMinArrowShots(vector<vector<int>>& points) {
 > 输入: [1,2,2]
 > 输出: 4
 > 解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。
->      第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
+>   第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
 > ```
 
 ```c++
@@ -654,7 +655,7 @@ bool checkPossibility(vector<int>& nums) {
 
 ```
 
-<br>[leetcode.392 判断子序列 middle](https://leetcode-cn.com/problems/is-subsequence/)
+<br>[leetcode.392 判断子序列 medium](https://leetcode-cn.com/problems/is-subsequence/)
 
 > 给定字符串 s 和 t ，判断 s 是否为 t 的子序列。你可以认为 s 和 t 中仅包含英文小写字母。字符串 t 可能会很长（长度 ~= 500,000），而 s 是个短字符串（长度 <=100）。字符串的一个子序列是原始字符串删除一些（也可以不删除）字符而不改变剩余字符相对位置形成的新字符串。（例如，"ace"是"abcde"的一个子序列，而"aec"不是）。
 
@@ -673,7 +674,7 @@ bool isSubsequence(string s, string t) {
 
 ```
 
-<br>[leetcode.763 划分字母区间 middle](https://leetcode-cn.com/problems/partition-labels/)
+<br>[leetcode.763 划分字母区间 medium](https://leetcode-cn.com/problems/partition-labels/)
 
 > 字符串 `S` 由小写字母组成。我们要把这个字符串划分为尽可能多的片段，同一个字母只会出现在其中的一个片段。返回一个表示每个字符串片段的长度的列表。
 >
@@ -714,7 +715,7 @@ vector<int> partitionLabels(string str) {
 
 ```
 
-<br>[leetcode.56 合并区间 middle](https://leetcode-cn.com/problems/merge-intervals/)
+<br>[leetcode.56 合并区间 medium](https://leetcode-cn.com/problems/merge-intervals/)
 
 > 给出一个区间的集合，请合并所有重叠的区间。
 >
@@ -753,7 +754,7 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 }
 ```
 
-<br>[leetcode.406 根据身高重建队列 middle](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
+<br>[leetcode.406 根据身高重建队列 medium](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
 
 > 假设有打乱顺序的一群人站成一个队列。 每个人由一个整数对(h, k)表示，其中h是这个人的身高，k是排在这个人前面且身高大于或等于h的人数。 编写一个算法来重建这个队列。
 >
@@ -786,7 +787,7 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 }
 ```
 
-<br>[leetcode.621 任务调度器 middle](https://leetcode-cn.com/problems/task-scheduler/)
+<br>[leetcode.621 任务调度器 medium](https://leetcode-cn.com/problems/task-scheduler/)
 
 > 给定一个用字符数组表示的 CPU 需要执行的任务列表。其中包含使用大写的 A - Z 字母表示的26 种不同种类的任务。任务可以以任意顺序执行，并且每个任务都可以在 1 个单位时间内执行完。CPU 在任何一个单位时间内都可以执行一个任务，或者在待命状态。然而，两个相同种类的任务之间必须有长度为 n 的冷却时间，因此至少有连续 n 个单位时间内 CPU 在执行不同的任务，或者在待命状态。你需要计算完成所有任务所需要的最短时间。
 >
@@ -825,7 +826,7 @@ int leastInterval(vector<char>& tasks, int n) {
 }
 ```
 
-<br>[leetcode.861 翻转矩阵后的得分 middle](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
+<br>[leetcode.861 翻转矩阵后的得分 medium](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
 
 > 有一个二维矩阵 A 其中每个元素的值为 0 或 1 。移动是指选择任一行或列，并转换该行或列中的每一个值：将所有 0 都更改为 1，将所有 1 都更改为 0。在做出任意次数的移动后，将该矩阵的每一行都按照二进制数来解释，矩阵的得分就是这些数字的总和。返回尽可能高的分数。
 >
@@ -963,8 +964,8 @@ bool validPalindrome(string s) {
 >
 > ```
 > 输入:
->     nums1 = [1,2,3,0,0,0], m = 3
->     nums2 = [2,5,6],       n = 3
+>  nums1 = [1,2,3,0,0,0], m = 3
+>  nums2 = [2,5,6],       n = 3
 > 输出: [1,2,2,3,5,6]
 > ```
 
@@ -1020,9 +1021,7 @@ void moveZeros(vector<int> &nums){
 }
 ```
 
-
-
-<br>[leetcode.19 删除链表的倒数第N个节点 middle](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
+<br>[leetcode.19 删除链表的倒数第N个节点 medium](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
 
 ```c++
 // 思路：快慢指针，快指针先走n次，然后快、慢一起走，快指针到达nullptr时慢指针即倒数第n个
@@ -1094,7 +1093,7 @@ ListNode* EntryNodeOfLoop(ListNode* head){
 }
 ```
 
-<br>[leetcode.3 无重复字符的最长子串 middle](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
+<br>[leetcode.3 无重复字符的最长子串 medium](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
 
 > 给定一个字符串，请你找出其中不含有重复字符的 **最长子串** 的长度。
 >
@@ -1131,7 +1130,7 @@ int lengthOfLongestSubstring(string s) {
 }
 ```
 
-<br>[leetcode.524 通过删除字母匹配到字典里最长单词 middle](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
+<br>[leetcode.524 通过删除字母匹配到字典里最长单词 medium](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
 
 > 给定一个字符串和一个字符串字典，找到字典里面最长的字符串，该字符串可以通过删除给定字符串的某些字符来得到。如果答案不止一个，返回长度最长且字典顺序最小的字符串。如果答案不存在，则返回空字符串。
 >
@@ -1189,10 +1188,10 @@ string findLongestWord(string str, vector<string>& vs) {
 > ```
 > 给定二叉树: [3,9,20,null,null,15,7],
 > 	3
->    / \
->   9  20
->     /  \
->    15   7
+> / \
+> 9  20
+>  /  \
+> 15   7
 > 层次遍历结果为：[[3], [9,20], [15,7]]
 > ```
 
@@ -1252,11 +1251,11 @@ vector<int> levelOrder(TreeNode* root) {
 > 输出: [1, 3, 4]
 > 解释:
 > 
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > ```
 
 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
@@ -1268,10 +1267,10 @@ vector<int> levelOrder(TreeNode* root) {
 > 给定一个二叉树，检查它是否是镜像对称的。
 >
 > ```
->     1
->    / \
->   2   2
->  / \ / \
+>  1
+> / \
+> 2   2
+> / \ / \
 > 3  4 4  3
 > ```
 
@@ -1316,7 +1315,7 @@ bool isSymmetric(TreeNode* root) {
 }
 ```
 
-<br>[leetcode.127 单词接龙 middle](https://leetcode-cn.com/problems/word-ladder/)
+<br>[leetcode.127 单词接龙 medium](https://leetcode-cn.com/problems/word-ladder/)
 
 > 给定两个单词（beginWord 和 endWord）和一个字典，找到从 beginWord 到 endWord 的最短转换序列的长度。转换需遵循如下规则：每次转换只能改变一个字母;转换过程中的中间单词必须是字典中的单词。说明:
 >
@@ -1335,7 +1334,7 @@ bool isSymmetric(TreeNode* root) {
 > wordList = ["hot","dot","dog","lot","log","cog"]
 > 输出: 5
 > 解释: 一个最短转换序列是 "hit" -> "hot" -> "dot" -> "dog" -> "cog",
->      返回它的长度 5。
+>   返回它的长度 5。
 > ```
 
 ```c++
@@ -1380,47 +1379,263 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
 
 ### 深度优先搜索DFS
 
-[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+[leetcode.200 岛屿数量 medium](https://leetcode-cn.com/problems/number-of-islands/)
 
-> 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+> 给定一个由 '1'（陆地）和 '0'（水）组成的的二维网格，计算岛屿的数量。一个岛被水包围，并且它是通过水平方向或垂直方向上相邻的陆地连接而成的。你可以假设网格的四个边均被水包围。
+>
+> **示例 1:**
+>
+> ```
+> 输入:
+> 11110
+> 11010
+> 11000
+> 00000
+> 输出: 1
+> 
+> 输入:
+> 11000
+> 11000
+> 00100
+> 00011
+> 输出: 3
+> ```
+
+```c++
+// 思路：gird(i,j)=1，岛屿+1，同时删除岛屿连通的陆地->上下左右四个方向
+int numIslands(vector<vector<char>>& islands) {
+    if(islands.empty() || islands[0].empty())
+        return 0;
+    int num = 0;
+    for(int i = 0; i < islands.size(); ++i)
+        for(int j = 0; j < islands[0].size(); ++j)
+            if(islands[i][j] == '1')
+                ++num, dfs(islands, i, j);
+    return num;
+}
+void dfs(vector<vector<char>> &islands, int i, int j){
+    // 超出边界，或者(i,j)是水域，直接返回
+    if(i < 0 || i > islands.size() - 1 || j < 0 || j > islands[0].size() - 1 || islands[i][j] == '0')
+        return;
+    
+    // 删除陆地和它上下左右四个方向上的陆地
+    islands[i][j] = '0';
+    dfs(islands, i - 1, j);
+    dfs(islands, i + 1, j);
+    dfs(islands, i, j - 1);
+    dfs(islands, i, j + 1);
+}
+```
+
+<br>[leetcode.695 岛屿的最大面积 medium](https://leetcode-cn.com/problems/max-area-of-island/)
+
+> 给定一个包含了一些 0 和 1的非空二维数组 grid , 一个 岛屿 是由四个方向 (水平或垂直) 的 1 (代表土地) 构成的组合。你可以假设二维矩阵的四个边缘都被水包围着。找到给定的二维数组中最大的岛屿面积。(如果没有岛屿，则返回面积为0。)
+>
+> 示例 1:
+>
+> ```
+> [[0,0,1,0,0,0,0,1,0,0,0,0,0],
+>  [0,0,0,0,0,0,0,1,1,1,0,0,0],
+>  [0,1,1,0,1,0,0,0,0,0,0,0,0],
+>  [0,1,0,0,1,1,0,0,1,0,1,0,0],
+>  [0,1,0,0,1,1,0,0,1,1,1,0,0],
+>  [0,0,0,0,0,0,0,0,0,0,1,0,0],
+>  [0,0,0,0,0,0,0,1,1,1,0,0,0],
+>  [0,0,0,0,0,0,0,1,1,0,0,0,0]]
+> ```
+>
+> 对于上面这个给定矩阵应返回 `6`。注意答案不应该是11，因为岛屿只能包含水平或垂直的四个方向的‘1’。
+
+```c++
+// 思路：分别从(i,j)出发寻找最大的岛屿
+int maxAreaOfIsland(vector<vector<int>>& grid) {
+    if(grid.empty() || grid[0].empty())
+        return 0;
+    int maxArea = 0;
+
+    for(int i = 0; i < grid.size(); ++i)
+        for(int j = 0; j < grid[0].size(); ++j)
+            maxArea = max(maxArea, dfs(grid, i, j));
+
+    return maxArea;
+}
+int dfs(vector<vector<int>> &grid, int i, int j){
+    // 超出边界，或(i,j)是水域，直接返回0
+    if(i < 0 || i > grid.size() - 1 || j < 0 || j > grid[0].size() - 1 || grid[i][j] == 0)
+        return 0;    
+    // 将该岛屿改成水域，同时向东南西北四个方向搜索存在的陆地
+    grid[i][j] = 0;
+    return 1 + dfs(grid, i - 1, j) + dfs(grid, i + 1, j) + dfs(grid, i, j - 1) + dfs(grid, i, j + 1);
+}
+```
+
+<br>[leetcode.547 朋友圈 medium](https://leetcode-cn.com/problems/friend-circles/)
+
+> 班上有 N 名学生。其中有些人是朋友，有些则不是。他们的友谊具有是传递性。如果已知 A 是 B 的朋友，B 是 C 的朋友，那么我们可以认为 A 也是 C 的朋友。所谓的朋友圈，是指所有朋友的集合。
+>
+> 给定一个 N * N 的矩阵 M，表示班级中学生之间的朋友关系。如果M[i][j] = 1，表示已知第 i 个和 j 个学生互为朋友关系，否则为不知道。你必须输出所有学生中的已知的朋友圈总数。
+>
+> 示例 1:
+>
+> ```
+> 输入: 
+> [[1,1,0],
+>  [1,1,0],
+>  [0,0,1]]
+> 输出: 2 
+> 说明：已知学生0和学生1互为朋友，他们在一个朋友圈。
+> 第2个学生自己在一个朋友圈。所以返回2。
+> 
+> 输入: 
+> [[1,1,0],
+>  [1,1,1],
+>  [0,1,1]]
+> 输出: 1
+> 说明：已知学生0和学生1互为朋友，学生1和学生2互为朋友，所以学生0和学生2也是朋友，所以他们三个在一个朋友圈，返回1。
+> ```
+
+```c++
+// 思路：类似leetcode.200岛屿数量
+// 此题中，M(i,j)=1，朋友圈+1，同时删除(i,j)的所有朋友关系
+// 注意：朋友关系具有传递性，需要删除 i 行和 j 列上的所有关系。不同于leetcode.200中向上下左右四个方向删陆地
+int findCircleNum(vector<vector<int>>& M) {
+    if(M.empty() || M[0].empty())
+        return 0;
+
+    int circles = 0;
+    for(int i = 0; i < M.size(); ++i)
+        for(int j = 0; j < M[0].size(); ++j)
+            if(M[i][j] == 1)
+                ++circles, dfs(M, i, j);
+    return circles;
+}
+void dfs(vector<vector<int>> &M, int i, int j){
+    // 超出搜索范围或者没有关系，直接返回
+    if(i < 0 || i > M.size() - 1 || j < 0 || j > M[0].size() - 1 || M[i][j] == 0)
+        return;
+    // 删除所有朋友关系
+    M[i][j] = 0;        
+    for(int row = 0; row < M.size(); ++row)
+        dfs(M, row, j);
+    for(int col = 0; col < M[0].size(); ++col)
+        dfs(M, i, col);
+}
+```
+
+<br>[leetcode.130 被围绕的区域 medium](https://leetcode-cn.com/problems/surrounded-regions/)
+
+> 给定一个二维的矩阵，包含 `'X'` 和 `'O'`（**字母 O**）。找到所有被 `'X'` 围绕的区域，并将这些区域里所有的 `'O'` 用 `'X'` 填充。
 >
 > 示例:
 >
 > ```
-> 输入: [1,2,3,null,5,null,4]
-> 输出: [1, 3, 4]
-> 解释:
-> 
->    1            <---
->  /   \
-> 2     3         <---
->  \     \
->   5     4       <---
+> 输入：
+> X X X X
+> X O O X
+> X X O X
+> X O X X
+> 输出：
+> X X X X
+> X X X X
+> X X X X
+> X O X X
+> 解释：
+> 被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
 > ```
 
 ```c++
-// 思路：DFS-先序遍历（右侧开始），某层最先达到的节点即为该层最右侧的节点
-vector<int> rightSideView(TreeNode* root) {
-    if(root == nullptr)
-        return {};
-
-    vector<int> res;
-    preorder(root, 0, res);        
-    return res;
-}
-void preorder(TreeNode *root, int level, vector<int> &nums){
-    if(root == nullptr)
+// 思路：反向思维，先从边界开始进行dfs，将与边界接壤的区域该为 *
+// 然后遍历所有元素，将O该为X，将*改为O
+void solve(vector<vector<char>>& board) {
+    if(board.empty() || board[0].empty())
         return;
-    if(nums.size() == level)
-        nums.push_back(root->val);
-    preorder(root->right, level + 1, nums);
-    preorder(root->left, level + 1, nums);
+    // 左右边界
+    for(int row = 0; row < board.size(); ++row){
+        dfs(board, row, 0);
+        dfs(board, row, board[0].size() - 1);
+    }
+    // 上下边界
+    for(int col = 0; col < board[0].size(); ++col){
+        dfs(board, 0, col);
+        dfs(board, board.size() - 1, col);
+    }
+    for(auto &rows:board)
+        for(auto &ele:rows)
+            ele = ele == 'O' ? 'X' : ele == '*' ? 'O' : ele;
 }
-// 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
-// 注：树的前、中、后序遍历均是深度优先搜索
+void dfs(vector<vector<char>> &board, int i, int j){
+    if(i < 0 || i > board.size() - 1 || j < 0 || j > board[0].size() - 1 || board[i][j] != 'O')
+        return;	// 超出边界或者不是'O'，直接返回
+
+    board[i][j] = '*';
+    dfs(board, i - 1, j);
+    dfs(board, i + 1, j);
+    dfs(board, i, j - 1);
+    dfs(board, i, j + 1);
+}
 ```
 
-<br>[leetcode.529 扫雷游戏](https://leetcode-cn.com/problems/minesweeper/)
+[leetcode.417 太平洋大西洋水流问题 medium](https://leetcode-cn.com/problems/pacific-atlantic-water-flow/)
+
+> 给定一个 m x n 的非负整数矩阵来表示一片大陆上各个单元格的高度。“太平洋”处于大陆的左边界和上边界，而“大西洋”处于大陆的右边界和下边界。规定水流只能按照上、下、左、右四个方向流动，且只能从高到低或者在同等高度上流动。请找出那些水流既可以流动到“太平洋”，又能流动到“大西洋”的陆地单元的坐标。
+>
+> 示例：
+>
+> ```输入：
+> 输入：
+>   太平洋 ~   ~   ~   ~   ~ 
+>        ~  1   2   2   3  (5) *
+>        ~  3   2   3  (4) (4) *
+>        ~  2   4  (5)  3   1  *
+>        ~ (6) (7)  1   4   5  *
+>        ~ (5)  1   1   2   4  *
+> 				- - - - - 大西洋
+> 返回:
+> [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (上图中带括号的单元)
+> ```
+
+```c++
+// 思路：太平洋的水低到高流，能流到的地图为m1，大西洋的水从低到高流，能流到的地图为m2。则m1和m2的重合部分即为所求
+vector<vector<int>> pacificAtlantic(vector<vector<int>>& matrix) {
+    if(matrix.empty() || matrix[0].empty())
+        return {};
+    vector<vector<bool>> pac(matrix.size(), vector<bool>(matrix[0].size(), false));
+    vector<vector<bool>> atl(matrix.size(), vector<bool>(matrix[0].size(), false));
+
+    // 从太平洋沿岸出发，即左列和上行
+    for(int i = 0; i < matrix.size(); ++i)
+        dfs(matrix, i, 0, pac);
+    for(int j = 0; j < matrix[0].size(); ++j)
+        dfs(matrix, 0, j, pac);
+    // 从大西洋沿岸出发，即右列和下行
+    for(int i = 0; i < matrix.size(); ++i)
+        dfs(matrix, i, matrix[0].size() - 1, atl);
+    for(int j = 0; j < matrix[0].size(); ++j)
+        dfs(matrix, matrix.size() - 1, j, atl);
+
+    vector<vector<int>> res;
+    for(int i = 0; i < matrix.size(); ++i)
+        for(int j = 0; j < matrix[0].size(); ++j)
+            if(pac[i][j] == true && atl[i][j] == true)
+                res.push_back({i,j});
+    return res;
+}
+void dfs(const vector<vector<int>> &matrix, int i, int j, vector<vector<bool>> &map){
+    if(map[i][j] == true)
+        return;		// 到达曾到达过的区域则直接返回，防止两个点高度相同时陷入死循环
+    map[i][j] = true;
+    if(i > 0 && matrix[i - 1][j] >= matrix[i][j])
+        dfs(matrix, i - 1, j, map);
+    if(i < matrix.size() - 1 && matrix[i + 1][j] >= matrix[i][j])
+        dfs(matrix, i + 1, j, map);
+    if(j > 0 && matrix[i][j - 1] >= matrix[i][j])
+        dfs(matrix, i, j - 1, map);
+    if(j < matrix[0].size() - 1 && matrix[i][j + 1] >= matrix[i][j])
+        dfs(matrix, i, j + 1, map);
+}
+```
+
+<br>[leetcode.529 扫雷游戏 medium](https://leetcode-cn.com/problems/minesweeper/)
 
 > 让我们一起来玩扫雷游戏！给定一个代表游戏板的二维字符矩阵。 'M' 代表一个未挖出的地雷，'E' 代表一个未挖出的空方块，'B' 代表没有相邻（上，下，左，右，和所有4个对角线）地雷的已挖出的空白方块，数字（'1' 到 '8'）表示有多少地雷与这块已挖出的方块相邻，'X' 则表示一个已挖出的地雷。
 >
@@ -1436,18 +1651,18 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 > ```
 > 输入: 									输入：
 > [['E', 'E', 'E', 'E', 'E'],					[['B', '1', 'E', '1', 'B'],
->  ['E', 'E', 'M', 'E', 'E'],					['B', '1', 'M', '1', 'B'],
->  ['E', 'E', 'E', 'E', 'E'],					['B', '1', '1', '1', 'B'],
->  ['E', 'E', 'E', 'E', 'E']]					['B', 'B', 'B', 'B', 'B']]
+> ['E', 'E', 'M', 'E', 'E'],					['B', '1', 'M', '1', 'B'],
+> ['E', 'E', 'E', 'E', 'E'],					['B', '1', '1', '1', 'B'],
+> ['E', 'E', 'E', 'E', 'E']]					['B', 'B', 'B', 'B', 'B']]
 > Click : [3,0]								Click : [1,2]
 > 输出: 									输出
 > [['B', '1', 'E', '1', 'B'],					[['B', '1', 'E', '1', 'B'],
->  ['B', '1', 'M', '1', 'B'],					['B', '1', 'X', '1', 'B'],
->  ['B', '1', '1', '1', 'B'],					['B', '1', '1', '1', 'B'],
->  ['B', 'B', 'B', 'B', 'B']]					['B', 'B', 'B', 'B', 'B']]
+> ['B', '1', 'M', '1', 'B'],					['B', '1', 'X', '1', 'B'],
+> ['B', '1', '1', '1', 'B'],					['B', '1', '1', '1', 'B'],
+> ['B', 'B', 'B', 'B', 'B']]					['B', 'B', 'B', 'B', 'B']]
 > ```
 >
-> <img src="img/1.jpg" width="800px">
+> <img src="C:/Users/Administrator/Desktop/img/1.jpg" width="800px">
 
 ```c++
 vector<vector<int>> dirs = { {-1,0},{1,0},{0,-1},{0,1},{-1,-1},{-1,1},{1,-1},{1,1} };
@@ -1484,6 +1699,788 @@ void bfs(vector<vector<char>> &board, int row, int col){
 }
 ```
 
+<br>[leetcode.257 二叉树的所有路径 easy](https://leetcode-cn.com/problems/binary-tree-paths/)
+
+> 给定一个二叉树，返回所有从根节点到叶子节点的路径。**说明:** 叶子节点是指没有子节点的节点。
+>
+> 示例:
+>
+> ```
+> 输入:
+> 
+>    1
+>  /   \
+> 2     3
+>  \
+>   5
+> 
+> 输出: ["1->2->5", "1->3"]
+> 
+> 解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
+> ```
+
+```c++
+vector<string> binaryTreePaths(TreeNode* root) {
+    if(root == nullptr)
+        return {};
+
+    vector<string> res;
+    dfs(root, "", res);
+    return res;
+}
+void dfs(TreeNode* root, string prefix, vector<string> &res){
+    if(root->left == nullptr && root->right == nullptr){	// 到达叶节点
+        res.push_back(prefix + to_string(root->val));
+        return;
+    }
+    if(root->left != nullptr)
+        dfs(root->left, prefix + to_string(root->val) + "->", res);
+    if(root->right != nullptr)
+        dfs(root->right, prefix + to_string(root->val) + "->", res);
+}
+```
+
+<br>
+
+[leetcode.129 求根到叶子节点数字之和 medium](https://leetcode-cn.com/problems/sum-root-to-leaf-numbers/)
+
+> 给定一个二叉树，它的每个结点都存放一个 0-9 的数字，每条从根到叶子节点的路径都代表一个数字。例如，从根到叶子节点路径 1->2->3 代表数字 123。计算从根到叶子节点生成的所有数字之和。说明: 叶子节点是指没有子节点的节点。
+>
+> 示例 :
+>
+> ```
+> 输入: [1,2,3]
+>     1
+>    / \
+>   2   3
+> 输出: 25
+> 解释:
+> 从根到叶子节点路径 1->2 代表数字 12.从根到叶子节点路径 1->3 代表数字 13.
+> 因此，数字总和 = 12 + 13 = 25.
+> 
+> 输入: [4,9,0,5,1]
+>     4
+>    / \
+>   9   0
+>  / \
+> 5   1
+> 输出: 1026
+> 解释:
+> 从根到叶子节点路径 4->9->5 代表数字 495.从根到叶子节点路径 4->9->1 代表数字 491.从根到叶子节点路径 4->0 代表数字 40.
+> 因此，数字总和 = 495 + 491 + 40 = 1026.
+> ```
+
+```c++
+int sumNumbers(TreeNode* root) {
+    if(root == nullptr)
+        return 0;
+    long long res = 0;
+    if(dfs(root, 0, res))	
+        return INT_MAX;
+    return res;
+}
+// 返回true表示已超过了INT_MAX，停止dfs
+bool dfs(TreeNode *root, long long prefix, long long &res){
+    if(root->left == nullptr && root->right == nullptr){
+        res += prefix * 10 + root->val;
+        return res > INT_MAX ? true : false;
+    }
+    prefix = prefix * 10 + root->val;
+    if(prefix > INT_MAX)
+        return true;
+    if(root->left != nullptr && dfs(root->left, prefix, res))
+        return true;
+    if(root->right != nullptr && dfs(root->right, prefix, res))
+        return true;
+    return false;
+}
+```
+
+<br>
+
+[leetcode.199 二叉树的右视图 medium](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+
+> 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3,null,5,null,4]
+> 输出: [1, 3, 4]
+> 解释:
+> 
+> 1            <---
+> /   \
+> 2     3         <---
+> \     \
+> 5     4       <---
+> ```
+
+```c++
+// 思路：DFS-先序遍历（右侧开始），某层最先达到的节点即为该层最右侧的节点
+vector<int> rightSideView(TreeNode* root) {
+    if(root == nullptr)
+        return {};
+
+    vector<int> res;
+    preorder(root, 0, res);        
+    return res;
+}
+void preorder(TreeNode *root, int level, vector<int> &nums){
+    if(root == nullptr)
+        return;
+    if(nums.size() == level)
+        nums.push_back(root->val);
+    preorder(root->right, level + 1, nums);
+    preorder(root->left, level + 1, nums);
+}
+// 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
+// 注：树的前、中、后序遍历均是深度优先搜索
+```
+
+<br>[leetcode.124 二叉树中的最大路径和 hard](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
+
+> 给定一个**非空**二叉树，返回其最大路径和。本题中，路径被定义为一条从树中任意节点出发，达到任意节点的序列。该路径**至少包含一个**节点，且不一定经过根节点。
+>
+> **示例:**
+>
+> ```
+> 输入: [1,2,3]
+>        1
+>       / \
+>      2   3
+> 输出: 6
+> 
+> 输入: [-10,9,20,null,null,15,7]
+>    -10
+>    / \
+>   9  20
+>     /  \
+>    15   7
+> 输出: 42
+> ```
+
+```c++
+int maxPathSum(TreeNode* root) {
+    int maxSum = INT_MIN;
+    dfs(root, maxSum);
+    return maxSum;
+}
+int dfs(TreeNode *root, int &maxSum){
+    if(root == nullptr)
+        return 0;
+    // 求左、右子树的最大单边路径和,若为负数则直接置0，刨除负数节点
+    int leftSum = max(dfs(root->left, maxSum), 0);
+    int rightSum = max(dfs(root->right, maxSum), 0);
+    
+    // 更新最大路径和, 必然为(左+根+右, maxSum)中的较大值
+    maxSum = max(maxSum, leftSum + rightSum + root->val);
+
+    // 返回左、右子树路径和较大值 + 本节点的值，作为以root为根往下的最大单边路径和
+    return max(leftSum, rightSum) + root->val;
+}
+```
+
+<br>[剑指offer 机器人的运动范围](https://www.nowcoder.com/practice/6e5207314b5241fb83f2329e89fdecc8?tpId=13&tqId=11219&tPage=4&rp=4&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking)
+
+> 地上有一个m行和n列的方格。一个机器人从坐标0,0的格子开始移动，每一次只能向左，右，上，下四个方向移动一格，但是不能进入行坐标和列坐标的数位之和大于k的格子。 例如，当k为18时，机器人能够进入方格（35,37），因为3+5+3+7 = 18。但是，它不能进入方格（35,38），因为3+5+3+8 = 19。请问该机器人能够达到多少个格子？
+
+```c++
+int movingCount(int threshold, int rows, int cols){
+    vector<vector<bool>> grid(rows, vector<bool>(cols, false));
+    dfs(grid, 0, 0, threshold);	// 只需从(0,0)出发开始dfs
+    
+    int sum = 0;
+    for(const auto &row:grid)
+        sum += accumulate(row.begin(), row.end(), 0);
+    return threshold < 0 ? 0 : sum;
+}
+void dfs(vector<vector<bool>> &grid, int i, int j, const int &thresh){
+    if(i < 0 || i > grid.size() - 1 || j < 0 || j > grid[0].size() - 1 
+       || grid[i][j] == true || decbitsum(i, j) > thresh)
+        return;
+    grid[i][j] = true;
+    dfs(grid, i - 1, j, thresh);
+    dfs(grid, i + 1, j, thresh);
+    dfs(grid, i, j - 1, thresh);
+    dfs(grid, i, j + 1, thresh);
+}
+int decbitsum(int i, int j){
+    int sum = 0;
+    while(i != 0){
+        sum += i % 10;
+        i /= 10;
+    }
+    while(j != 0){
+        sum += j % 10;
+        j /= 10;
+    }
+    return sum;
+}
+```
+
+
+
+<br>
+
+### 回溯法backtracking
+
+回溯法也是DFS，不同之处在于：DFS用于遍历节点，回溯法用于在遍历的过程中得到遍历结果
+
+[leetcode.17 电话号码的字母组合 medium](https://leetcode-cn.com/problems/letter-combinations-of-a-phone-number/)
+
+> 给定一个仅包含数字 `2-9` 的字符串，返回所有它能表示的字母组合。给出数字到字母的映射如下（与电话按键相同）。注意 1 不对应任何字母
+>
+> <img src="img/2.png" width="150px">
+>
+> **示例:**
+>
+> ```
+> 输入："23"
+> 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
+> ```
+
+```c++
+vector<string> letterCombinations(string digits) {
+    if(digits.empty())
+        return {};
+    string s;   // 用于保存在dfs过程中的遍历记录
+    vector<string> res;
+    backtracking(digits, 0, s, res);
+    return res;
+}
+
+vector<string> phones = {"0", "1", "abc", "def", "ghi", "jkl", "mno", "pqrs", "tuv", "wxyz"};
+void backtracking(const string &digits, int idx, string &prefix, vector<string> &res){
+    if(idx == digits.size()){
+        res.push_back(prefix);
+        return;
+    }
+    for(const auto &c:phones[digits[idx] - '0']){
+        prefix.push_back(c);
+        backtracking(digits, idx + 1, prefix, res);
+        prefix.pop_back();      // 进行下次遍历前，将此次的影响消除
+    }
+}
+```
+
+<br>
+
+[leetcode.79 单词搜索 medium](https://leetcode-cn.com/problems/word-search/)
+
+> 给定一个二维网格和一个单词，找出该单词是否存在于网格中。
+>
+> 单词必须按照字母顺序，通过相邻的单元格内的字母构成，其中“相邻”单元格是那些水平相邻或垂直相邻的单元格。同一个单元格内的字母不允许被重复使用。
+>
+> 示例:
+>
+> ```
+> board =
+> [
+>   ['A','B','C','E'],
+>   ['S','F','C','S'],
+>   ['A','D','E','E']
+> ]
+> 
+> 给定 word = "ABCCED", 返回 true.
+> 给定 word = "SEE", 返回 true.
+> 给定 word = "ABCB", 返回 false.
+> ```
+
+```c++
+bool exist(vector<vector<char>>& board, string word) {
+    if(word.empty())
+        return true;
+    if(board.empty() || board[0].empty())
+        return false;
+
+    for(int i = 0; i < board.size(); ++i)
+        for(int j = 0; j < board[0].size(); ++j)
+            if(backtracking(board, word, 0, i, j))
+                return true;
+    return false;
+}
+
+bool backtracking(vector<vector<char>> &board, const string &word, int idx, int i, int j){
+    // 超出搜索边界，或者(i,j)处的字母与word[idx]不等，直接返回
+    if(i < 0 || i > board.size() - 1 || j < 0 || j > board[0].size() - 1 
+       || idx > word.size() - 1 || board[i][j] != word[idx])
+        return false;
+    // 搜索到了，返回true
+    if(idx == word.size() - 1 && board[i][j] == word[idx])
+        return true;
+
+    char c_backup = board[i][j];
+    board[i][j] = '*';  // 已访问标记，防止再次访问
+
+    // 向上下左右四个方向搜索
+    if(backtracking(board, word, idx + 1, i + 1, j) 
+       || backtracking(board, word, idx + 1, i - 1, j) 
+       || backtracking(board, word, idx + 1, i, j + 1) 
+       || backtracking(board, word, idx + 1, i, j - 1))
+        return true;
+
+    board[i][j] = c_backup; // 未搜索到，需要恢复(i,j)处的字母
+    return false;
+}
+```
+
+<br>
+
+[leetcode.93 复原IP地址 medium](https://leetcode-cn.com/problems/restore-ip-addresses/)
+
+> 给定一个只包含数字的字符串，复原它并返回所有可能的 IP 地址格式。
+>
+> 示例:
+>
+> ```
+> 输入: "25525511135"
+> 输出: ["255.255.11.135", "255.255.111.35"]
+> ```
+
+```c++
+vector<string> restoreIpAddresses(string s) {
+    if(s.size() <= 3)
+        return {};
+    vector<string> res;
+    backtracking(res, s, "", 0);
+    return res;
+}
+void backtracking(vector<string> &res, string s, string prefix, int cnt){
+    if(cnt == 3){   // 已经经历了3次分割，只需进行最后一次分割
+        if(isValid(s))
+            res.push_back(prefix + s);
+        return;
+    }
+    for(int i = 1; i <= 3; ++i)	// 分割出1-3位判断有效性
+        if(i <= s.size() && isValid(s.substr(0, i)))
+            backtracking(res, s.substr(i), prefix + s.substr(0, i) + ".", cnt + 1);
+}
+bool isValid(string s){
+    if(s.empty() || s.size() > 3)
+        return false;
+    if(s[0] == '0')	// 首位为0，则必然只有一位
+        return s.size() == 1;	
+    else	       // 只需数值<=255即可
+        return stoi(s) <= 255;
+}
+```
+
+<br>
+
+[leetcode.46 全排列 medium](https://leetcode-cn.com/problems/permutations/)、[剑指offer 字符串的排列](https://www.nowcoder.com/practice/fe6b651b66ae47d7acce78ffdd9a96c7?tpId=13&tqId=11180&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+
+> 定一个没有重复数字的序列，返回其所有可能的全排列。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3]
+> 输出:
+> [
+>   [1,2,3],
+>   [1,3,2],
+>   [2,1,3],
+>   [2,3,1],
+>   [3,1,2],
+>   [3,2,1]
+> ]
+> ```
+
+<img src="img/3.png" width="800px">
+
+```c++
+vector<vector<int>> permute(vector<int>& nums) {
+    vector<vector<int>> res;
+    permute(res, nums, 0);
+    return res;
+}
+void permute(vector<vector<int>> &res, vector<int> &nums, int idx){
+    if(idx == nums.size() - 1){
+        res.push_back(nums);
+        return;
+    }
+    for(int i = idx; i < nums.size(); ++i){
+        swap(nums[i], nums[idx]);
+        permute(res, nums, idx + 1);
+        swap(nums[i], nums[idx]);
+    }
+}
+```
+
+[leetcode.47 全排列II medium](https://leetcode-cn.com/problems/permutations-ii/)
+
+> 给定一个可包含重复数字的序列，返回所有不重复的全排列。
+>
+> 示例:
+>
+> ```
+> 输入: [1,1,2]
+> 输出:
+> [
+>   [1,1,2],
+>   [1,2,1],
+>   [2,1,1]
+> ]
+> ```
+
+```c++
+// 只需将leetcode.46中的vector<vector<int>> res  ===>>>  set<vector<int>> res;
+vector<vector<int>> permuteUnique(vector<int>& nums) {
+    set<vector<int>> res;		// 改动
+    permute(res, nums, 0);
+    return vector<vector<int>> (res.begin(), res.end());	// 改动
+}
+void permute(set<vector<int>> &res, vector<int> &nums, int idx){
+    if(idx == nums.size() - 1){
+        res.insert(nums);	   // 改动
+        return;
+    }
+    for(int i = idx; i < nums.size(); ++i){
+        swap(nums[i], nums[idx]);
+        permute(res, nums, idx + 1);
+        swap(nums[i], nums[idx]);
+    }
+}
+```
+
+<br>
+
+[leetcode.77 组合 medium](https://leetcode-cn.com/problems/combinations/)
+
+> 给定两个整数 n 和 k，返回 1 ... n 中所有可能的 k 个数的组合。
+>
+> 示例:
+>
+> ```
+> 输入: n = 4, k = 2
+> 输出:[
+>   [2,4],
+>   [3,4],
+>   [2,3],
+>   [1,2],
+>   [1,3],
+>   [1,4],
+> ]
+> ```
+
+```c++
+vector<vector<int>> combine(int n, int k) {
+    vector<vector<int>> res;
+    vector<int> nums;
+    backtracking(n, k, res, nums, 0);
+    return res;
+}
+
+void backtracking(const int &n, const int &k, 
+                  vector<vector<int>> &res, vector<int> &nums, int last_int){
+    if(nums.size() == k){
+        res.push_back(nums);
+        return;
+    }
+    // 从上一次放入nums的数的后一位开始放
+    for(int i = last_int + 1; i <= n; ++i){
+        nums.push_back(i);
+        backtracking(n, k, res, nums, i);
+        nums.pop_back();
+    }
+}
+```
+
+<br>
+
+[leetcode.39 组合之和 medium](https://leetcode-cn.com/problems/combination-sum/)
+
+> 给定一个无重复元素的数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。candidates 中的数字可以无限制重复被选取。
+>
+> 说明：所有数字（包括 target）都是正整数。解集不能包含重复的组合。 
+> 示例 :
+>
+> ```
+> 输入: candidates = [2,3,6,7], target = 7,
+> 所求解集为:
+> [
+>   [7],
+>   [2,2,3]
+> ]
+> 
+> 输入: candidates = [2,3,5], target = 8,
+> 所求解集为:
+> [
+>   [2,2,2,2],
+>   [2,3,3],
+>   [3,5]
+> ]
+> ```
+
+```c++
+vector<vector<int>> combinationSum(vector<int>& candidates, int target) {
+    sort(candidates.begin(), candidates.end());
+    set<vector<int>> res;
+    vector<int> nums;
+    backtracking(candidates, target, res, nums, 0);
+    return vector<vector<int>> (res.begin(), res.end());
+}
+
+void backtracking(const vector<int> &cdd, int t, set<vector<int>> &res, vector<int> &nums, int idx){
+    if(t <= 0){ // 注意这里的条件
+        if(t == 0)
+            res.insert(nums);
+        return;
+    }
+    for(int i = idx; i < cdd.size(); ++i){
+        nums.push_back(cdd[i]);
+        backtracking(cdd, t - cdd[i], res, nums, i);
+        nums.pop_back();
+    }
+}
+```
+
+<br>
+
+[leetcode.40 组合之和II medium](https://leetcode-cn.com/problems/combination-sum-ii/)
+
+> 给定一个数组 candidates 和一个目标数 target ，找出 candidates 中所有可以使数字和为 target 的组合。candidates 中的每个数字在每个组合中只能使用一次。
+>
+> 说明：所有数字（包括目标数）都是正整数。解集不能包含重复的组合。 
+>
+> 示例 1:
+>
+> ```
+> 输入: candidates = [10,1,2,7,6,1,5], target = 8,
+> 所求解集为:
+> [
+>   [1, 7],
+>   [1, 2, 5],
+>   [2, 6],
+>   [1, 1, 6]
+> ]
+> 
+> 输入: candidates = [2,5,2,1,2], target = 5,
+> 所求解集为:
+> [
+>   [1,2,2],
+>   [5]
+> ]
+> ```
+
+```c++
+// 在leetcode.39的基础上改动一个小地方
+vector<vector<int>> combinationSum2(vector<int>& candidates, int target) {
+    sort(candidates.begin(), candidates.end());
+    set<vector<int>> res;
+    vector<int> nums;
+    backtracking(candidates, target, res, nums, 0);
+    return vector<vector<int>> (res.begin(), res.end());
+}
+void backtracking(const vector<int> &cdd, int t, set<vector<int>> &res, vector<int> &nums, int idx){
+    if(t <= 0){
+        if(t == 0)
+            res.insert(nums);
+        return;
+    }
+
+    for(int i = idx; i < cdd.size(); ++i){
+        nums.push_back(cdd[i]);
+        backtracking(cdd, t - cdd[i], res, nums, i + 1);    // 改动：下一层遍历从i+1开始
+        nums.pop_back();
+    }
+```
+
+<br>
+
+[leetcode.78 子集 medium](https://leetcode-cn.com/problems/subsets/)
+
+> 给定一组**不含重复元素**的整数数组 nums，返回该数组所有可能的子集（幂集）。说明：解集不能包含重复的子集。
+>
+> 示例:
+>
+> ```
+> 输入: nums = [1,2,3]
+> 输出:
+> [ [3], [1], [2], [1,2,3], [1,3], [2,3], [1,2], [] ]
+> ```
+
+```c++
+vector<vector<int>> subsets(vector<int>& nums) {
+    set<vector<int>> res;
+    vector<int> subset;
+    backtracking(nums, res, subset, 0);
+    return vector<vector<int>> (res.begin(), res.end());
+}
+
+void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &subset, int idx){
+    res.insert(subset);                         // 不放入nums[i]的情况
+    for(int i = idx; i < nums.size(); ++i){
+        subset.push_back(nums[i]);
+        backtracking(nums, res, subset, i + 1); // 放入nums[i]的情况
+        subset.pop_back();
+    }
+}
+```
+
+<br>
+
+[leetcode.90 子集II medium](https://leetcode-cn.com/problems/subsets-ii/)
+
+> 给定一个**可能包含重复元素**的整数数组 nums，返回该数组所有可能的子集（幂集）。说明：解集不能包含重复的子集。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,2]
+> 输出:
+> [
+>   [2],
+>   [1],
+>   [1,2,2],
+>   [2,2],
+>   [1,2],
+>   []
+> ]
+> ```
+
+```c++
+// 与leetcode.78基本一模一样，唯一改动的是需要进行排序
+// 因为 [1,2,2]和[2,1,2]是同一子集，却是不同的vector，在res.insert(subset)时会被重复插入
+vector<vector<int>> subsetsWithDup(vector<int>& nums) {
+    sort(nums.begin(), nums.end());		// 唯一改动的地方
+    set<vector<int>> res;
+    vector<int> subset;
+    backtracking(nums, res, subset, 0);
+    return vector<vector<int>> (res.begin(), res.end());
+}
+
+void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &subset, int idx){
+    res.insert(subset);
+    for(int i = idx; i < nums.size(); ++i){
+        subset.push_back(nums[i]);
+        backtracking(nums, res, subset, i + 1);
+        subset.pop_back();
+    }
+}
+```
+
+<br>
+
+[leetcode.131 分割回文串 medium](https://leetcode-cn.com/problems/palindrome-partitioning/)
+
+> 给定一个字符串 s，将 s 分割成一些子串，使每个子串都是回文串。返回 s 所有可能的分割方案。
+>
+> 示例:
+>
+> ```
+> 输入: "aab"
+> 输出:
+> [
+>   ["aa","b"],
+>   ["a","a","b"]
+> ]
+> ```
+
+```c++
+vector<vector<string>> partition(string s) {
+    vector<string> strs;
+    vector<vector<string>> res;
+    backtracking(res, strs, s, 0);
+    return res;
+}
+
+void backtracking(vector<vector<string>> &res, vector<string> &strs, const string &s, int idx){
+    if(idx == s.size()){
+        res.push_back(strs);
+        return;
+    }
+    for(int i = idx; i < s.size(); ++i)
+        if(isPalindrome(s, idx, i)){
+            strs.push_back(s.substr(idx, i - idx + 1));
+            backtracking(res, strs, s, i + 1);
+            strs.pop_back();
+        }
+}
+bool isPalindrome(const string &s, int left, int right){
+    while(left <= right)
+        if(s[left++] != s[right--])
+            return false;
+    return true;
+}
+```
+
+<br>
+
+[leetcode.37 数独 hard](https://leetcode-cn.com/problems/sudoku-solver/)
+
+> 编写一个程序，通过已填充的空格来解决数独问题。一个数独的解法需遵循如下规则：
+>
+> 数字 1-9 在每一行只能出现一次。
+> 数字 1-9 在每一列只能出现一次。
+> 数字 1-9 在每一个以粗实线分隔的 3x3 宫内只能出现一次。
+> 空白格用 '.' 表示。
+>
+> **Note:**
+>
+> - 给定的数独序列只包含数字 `1-9` 和字符 `'.'` 。
+> - 你可以假设给定的数独只有唯一解。
+> - 给定数独永远是 `9x9` 形式的。
+>
+> 一个典型的数独（答案为红色）：
+>
+> <img src="img/4.png" width="150px">
+
+```c++
+void solveSudoku(vector<vector<char>>& board) {
+    // rowc[i][c]表示第i行存在多少个字符c, colc[j][c]表示第j行字符c数量
+    // subc[k][c]表示第k个3x3子区域存在多少个字符c
+    vector<map<char,int>> rowc(9, map<char,int>());
+    vector<map<char,int>> colc(9, map<char,int>());
+    vector<map<char,int>> subc(9, map<char,int>());
+
+    // 统计board中每行每列各个字符的数量
+    for(int i = 0; i < 9; ++i)
+        for(int j = 0; j < 9; ++j)
+            if(board[i][j] != '.'){
+                int k = i / 3 * 3 + j / 3;  // (i,j)与第k个3x3子区域的关系
+                char c = board[i][j];
+                ++rowc[i][c];
+                ++colc[j][c];
+                ++subc[k][c];
+            }
+    // 直接从(0,0)开始求解
+    backtracking(board, 0, 0, rowc, colc, subc);
+}
+
+// 从左到右、从上到下求解
+bool backtracking(vector<vector<char>> &board, int i, int j,
+                  vector<map<char,int>> &rowc,
+                  vector<map<char,int>> &colc,
+                  vector<map<char,int>> &subc){
+    // 结束条件：已经求解到最后一行的下一行，说明前面的9x9已经求解完毕
+    if(i == 9 && j == 0)
+        return true;
+    // (i,j)已求解，对下一格求解
+    if(board[i][j] != '.')
+        if( (j != 8 && backtracking(board, i, j + 1, rowc, colc, subc))
+           ||(j == 8 && backtracking(board, i + 1, 0, rowc, colc, subc)))
+            return true;
+    // (i,j)未求解，对本格求解
+    if(board[i][j] == '.')
+        for(char c = '1'; c <= '9'; ++c)
+            if(rowc[i][c] < 1 && colc[j][c] < 1 && subc[i/3*3+j/3][c] < 1){
+                ++rowc[i][c];
+                ++colc[j][c];
+                ++subc[i/3*3+j/3][c];
+                board[i][j] = c;
+                if( (j != 8 && backtracking(board, i, j + 1, rowc, colc, subc))
+                   ||(j == 8 && backtracking(board, i + 1, 0, rowc, colc, subc)))
+                    return true;
+                --rowc[i][c];
+                --colc[j][c];
+                --subc[i/3*3+j/3][c];
+                board[i][j] = '.';
+            }
+    return false;
+}
+```
 
 
 
@@ -1494,7 +2491,74 @@ void bfs(vector<vector<char>> &board, int row, int col){
 
 
 
-<br><br><br>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<br>
 
 # 数据结构
 
@@ -1513,11 +2577,11 @@ void bfs(vector<vector<char>> &board, int row, int col){
 > 输出: [1, 3, 4]
 > 解释:
 > 
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > ```
 
 ```c++
