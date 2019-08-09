@@ -15,6 +15,7 @@
     - [回溯法backtracking](#回溯法backtracking)
   - [分治策略](#分治策略)
   - [动态规划](#动态规划)
+    - [分割整数](#分割整数)
     - [子区间系列](#子区间系列)
 - [数据结构](#数据结构)
   - [二叉树](#二叉树)
@@ -446,7 +447,47 @@ int findPeakElement(vector<int>& nums) {
 }
 ```
 
+<br>
 
+[leetcode.240 搜索二维矩阵 II medium](https://leetcode-cn.com/problems/search-a-2d-matrix-ii/)、[剑指offer 二维数组中的查找](https://www.nowcoder.com/practice/abc3fe2ce8e146608e868a70efebf62e?tpId=13&tqId=11154&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+
+> 编写一个高效的算法来搜索 m x n 矩阵 matrix 中的一个目标值 target。该矩阵具有以下特性：
+>
+> 每行的元素从左到右升序排列。
+> 每列的元素从上到下升序排列。
+>
+> 示例: 现有矩阵 matrix 如下：
+>
+> ```
+> [
+>   [1,   4,  7, 11, 15],
+>   [2,   5,  8, 12, 19],
+>   [3,   6,  9, 16, 22],
+>   [10, 13, 14, 17, 24],
+>   [18, 21, 23, 26, 30]
+> ]
+> ```
+>
+> 给定 target = 5，返回 true。
+>
+> 给定 target = 20，返回 false。
+
+```c++
+// 思路：从左下角、或者右上角开始，进行二分搜索
+bool searchMatrix(vector<vector<int>>& matrix, int target) {
+    if(matrix.empty() || matrix[0].empty())
+        return false;
+    int i = matrix.size() - 1, j = 0;
+    while(i >= 0 && j < matrix[0].size())
+        if(matrix[i][j] == target)
+            return true;
+        else if(matrix[i][j] < target)
+            ++j;
+        else
+            --i;
+    return false;
+}
+```
 
 <br>
 
@@ -1190,7 +1231,7 @@ string findLongestWord(string str, vector<string>& vs) {
 >
 > ```
 > 给定二叉树: [3,9,20,null,null,15,7],
->  3
+> 3
 > / \
 > 9  20
 >  /  \
@@ -1255,10 +1296,10 @@ vector<int> levelOrder(TreeNode* root) {
 > 解释:
 > 
 >    1            <---
->  /   \
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+>  5     4       <---
 > ```
 
 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
@@ -1272,8 +1313,8 @@ vector<int> levelOrder(TreeNode* root) {
 > ```
 >     1
 >    / \
->   2   2
->  / \ / \
+>  2   2
+> / \ / \
 > 3  4 4  3
 > ```
 
@@ -1710,11 +1751,11 @@ void bfs(vector<vector<char>> &board, int row, int col){
 >
 > ```
 > 输入:
->    1
+> 1
 >  /   \
 > 2     3
->  \
->   5
+> \
+> 5
 > 
 > 输出: ["1->2->5", "1->3"]
 > 
@@ -1763,7 +1804,7 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 > 输入: [4,9,0,5,1]
 >     4
 >    / \
->   9   0
+>  9   0
 >  / \
 > 5   1
 > 输出: 1026
@@ -1812,10 +1853,10 @@ bool dfs(TreeNode *root, long long prefix, long long &res){
 > 解释:
 > 
 >    1            <---
->  /   \
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+>  5     4       <---
 > ```
 
 ```c++
@@ -2536,13 +2577,133 @@ vector<int> diffWaysToCompute(string s) {
 }
 ```
 
+<br>
 
+[leetcode. 282 给表达式添加运算符](https://leetcode-cn.com/problems/expression-add-operators/submissions/)
 
+> 给定一个仅包含数字 0-9 的字符串和一个目标值，在数字之间添加二元运算符（不是一元）+、- 或 * ，返回所有能够得到目标值的表达式。
+>
+> 示例 :
+>
+> ```
+> 输入: num = "123", target = 6
+> 输出: ["1+2+3", "1*2*3"] 
+> 
+> 输入: num = "232", target = 8
+> 输出: ["2*3+2", "2+3*2"]
+> 
+> 输入: num = "105", target = 5
+> 输出: ["1*0+5","10-5"]
+> 
+> 输入: num = "00", target = 0
+> 输出: ["0+0", "0-0", "0*0"]
+> 
+> 输入: num = "3456237490", target = 9191
+> 输出: []
+> ```
 
+```c++
+vector<string> addOperators(string num, int target) {
+    vector<string> res;
+    div_conq(num, target, 0, 0, "", res);
+    return res;
+}
+void div_conq(string num, int target, long last, long cur, string out, vector<string>& res) {
+    if(num.size() == 0 && cur == target){
+        res.push_back(out); return;
+    }
 
+    // 分成左右两半进行操作
+    for(int i = 1; i <= num.size(); ++i){
+        string left = num.substr(0, i);
+        string right = num.substr(i);
+        if(left.size() > 1 && left[0] == '0') 
+            return;
 
+        // +-* 三种运算符分别进行操作
+        if(out.size() > 0){
+            div_conq(right, target, stoll(left), cur + stoll(left), out + "+" + left, res);
+            div_conq(right, target, -stoll(left), cur - stoll(left), out + "-" + left, res);
+            div_conq(right, target, last * stoll(left), cur - last + last * stoll(left), out + "*" + left, res);
+            // 对于乘法2-3*5，上次操作中已经得到 cur = 2-3 = -1, last = -3
+            // 因此此次操作应为 cur - last + last * 5 = -1 - (-3) + (-3) * 5 = 2 - 3 * 5
+        }else 
+            div_conq(right, target, stoll(left), stoll(left), left, res);
+    }
+}
+```
+
+<br>
 
 ## 动态规划
+
+动态规划的思想是：将原问题拆分为多个子问题进行求解，并且保存了每个子问题的解
+
+### 分割整数
+
+[leetcode. 343 整数拆分 medium](https://leetcode-cn.com/problems/integer-break/)
+
+> 给定一个正整数 n，将其拆分为至少两个正整数的和，并使这些整数的乘积最大化。 返回你可以获得的最大乘积。
+>
+> 示例 :
+>
+> ```
+> 输入: 2
+> 输出: 1
+> 解释: 2 = 1 + 1, 1 × 1 = 1。
+> 
+> 输入: 10
+> 输出: 36
+> 解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。
+> ```
+>
+> 说明: 你可以假设 n 不小于 2 且不大于 58。
+
+```c++
+int integerBreak(int n) {
+    vector<int> dp(n + 1, 0);   // dp[i] = integerBreak(i)
+    dp[1] = 1;                  // dp[1] = integerBreak(1) = 1
+    // 将 i 拆分为 j, i - j两个数之和
+    for(int i = 2; i <= n; ++i)
+        for(int j = 1; j < i; ++j){
+            dp[i] = max(dp[i], j * (i - j));
+            dp[i] = max(dp[i], dp[j] * (i - j));
+            dp[i] = max(dp[i], dp[j] * dp[i - j]);
+        }
+    return dp.back();
+}
+
+// 另解：拆分出尽量多的3即可
+// 5 -> 3 * 2 = 6   8 -> 3 * 3 * 2 = 18		11 -> 3 * 3 * 3 * 2 = 54
+// 6 -> 3 * 3 = 9   9 -> 3 * 3 * 3 = 27		12 -> 3 * 3 * 3 * 3 = 81
+// 7 -> 3 * 4 = 12  10-> 3 * 3 * 4 = 36		13 -> 3 * 3 * 3 * 4 = 108
+int integerBreak(int n){
+    if(n <= 3)
+        return n - 1;
+    int res = 1;
+    while(n > 4){
+        res *= 3;
+        n -= 3;
+    }
+    return res * n;
+}
+```
+
+<br>
+
+[leetcode. 279]
+
+
+
+
+
+
+
+
+
+
+
+
 
 ### 子区间系列
 
@@ -2769,10 +2930,10 @@ vector<int> diffWaysToCompute(string s) {
 > 解释:
 > 
 >    1            <---
->  /   \
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+>  5     4       <---
 > ```
 
 ```c++
