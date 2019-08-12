@@ -3306,7 +3306,71 @@ int wiggleMaxLength(vector<int> &nums){
 }
 ```
 
+[最长公共子序列]
+
+> 对于两个子序列 S1 和 S2，找出它们最长的公共子序列。子序列可以是不连续的
+
+```c++
+// dp[i][j] - S1中前i项和S2中前j项的最长公共长度。根据S1[i]与S2[j]是否相等有两种情况
+// S1[i] == S2[j], 则dp[i][j] = dp[i - 1][j - 1] + 1
+// S1[i] != S2[j], dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+int maxCommonLength(const string &s1, const string &s2){
+  	if(s1.empty() || s2.empty())
+      	return 0;
+  	
+    vector<vector<int> > dp(s1.size() + 1, vector<int>(s2.size() + 1, 0));
+    for(int i = 1; i <= s1.size(); ++i)
+      	for(int j = 1; j <= s2.size(); ++j)
+        		if(s1[i - 1] == s2[j - 1])
+          			dp[i][j] = dp[i - 1][j - 1] + 1;
+        		else
+          			dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+    return dp.back().back();
+}
+```
+
+<br>
+
+[leetcode.583 两个字符串的删除操作](https://leetcode-cn.com/problems/delete-operation-for-two-strings/submissions/)
+
+> 给定两个单词 word1 和 word2，找到使得 word1 和 word2 相同所需的最小步数，每步可以删除任意一个字符串中的一个字符。
+>
+> 示例 :
+>
+> ```
+> 输入: "sea", "eat"
+> 输出: 2
+> 解释: 第一步将"sea"变为"ea"，第二步将"eat"变为"ea"
+> ```
+>
+> 说明: 给定单词的长度不超过500。给定单词中的字符只含有小写字母。
+
+```c++
+// 思路：找到两个字符串的最长公共子串的大小maxlen, 则需要删除字符的数量为：
+// word1.size() + word2.size() - 2 * maxLen
+int minDistance(string word1, string word2) {
+    if(word1.empty() || word2.empty())
+        return word1.empty() ? word2.size() : word1.size();
+
+    vector<vector<int>> dp(word1.size() + 1, vector<int>(word2.size() + 1, 0));
+    for(int i = 1; i <= word1.size(); ++i)
+        for(int j = 1; j <= word2.size(); ++j)
+            if(word1[i - 1] == word2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+
+    return word1.size() + word2.size() - 2 * dp.back().back();
+}
+```
+
+<br>
+
+### 子区间问题
+
 [leetcode.718 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+
+注：区别于上一个题的最长公共子序列（子序列不需要连续），本题最长重复子数组需要自数组连续
 
 > 给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。
 >
@@ -3324,18 +3388,38 @@ int wiggleMaxLength(vector<int> &nums){
 > 说明: 1 <= len(A), len(B) <= 1000，0 <= A[i], B[i] < 100
 
 ```c++
+// dp[i][j] - A中以第i项结尾子数组，和B中以第j项结尾子数组的最长公共长度，根据A[i]，B[j]是否相等分两种情况
+// A[i] == B[j], 则dp[i][j] = dp[i - 1][j - 1] + 1
+// A[i] != B[j], dp[i][j] = 0
+int findLength(vector<int>& A, vector<int>& B) {
+    vector<vector<int>> dp(A.size() + 1, vector<int>(B.size() + 1, 0));
+    int maxLen = 0;
+    for(int i = 1; i <= A.size(); ++i)
+        for(int j = 1; j <= B.size(); ++j)
+            if(A[i - 1] == B[j - 1]){
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+                maxLen = max(maxLen, dp[i][j]);
+            }else
+                dp[i][j] = 0;
+    return maxLen;
+}
 
+// 优化空间
+int findLength(vector<int> &A, vector<int> &B){
+    vector<int> dp(B.size() + 1, 0);
+    int maxLen = 0;
+    for(int i = 1; i <= A.size(); ++i)
+        for(int j = B.size(); j >= 1; --j)  // 注意，这里必须从后往前便利
+            if(A[i - 1] == B[j - 1]){       //   ⬇️  
+                dp[j] = dp[j - 1] + 1;      // dp[j]需要使用前一个，前一个却可能已经更新过了
+                maxLen = max(maxLen, dp[j]);
+            }else
+                dp[j] = 0;
+    return maxLen;
+}
 ```
 
-[最长公共子数组]
-
-> 此题和leetcode.718的区别：718最长重复子数组需要时连续的，本题中的子数组可以不用连续
-
-
-
 <br>
-
-### 子区间问题
 
 [leetcode. 53 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
 
