@@ -70,11 +70,11 @@ void selectionSort(vector<int> &ivec){
 ```c++
 // O(n^2)，稳定，遍历第i个数时，一直将它往前交换直到不再比前一个数更大
 void insertionSort(vector<int> &ivec){
-	for(int i = 1; i < ivec.size(); ++i){
-		int j = i - 1;
-		while(j >= 0 && ivec[j + 1] < ivec[j])
-			swap(ivec[j + 1], ivec[j]),	--j;
-	}
+    for(int i = 1; i < ivec.size(); ++i){
+	int j = i - 1;
+	while(j >= 0 && ivec[j + 1] < ivec[j])
+	    swap(ivec[j + 1], ivec[j]),	--j;
+    }
 }
 ```
 
@@ -117,24 +117,24 @@ void mergeSort(vector<int> &ivec){
 ```c++
 //O(nlogn)，不稳定，找到第i个数，使[0,i)中均比它小且(i,n)中均比它大，再对[0,i)和(i,n)进行快排
 void quickSort(vector<int> &ivec, int low, int high){
-	if(low >= high)
-		return;
+    if(low >= high)
+	return;
     // 找到pivot_value满足上述条件
-	int pivot_value = ivec[low];
-	int pivot = low;
-	for(int i = low + 1; i <= high; ++i)
-		if(ivec[i] < pivot_value){
-			++pivot;
-			swap(ivec[i], ivec[pivot]);
-		}
-	swap(ivec[low], ivec[pivot]);
-	// 对[i,pivot),(pivot, n)继续快排
-	quickSort(ivec, low, pivot - 1);
-	quickSort(ivec, pivot + 1, high);
+    int pivot_value = ivec[low];
+    int pivot = low;
+    for(int i = low + 1; i <= high; ++i)
+	if(ivec[i] < pivot_value){
+            ++pivot;
+            swap(ivec[i], ivec[pivot]);
+	}
+    swap(ivec[low], ivec[pivot]);
+    // 对[i,pivot),(pivot, n)继续快排
+    quickSort(ivec, low, pivot - 1);
+    quickSort(ivec, pivot + 1, high);
 }
 // 排序入口
 void quickSort(vector<int> &ivec){
-	quickSort(ivec, 0, ivec.size() - 1);
+    quickSort(ivec, 0, ivec.size() - 1);
 }
 ```
 
@@ -145,25 +145,25 @@ void quickSort(vector<int> &ivec){
 ```c++
 // 自己网上找资料看吧
 void heapDown(vector<int> &ivec, int beg, int end){	// 调整 ivec[beg...end] 使之满足大顶堆要求
-	for(int cur = beg, child = beg * 2 + 1; child <= end; cur = child, child = child * 2 + 1){
-		if(child < end && ivec[child] < ivec[child + 1])
-			++child;
-		if(ivec[cur] > ivec[child])	// 调整父节点和子节点的关系
-			break;
-		else
-			swap(ivec[cur], ivec[child]);
-	}
+    for(int cur = beg, child = beg * 2 + 1; child <= end; cur = child, child = child * 2 + 1){
+        if(child < end && ivec[child] < ivec[child + 1])
+            ++child;
+        if(ivec[cur] > ivec[child])	// 调整父节点和子节点的关系
+            break;
+        else
+            swap(ivec[cur], ivec[child]);
+    }
 }
 // 排序入口
 void heapSort(vector<int> &ivec){
-	// 构造大顶堆
-	for(int i = ivec.size() / 2 - 1; i >= 0; --i)
-		heapDown(ivec, i, ivec.size() - 1);
-	// 交换堆顶元素，并再次调整为大顶堆
-	for(int i = ivec.size() - 1; i > 0; --i){
-		swap(ivec[0], ivec[i]);
-		heapDown(ivec, 0, i - 1);
-	}
+    // 构造大顶堆
+    for(int i = ivec.size() / 2 - 1; i >= 0; --i)
+        heapDown(ivec, i, ivec.size() - 1);
+    // 交换堆顶元素，并再次调整为大顶堆
+    for(int i = ivec.size() - 1; i > 0; --i){
+        swap(ivec[0], ivec[i]);
+        heapDown(ivec, 0, i - 1);
+    }
 }
 ```
 
@@ -269,21 +269,21 @@ void merge(vector<int> &nums, int left, int mid, int right, int &cnt){
 ```c++
 // 思路1: 先进行排序，然后交换1-2, 3-4, 5-6
 void wiggleSort(vector<int> &nums) {
-		sort(nums.begin(), nums.end());
-  	if(nums.size() <= 2)
-      	return;
-  	for(int i = 2; i < nums.size(); i += 2)
-      	swap(nums[i], nums[i - 1]);
+    sort(nums.begin(), nums.end());
+    if(nums.size() <= 2)
+        return;
+    for(int i = 2; i < nums.size(); i += 2)
+        swap(nums[i], nums[i - 1]);
 }
 
 // 思路：由题意的，下标为奇数的大于等于两侧，下标为偶数的小于等于两侧，不满足的话将该数与左侧交换即可
 void wiggleSort(vector<int> &nums){
-  	if(nums.size() <= 1)
-      	return;
-  	for(int i = 1; i < nums.size(); ++i)
-      	if((i % 2 == 1 && nums[i] < nums[i - 1]) 
-          	|| (i % 2 == 0 && nums[i] > nums[i - 1]))
-          	swap(nums[i], nums[i - 1]);
+    if(nums.size() <= 1)
+        return;
+    for(int i = 1; i < nums.size(); ++i)
+        if((i % 2 == 1 && nums[i] < nums[i - 1]) 
+            || (i % 2 == 0 && nums[i] > nums[i - 1]))
+            swap(nums[i], nums[i - 1]);
 }
 ```
 
@@ -894,7 +894,6 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
     res.push_back(it0);	// 最后一个tmp由于没有进入到for循环中的else语句，需要额外加入到res中
     return res;
 }
-
 ```
 
 <br>[leetcode.406 根据身高重建队列 medium](https://leetcode-cn.com/problems/queue-reconstruction-by-height/)
