@@ -267,7 +267,7 @@ void merge(vector<int> &nums, int left, int mid, int right, int &cnt){
 > ```
 
 ```c++
-// 思路1: 先进行排序，然后交换1-2, 3-4, 5-6
+// 思路1: 先进行排序，然后交换1-2, 3-4, 5-6  ==> O(nlogn)
 void wiggleSort(vector<int> &nums) {
     sort(nums.begin(), nums.end());
     if(nums.size() <= 2)
@@ -276,7 +276,7 @@ void wiggleSort(vector<int> &nums) {
         swap(nums[i], nums[i - 1]);
 }
 
-// 思路：由题意的，下标为奇数的大于等于两侧，下标为偶数的小于等于两侧，不满足的话将该数与左侧交换即可
+// 思路：由题意的，下标为奇数的大于等于两侧，下标为偶数的小于等于两侧，不满足的话将该数与左侧交换即可 O(n)
 void wiggleSort(vector<int> &nums){
     if(nums.size() <= 1)
         return;
@@ -311,7 +311,7 @@ void wiggleSort(vector<int> &nums){
 
 ```c++
 // 思路：先进行排序，不能交换相互挨着的两个数，可能相等
-// 			将排序后的数组分为前后两半，分别从前半部分和后半部分取出最后一个数，可以保证不等
+// 		将排序后的数组分为前后两半，分别从前半部分和后半部分取出最后一个数，可以保证不等
 void wiggleSort(vector<int>& nums) {
     vector<int> temp = nums;
     sort(temp.begin(), temp.end());
@@ -491,7 +491,6 @@ int biSearch(const vector<int> &data, double num){
 int GetNumberOfK(vector<int> data ,int k) {
     return biSearch(data, k + 0.5) - biSearch(data, k - 0.5);
 }
-
 ```
 
 <br>[leetcode.162 寻找峰值 medium](https://leetcode-cn.com/problems/find-peak-element/)
@@ -526,7 +525,6 @@ int findPeakElement(vector<int>& nums) {
     }
     return right;        
 }
-
 ```
 
 <br>
@@ -548,7 +546,6 @@ int findPeakElement(vector<int>& nums) {
 > [10, 13, 14, 17, 24],
 > [18, 21, 23, 26, 30]
 > ]
-> 
 > ```
 >
 > 给定 target = 5，返回 true。
@@ -570,7 +567,6 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
             --i;
     return false;
 }
-
 ```
 
 <br>
@@ -595,7 +591,6 @@ bool searchMatrix(vector<vector<int>>& matrix, int target) {
 > 你有三个孩子和两块小饼干，3个孩子的胃口值分别是：1,2,3。
 > 虽然你有两块小饼干，由于他们的尺寸都是1，你只能让胃口值是1的孩子满足。
 > 所以你应该输出1。
-> 
 > ```
 
 ```c++
@@ -616,7 +611,6 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
     }
     return cnt;
 }
-
 ```
 
 <br>[leetcode.452 用最少数量的箭引爆气球 medium](https://leetcode-cn.com/problems/minimum-number-of-arrows-to-burst-balloons/)
@@ -634,7 +628,6 @@ int findContentChildren(vector<int>& g, vector<int>& s) {
 > 2
 > 解释:
 > 对于该样例，我们可以在x = 6（射爆[2,8],[1,6]两个气球）和 x = 11（射爆另外两个气球）。
-> 
 > ```
 
 ```c++
@@ -657,7 +650,6 @@ int findMinArrowShots(vector<vector<int>>& points) {
     }
     return cnt;
 }
-
 ```
 
 <br>[leetcode.135 分发糖果 hard](https://leetcode-cn.com/problems/candy/)
@@ -681,7 +673,6 @@ int findMinArrowShots(vector<vector<int>>& points) {
 > 输出: 4
 > 解释: 你可以分别给这三个孩子分发 1、2、1 颗糖果。
 > 第三个孩子只得到 1 颗糖果，这已满足上述两个条件。
-> 
 > ```
 
 ```c++
@@ -702,7 +693,6 @@ int candy(vector<int>& ratings) {
 
     return accumulate(candies.begin(), candies.end(), 0);
 }
-
 ```
 
 <br>[leetcode.122 买卖股票的最佳时机 II easy](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
@@ -719,8 +709,6 @@ int maxProfit(vector<int>& prices) {
         prof += (prices[i] > prices[i - 1]) ? prices[i] - prices[i - 1] : 0;
     return prof;
 }
-
-
 ```
 
 <br>[leetcode.605 种花问题 easy](https://leetcode-cn.com/problems/can-place-flowers/)
@@ -750,8 +738,6 @@ bool canPlaceFlowers(vector<int>& bed, int n) {
 
     return seeds >= n;
 }
-
-
 ```
 
 <br>[leetcode.665 非递减数列 easy](https://leetcode-cn.com/problems/non-decreasing-array/)
@@ -768,7 +754,6 @@ bool canPlaceFlowers(vector<int>& bed, int n) {
 > 输入: [4,2,1]
 > 输出: False
 > 解释: 你不能在只改变一个元素的情况下将其变为非递减数列。
-> 
 > ```
 
 ```c++
@@ -789,8 +774,6 @@ bool checkPossibility(vector<int>& nums) {
         }
     return cnt <= 1;
 }
-
-
 ```
 
 <br>[leetcode.392 判断子序列 medium](https://leetcode-cn.com/problems/is-subsequence/)
@@ -809,8 +792,6 @@ bool isSubsequence(string s, string t) {
                 return true;
     return false;
 }
-
-
 ```
 
 <br>[leetcode.763 划分字母区间 medium](https://leetcode-cn.com/problems/partition-labels/)
@@ -824,8 +805,6 @@ bool isSubsequence(string s, string t) {
 > 输出: [9,7,8]
 > 解释:
 > 划分结果为 "ababcbaca", "defegde", "hijhklij"。每个字母最多出现在一个片段中。像 "ababcbacadefegde", "hijhklij" 的划分是错误的，因为划分的片段数较少
-> 
-> 
 > ```
 
 ```c++
@@ -852,8 +831,6 @@ vector<int> partitionLabels(string str) {
 
     return res;
 }
-
-
 ```
 
 <br>[leetcode.56 合并区间 medium](https://leetcode-cn.com/problems/merge-intervals/)
@@ -870,7 +847,6 @@ vector<int> partitionLabels(string str) {
 > 输入: [[1,4],[4,5]]
 > 输出: [[1,5]]
 > 解释: 区间 [1,4] 和 [4,5] 可被视为重叠区间。
-> 
 > ```
 
 ```c++
@@ -909,7 +885,6 @@ vector<vector<int>> merge(vector<vector<int>>& intervals) {
 > [[7,0], [4,4], [7,1], [5,0], [6,1], [5,2]]
 > 输出:
 > [[5,0], [7,0], [5,2], [6,1], [4,4], [7,1]]
-> 
 > ```
 
 ```c++
@@ -928,7 +903,6 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 
     return people;
 }
-
 ```
 
 <br>[leetcode.621 任务调度器 medium](https://leetcode-cn.com/problems/task-scheduler/)
@@ -941,7 +915,6 @@ vector<vector<int>> reconstructQueue(vector<vector<int>>& people) {
 > 输入: tasks = ["A","A","A","B","B","B"], n = 2
 > 输出: 8
 > 执行顺序: A -> B -> (待命) -> A -> B -> (待命) -> A -> B.
-> 
 > ```
 
 ```c++
@@ -969,7 +942,6 @@ int leastInterval(vector<char>& tasks, int n) {
 
     return time;
 }
-
 ```
 
 <br>[leetcode.861 翻转矩阵后的得分 medium](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
@@ -982,7 +954,6 @@ int leastInterval(vector<char>& tasks, int n) {
 > 输入：[[0,0,1,1],[1,0,1,0],[1,1,0,0]]
 > 输出：39
 > 解释：转换为 [[1,1,1,1],[1,0,0,1],[1,1,1,1]] => 0b1111 + 0b1001 + 0b1111 = 15 + 9 + 15 = 39
-> 
 > ```
 
 ```c++
@@ -1020,7 +991,6 @@ int matrixScore(vector<vector<int>>& A) {
     }
     return sum;
 }
-
 ```
 
 <br>
@@ -1044,7 +1014,6 @@ vector<int> twoSum(vector<int>& nums, int target) {
     }
     return {0,0};	// 题目必有解，不会执行到这里，但没有这句话无法通过编译
 }
-
 ```
 
 <br>[leetcode.345 翻转字符串中的元音字母 easy](https://leetcode-cn.com/problems/reverse-vowels-of-a-string/)
@@ -1063,7 +1032,6 @@ string reverseVowels(string s) {
     }
     return s;
 }
-
 ```
 
 <br>[leetcode.633 平方数之和 easy](https://leetcode-cn.com/problems/sum-of-square-numbers/)
@@ -1082,7 +1050,6 @@ bool judgeSquareSum(int c) {
     }
     return false;
 }
-
 ```
 
 <br>[leetcode.680 验证回文字符串 II easy](https://leetcode-cn.com/problems/valid-palindrome-ii/)
@@ -1105,7 +1072,6 @@ bool validPalindrome(string s) {
     }
     return true;
 }
-
 ```
 
 <br>[leetcode.88 合并两个有序数组 easy](https://leetcode-cn.com/problems/merge-sorted-array/)
@@ -1119,7 +1085,6 @@ bool validPalindrome(string s) {
 > nums1 = [1,2,3,0,0,0], m = 3
 > nums2 = [2,5,6],       n = 3
 > 输出: [1,2,2,3,5,6]
-> 
 > ```
 
 ```c++
@@ -1137,7 +1102,6 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
     while(p2 >= 0)
         nums1[idx--] = nums2[p2--];
 }
-
 ```
 
 <br>[leetcode.283 移动零 easy](https://leetcode-cn.com/problems/move-zeroes/)
@@ -1149,7 +1113,6 @@ void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
 > ```
 > 输入: [0,1,0,3,12]
 > 输出: [1,3,12,0,0]
-> 
 > ```
 
 ```c++
@@ -1174,7 +1137,6 @@ void moveZeros(vector<int> &nums){
     while(p < nums.size())
         nums[p++] = 0;
 }
-
 ```
 
 <br>[leetcode.19 删除链表的倒数第N个节点 medium](https://leetcode-cn.com/problems/remove-nth-node-from-end-of-list/)
@@ -1204,7 +1166,6 @@ ListNode* removeNthFromEnd(ListNode* head, int n) {
     slow->next = tmp;
     return head;
 }
-
 ```
 
 <br>[leetcode.141 环形链表 easy](https://leetcode-cn.com/problems/linked-list-cycle/)
@@ -1222,7 +1183,6 @@ bool hasCycle(ListNode *head) {
     }
     return false;
 }
-
 ```
 
 <br>[剑指Offer - 链表中环的入口节点](https://www.nowcoder.com/practice/253d2c59ec3e4bc68da16833f79a38e4?tpId=13&tqId=11208&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
@@ -1249,7 +1209,6 @@ ListNode* EntryNodeOfLoop(ListNode* head){
     }
     return nullptr;
 }
-
 ```
 
 <br>[leetcode.3 无重复字符的最长子串 medium](https://leetcode-cn.com/problems/longest-substring-without-repeating-characters/)
@@ -1271,7 +1230,6 @@ ListNode* EntryNodeOfLoop(ListNode* head){
 > 输出: 3
 > 解释: 因为无重复字符的最长子串是 "wke"，所以其长度为 3。
 >      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
-> 
 > ```
 
 ```c++
@@ -1288,7 +1246,6 @@ int lengthOfLongestSubstring(string s) {
     }
     return maxLen;
 }
-
 ```
 
 <br>[leetcode.524 通过删除字母匹配到字典里最长单词 medium](https://leetcode-cn.com/problems/longest-word-in-dictionary-through-deleting/)
@@ -1303,7 +1260,6 @@ int lengthOfLongestSubstring(string s) {
 > 
 > 输入:s = "abpcplea", d = ["a","b","c"]
 > 输出: "a"
-> 
 > ```
 
 ```c++
@@ -1333,7 +1289,6 @@ string findLongestWord(string str, vector<string>& vs) {
 
     return res;
 }
-
 ```
 
 <br>
@@ -1350,13 +1305,12 @@ string findLongestWord(string str, vector<string>& vs) {
 >
 > ```
 > 给定二叉树: [3,9,20,null,null,15,7],
-> 3
-> / \
-> 9  20
-> /  \
+>     3
+>    / \
+>   9  20
+>  /  \
 > 15   7
 > 层次遍历结果为：[[3], [9,20], [15,7]]
-> 
 > ```
 
 ```c++
@@ -1402,7 +1356,6 @@ vector<int> levelOrder(TreeNode* root) {
     }
     return res;
 }
-
 ```
 
 <br>[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
@@ -1415,13 +1368,11 @@ vector<int> levelOrder(TreeNode* root) {
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
-> 
-> 1            <---
-> /   \
+>    1            <---
+>  /   \
 > 2     3         <---
-> \     \
-> 5     4       <---
-> 
+>  \     \
+>   5     4       <---
 > ```
 
 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
@@ -1433,12 +1384,11 @@ vector<int> levelOrder(TreeNode* root) {
 > 给定一个二叉树，检查它是否是镜像对称的。
 >
 > ```
->  1
-> / \
-> 2   2
-> / \ / \
+>     1
+>    / \
+>   2   2
+>  / \ / \
 > 3  4 4  3
-> 
 > ```
 
 ```c++
@@ -1480,7 +1430,6 @@ bool isSymmetric(TreeNode* root) {
     }
     return true;
 }
-
 ```
 
 <br>[leetcode.127 单词接龙 medium](https://leetcode-cn.com/problems/word-ladder/)
@@ -1503,7 +1452,6 @@ bool isSymmetric(TreeNode* root) {
 > 输出: 5
 > 解释: 一个最短转换序列是 "hit" -> "hot" -> "dot" -> "dog" -> "cog",
 > 返回它的长度 5。
-> 
 > ```
 
 ```c++
@@ -1542,7 +1490,6 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
     }
     return 0;   // 遍历到这说明没搜索到
 }
-
 ```
 
 <br>
@@ -1569,7 +1516,6 @@ int ladderLength(string beginWord, string endWord, vector<string>& wordList) {
 > 00100
 > 00011
 > 输出: 3
-> 
 > ```
 
 ```c++
@@ -1596,7 +1542,6 @@ void dfs(vector<vector<char>> &islands, int i, int j){
     dfs(islands, i, j - 1);
     dfs(islands, i, j + 1);
 }
-
 ```
 
 <br>[leetcode.695 岛屿的最大面积 medium](https://leetcode-cn.com/problems/max-area-of-island/)
@@ -1614,7 +1559,6 @@ void dfs(vector<vector<char>> &islands, int i, int j){
 > [0,0,0,0,0,0,0,0,0,0,1,0,0],
 > [0,0,0,0,0,0,0,1,1,1,0,0,0],
 > [0,0,0,0,0,0,0,1,1,0,0,0,0]]
-> 
 > ```
 >
 > 对于上面这个给定矩阵应返回 `6`。注意答案不应该是11，因为岛屿只能包含水平或垂直的四个方向的‘1’。
@@ -1640,7 +1584,6 @@ int dfs(vector<vector<int>> &grid, int i, int j){
     grid[i][j] = 0;
     return 1 + dfs(grid, i - 1, j) + dfs(grid, i + 1, j) + dfs(grid, i, j - 1) + dfs(grid, i, j + 1);
 }
-
 ```
 
 <br>[leetcode.547 朋友圈 medium](https://leetcode-cn.com/problems/friend-circles/)
@@ -1666,7 +1609,6 @@ int dfs(vector<vector<int>> &grid, int i, int j){
 > [0,1,1]]
 > 输出: 1
 > 说明：已知学生0和学生1互为朋友，学生1和学生2互为朋友，所以学生0和学生2也是朋友，所以他们三个在一个朋友圈，返回1。
-> 
 > ```
 
 ```c++
@@ -1695,7 +1637,6 @@ void dfs(vector<vector<int>> &M, int i, int j){
     for(int col = 0; col < M[0].size(); ++col)
         dfs(M, i, col);
 }
-
 ```
 
 <br>[leetcode.130 被围绕的区域 medium](https://leetcode-cn.com/problems/surrounded-regions/)
@@ -1717,7 +1658,6 @@ void dfs(vector<vector<int>> &M, int i, int j){
 > X O X X
 > 解释：
 > 被围绕的区间不会存在于边界上，换句话说，任何边界上的 'O' 都不会被填充为 'X'。 任何不在边界上，或不与边界上的 'O' 相连的 'O' 最终都会被填充为 'X'。如果两个元素在水平或垂直方向相邻，则称它们是“相连”的。
-> 
 > ```
 
 ```c++
@@ -1750,7 +1690,6 @@ void dfs(vector<vector<char>> &board, int i, int j){
     dfs(board, i, j - 1);
     dfs(board, i, j + 1);
 }
-
 ```
 
 [leetcode.417 太平洋大西洋水流问题 medium](https://leetcode-cn.com/problems/pacific-atlantic-water-flow/)
@@ -1762,15 +1701,14 @@ void dfs(vector<vector<char>> &board, int i, int j){
 > ```输入：
 > 输入：
 > 太平洋 ~   ~   ~   ~   ~ 
->  ~  1   2   2   3  (5) *
->  ~  3   2   3  (4) (4) *
->  ~  2   4  (5)  3   1  *
->  ~ (6) (7)  1   4   5  *
->  ~ (5)  1   1   2   4  *
+> ~  1   2   2   3  (5) *
+> ~  3   2   3  (4) (4) *
+> ~  2   4  (5)  3   1  *
+> ~ (6) (7)  1   4   5  *
+> ~ (5)  1   1   2   4  *
 > 				- - - - - 大西洋
 > 返回:
 > [[0, 4], [1, 3], [1, 4], [2, 2], [3, 0], [3, 1], [4, 0]] (上图中带括号的单元)
-> 
 > ```
 
 ```c++
@@ -1812,7 +1750,6 @@ void dfs(const vector<vector<int>> &matrix, int i, int j, vector<vector<bool>> &
     if(j < matrix[0].size() - 1 && matrix[i][j + 1] >= matrix[i][j])
         dfs(matrix, i, j + 1, map);
 }
-
 ```
 
 <br>[leetcode.529 扫雷游戏 medium](https://leetcode-cn.com/problems/minesweeper/)
@@ -1840,10 +1777,9 @@ void dfs(const vector<vector<int>> &matrix, int i, int j, vector<vector<bool>> &
 > ['B', '1', 'M', '1', 'B'],					['B', '1', 'X', '1', 'B'],
 > ['B', '1', '1', '1', 'B'],					['B', '1', '1', '1', 'B'],
 > ['B', 'B', 'B', 'B', 'B']]					['B', 'B', 'B', 'B', 'B']]
-> 
 > ```
 >
-> <img src="C:/Users/Administrator/Desktop/img/1.jpg" width="800px">
+> <img src="img/1.jpg" width="800px">
 
 ```c++
 vector<vector<int>> dirs = { {-1,0},{1,0},{0,-1},{0,1},{-1,-1},{-1,1},{1,-1},{1,1} };
@@ -1889,16 +1825,15 @@ void bfs(vector<vector<char>> &board, int row, int col){
 >
 > ```
 > 输入:
-> 1
-> /   \
+>    1
+>  /   \
 > 2     3
-> \
-> 5
+>  \
+>   5
 > 
 > 输出: ["1->2->5", "1->3"]
 > 
 > 解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
-> 
 > ```
 
 ```c++
@@ -1920,7 +1855,6 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
     if(root->right != nullptr)
         dfs(root->right, prefix + to_string(root->val) + "->", res);
 }
-
 ```
 
 <br>
@@ -1933,8 +1867,8 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 >
 > ```
 > 输入: [1,2,3]
-> 1
-> / \
+>   1
+>  / \
 > 2   3
 > 输出: 25
 > 解释:
@@ -1942,16 +1876,15 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 > 因此，数字总和 = 12 + 13 = 25.
 > 
 > 输入: [4,9,0,5,1]
->  4
-> / \
-> 9   0
+>     4
+>    / \
+>   9   0
 >  / \
 > 5   1
 > 输出: 1026
 > 解释:
 > 从根到叶子节点路径 4->9->5 代表数字 495.从根到叶子节点路径 4->9->1 代表数字 491.从根到叶子节点路径 4->0 代表数字 40.
 > 因此，数字总和 = 495 + 491 + 40 = 1026.
-> 
 > ```
 
 ```c++
@@ -1978,7 +1911,6 @@ bool dfs(TreeNode *root, long long prefix, long long &res){
         return true;
     return false;
 }
-
 ```
 
 <br>
@@ -1993,12 +1925,11 @@ bool dfs(TreeNode *root, long long prefix, long long &res){
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
-> 
-> 1            <---
-> /   \
+>    1            <---
+>  /   \
 > 2     3         <---
-> \     \
-> 5     4       <---
+>  \     \
+>   5     4       <---
 > 
 > ```
 
@@ -2022,7 +1953,6 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 }
 // 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
 // 注：树的前、中、后序遍历均是深度优先搜索
-
 ```
 
 <br>[leetcode.124 二叉树中的最大路径和 hard](https://leetcode-cn.com/problems/binary-tree-maximum-path-sum/)
@@ -2033,19 +1963,18 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 >
 > ```
 > 输入: [1,2,3]
->  1
-> / \
+>   1
+>  / \
 > 2   3
 > 输出: 6
 > 
 > 输入: [-10,9,20,null,null,15,7]
-> -10
-> / \
-> 9  20
-> /  \
+>    -10
+>    / \
+>   9  20
+>  /  \
 > 15   7
 > 输出: 42
-> 
 > ```
 
 ```c++
@@ -2067,7 +1996,6 @@ int dfs(TreeNode *root, int &maxSum){
     // 返回左、右子树路径和较大值 + 本节点的值，作为以root为根往下的最大单边路径和
     return max(leftSum, rightSum) + root->val;
 }
-
 ```
 
 <br>[剑指offer 机器人的运动范围](https://www.nowcoder.com/practice/6e5207314b5241fb83f2329e89fdecc8?tpId=13&tqId=11219&tPage=4&rp=4&ru=%2Fta%2Fcoding-interviews&qru=%2Fta%2Fcoding-interviews%2Fquestion-ranking)
@@ -2106,7 +2034,6 @@ int decbitsum(int i, int j){
     }
     return sum;
 }
-
 ```
 
 
@@ -2128,7 +2055,6 @@ int decbitsum(int i, int j){
 > ```
 > 输入："23"
 > 输出：["ad", "ae", "af", "bd", "be", "bf", "cd", "ce", "cf"].
-> 
 > ```
 
 ```c++
@@ -2153,7 +2079,6 @@ void backtracking(const string &digits, int idx, string &prefix, vector<string> 
         prefix.pop_back();      // 进行下次遍历前，将此次的影响消除
     }
 }
-
 ```
 
 <br>
@@ -2173,11 +2098,9 @@ void backtracking(const string &digits, int idx, string &prefix, vector<string> 
 > ['S','F','C','S'],
 > ['A','D','E','E']
 > ]
-> 
 > 给定 word = "ABCCED", 返回 true.
 > 给定 word = "SEE", 返回 true.
 > 给定 word = "ABCB", 返回 false.
-> 
 > ```
 
 ```c++
@@ -2216,7 +2139,6 @@ bool backtracking(vector<vector<char>> &board, const string &word, int idx, int 
     board[i][j] = c_backup; // 未搜索到，需要恢复(i,j)处的字母
     return false;
 }
-
 ```
 
 <br>
@@ -2230,7 +2152,6 @@ bool backtracking(vector<vector<char>> &board, const string &word, int idx, int 
 > ```
 > 输入: "25525511135"
 > 输出: ["255.255.11.135", "255.255.111.35"]
-> 
 > ```
 
 ```c++
@@ -2259,7 +2180,6 @@ bool isValid(string s){
     else	       // 只需数值<=255即可
         return stoi(s) <= 255;
 }
-
 ```
 
 <br>
@@ -2281,7 +2201,6 @@ bool isValid(string s){
 > [3,1,2],
 > [3,2,1]
 > ]
-> 
 > ```
 
 <img src="img/3.png" width="800px">
@@ -2303,7 +2222,6 @@ void permute(vector<vector<int>> &res, vector<int> &nums, int idx){
         swap(nums[i], nums[idx]);
     }
 }
-
 ```
 
 [leetcode.47 全排列II medium](https://leetcode-cn.com/problems/permutations-ii/)
@@ -2320,7 +2238,6 @@ void permute(vector<vector<int>> &res, vector<int> &nums, int idx){
 > [1,2,1],
 > [2,1,1]
 > ]
-> 
 > ```
 
 ```c++
@@ -2341,7 +2258,6 @@ void permute(set<vector<int>> &res, vector<int> &nums, int idx){
         swap(nums[i], nums[idx]);
     }
 }
-
 ```
 
 <br>
@@ -2362,7 +2278,6 @@ void permute(set<vector<int>> &res, vector<int> &nums, int idx){
 > [1,3],
 > [1,4],
 > ]
-> 
 > ```
 
 ```c++
@@ -2386,7 +2301,6 @@ void backtracking(const int &n, const int &k,
         nums.pop_back();
     }
 }
-
 ```
 
 <br>
@@ -2413,7 +2327,6 @@ void backtracking(const int &n, const int &k,
 > [2,3,3],
 > [3,5]
 > ]
-> 
 > ```
 
 ```c++
@@ -2437,7 +2350,6 @@ void backtracking(const vector<int> &cdd, int t, set<vector<int>> &res, vector<i
         nums.pop_back();
     }
 }
-
 ```
 
 <br>
@@ -2466,7 +2378,6 @@ void backtracking(const vector<int> &cdd, int t, set<vector<int>> &res, vector<i
 > [1,2,2],
 > [5]
 > ]
-> 
 > ```
 
 ```c++
@@ -2490,7 +2401,7 @@ void backtracking(const vector<int> &cdd, int t, set<vector<int>> &res, vector<i
         backtracking(cdd, t - cdd[i], res, nums, i + 1);    // 改动：下一层遍历从i+1开始
         nums.pop_back();
     }
-
+}
 ```
 
 <br>
@@ -2505,7 +2416,6 @@ void backtracking(const vector<int> &cdd, int t, set<vector<int>> &res, vector<i
 > 输入: nums = [1,2,3]
 > 输出:
 > [ [3], [1], [2], [1,2,3], [1,3], [2,3], [1,2], [] ]
-> 
 > ```
 
 ```c++
@@ -2524,7 +2434,6 @@ void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &s
         subset.pop_back();
     }
 }
-
 ```
 
 <br>
@@ -2546,7 +2455,6 @@ void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &s
 > [1,2],
 > []
 > ]
-> 
 > ```
 
 ```c++
@@ -2568,7 +2476,6 @@ void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &s
         subset.pop_back();
     }
 }
-
 ```
 
 <br>
@@ -2586,7 +2493,6 @@ void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &s
 > ["aa","b"],
 > ["a","a","b"]
 > ]
-> 
 > ```
 
 ```c++
@@ -2615,7 +2521,6 @@ bool isPalindrome(const string &s, int left, int right){
             return false;
     return true;
 }
-
 ```
 
 <br>
@@ -2692,7 +2597,6 @@ bool backtracking(vector<vector<char>> &board, int i, int j,
             }
     return false;
 }
-
 ```
 
 <br>
@@ -2720,7 +2624,6 @@ bool backtracking(vector<vector<char>> &board, int i, int j,
 > ((2*(3-4))*5) = -10 
 > (2*((3-4)*5)) = -10 
 > (((2*3)-4)*5) = 10
-> 
 > ```
 
 ```c++
@@ -2746,7 +2649,6 @@ vector<int> diffWaysToCompute(string s) {
 
     return res;
 }
-
 ```
 
 <br>
@@ -2772,7 +2674,6 @@ vector<int> diffWaysToCompute(string s) {
 > 
 > 输入: num = "3456237490", target = 9191
 > 输出: []
-> 
 > ```
 
 ```c++
@@ -2804,7 +2705,6 @@ void div_conq(string num, int target, long last, long cur, string out, vector<st
             div_conq(right, target, stoll(left), stoll(left), left, res);
     }
 }
-
 ```
 
 <br>
@@ -2829,7 +2729,6 @@ void div_conq(string num, int target, long last, long cur, string out, vector<st
 > 输入: 10
 > 输出: 36
 > 解释: 10 = 3 + 3 + 4, 3 × 3 × 4 = 36。
-> 
 > ```
 >
 > 说明: 你可以假设 n 不小于 2 且不大于 58。
@@ -2862,7 +2761,6 @@ int integerBreak(int n){
     }
     return res * n;
 }
-
 ```
 
 <br>
@@ -2881,7 +2779,6 @@ int integerBreak(int n){
 > 输入: n = 13
 > 输出: 2
 > 解释: 13 = 4 + 9.
-> 
 > ```
 
 ```c++
@@ -2911,7 +2808,6 @@ int numSquares(int n){
     }
     return 3;
 }
-
 ```
 
 ​	<br>
@@ -2936,7 +2832,6 @@ int numSquares(int n){
 > 输入: "226"
 > 输出: 3
 > 解释: 它可以解码为 "BZ" (2 26), "VF" (22 6), 或者 "BBF" (2 2 6) 
-> 
 > ```
 
 ```c++
@@ -2953,7 +2848,6 @@ int numDecodings(string s) {
     }
     return dp.back();
 }
-
 ```
 
 <br>
@@ -2981,7 +2875,6 @@ int numDecodings(string s) {
 > 
 > 输入: m = 7, n = 3
 > 输出: 28
-> 
 > ```
 
 ```c++
@@ -3003,7 +2896,6 @@ int uniquePaths(int m, int n){
             dp[col] = dp[col - 1] + dp[col];
     return dp.back();
 }
-
 ```
 
 <br>
@@ -3029,7 +2921,6 @@ int uniquePaths(int m, int n){
 > 从左上角到右下角一共有 2 条不同的路径：
 > 向右 -> 向右 -> 向下 -> 向下
 > 向下 -> 向下 -> 向右 -> 向右
-> 
 > ```
 
 ```c++
@@ -3054,10 +2945,7 @@ int uniquePathsWithObstacles(vector<vector<int>>& obs) {
 
     return dp.back() > INT_MAX ? INT_MAX : dp.back();
 }
-
 ```
-
-
 
 <br>
 
@@ -3078,7 +2966,6 @@ int uniquePathsWithObstacles(vector<vector<int>>& obs) {
 > ]
 > 输出: 7
 > 解释: 因为路径 1→3→1→1→1 的总和最小。
-> 
 > ```
 
 ```c++
@@ -3098,7 +2985,6 @@ int minPathSum(vector<vector<int>>& grid) {
     }
     return grid.back().back();
 }
-
 ```
 
 <br>
@@ -3124,7 +3010,6 @@ int minPathSum(vector<vector<int>>& grid) {
 > 1 阶 + 1 阶 + 1 阶
 > 1 阶 + 2 阶
 > 2 阶 + 1 阶
-> 
 > ```
 
 ```c++
@@ -3150,7 +3035,6 @@ int climbStairs(int n){
     }
     return last;
 }
-
 ```
 
 <br>
@@ -3171,7 +3055,6 @@ int jumpFloorII(int n) {
       	res *= 2;
     return res;
 }
-
 ```
 
 <br>
@@ -3194,7 +3077,6 @@ int jumpFloorII(int n) {
 > 输入: cost = [1, 100, 1, 1, 1, 100, 1, 1, 100, 1]
 > 输出: 6
 > 解释: 最低花费方式是从cost[0]开始，逐个经过那些1，跳过cost[3]，一共花费6。
-> 
 > ```
 >
 > 注意：cost 的长度将会在 [2, 1000]。每一个 cost[i] 将会是一个Integer类型，范围为 [0, 999]。
@@ -3208,7 +3090,6 @@ int minCostClimbingStairs(vector<int>& cost) {
         dp[i] = min(dp[i - 1] + cost[i - 1], dp[i - 2] + cost[i - 2]);
     return dp.back();
 }
-
 ```
 
 <br>
@@ -3225,13 +3106,12 @@ int minCostClimbingStairs(vector<int>& cost) {
 > 输入: [1,2,3,1]
 > 输出: 4
 > 解释: 偷窃 1 号房屋 (金额 = 1) ，然后偷窃 3 号房屋 (金额 = 3)。
->   偷窃到的最高金额 = 1 + 3 = 4 。
+> 偷窃到的最高金额 = 1 + 3 = 4 。
 > 
 > 输入: [2,7,9,3,1]
 > 输出: 12
 > 解释: 偷窃 1 号房屋 (金额 = 2), 偷窃 3 号房屋 (金额 = 9)，接着偷窃 5 号房屋 (金额 = 1)。
->   偷窃到的最高金额 = 2 + 9 + 1 = 12 。
-> 
+> 偷窃到的最高金额 = 2 + 9 + 1 = 12 。
 > ```
 
 ```c++
@@ -3260,7 +3140,6 @@ int rob(vector<int> &nums){
     }
     return last;
 }
-
 ```
 
 <br>
@@ -3281,8 +3160,7 @@ int rob(vector<int> &nums){
 > 输入: [1,2,3,1]
 > 输出: 4
 > 解释: 你可以先偷窃 1 号房屋（金额 = 1），然后偷窃 3 号房屋（金额 = 3）。
->   偷窃到的最高金额 = 1 + 3 = 4 。
-> 
+> 偷窃到的最高金额 = 1 + 3 = 4 。
 > ```
 
 ```c++
@@ -3304,7 +3182,6 @@ int rob(const vector<int> &nums, int left, int right){
     }
     return last;
 }
-
 ```
 
 <br>
@@ -3323,7 +3200,6 @@ int rob(const vector<int> &nums, int left, int right){
 > 输入: [10,9,2,5,3,7,101,18]
 > 输出: 4 
 > 解释: 最长的上升子序列是 [2,3,7,101]，它的长度是 4。
-> 
 > ```
 >
 > 说明: 可能会有多种最长上升子序列的组合，你只需要输出对应的长度即可。你算法的时间复杂度应该为 O(n2) 
@@ -3331,6 +3207,7 @@ int rob(const vector<int> &nums, int left, int right){
 
 ```c++
 // dp[i] = max(dp[k] + 1)  s.t. k < i && nums[k] < nums[i]
+// dp[i] 表示以nums[i]结尾的最长递增子序列，nums[i]必然包含在子序列中
 int lengthOfLIS(vector<int>& nums) {
     if(nums.size() <= 1)
         return nums.empty() ? 0 : 1;
@@ -3341,7 +3218,6 @@ int lengthOfLIS(vector<int>& nums) {
                 dp[i] = max(dp[i], dp[k] + 1);
     return *max_element(dp.begin(), dp.end());       // 这里需要注意，最大长度不一定出现在dp.back()
 }
-
 
 // 没明白原理的二分法，建立一个vector<int> ends = {nums[0]};
 // 遍历nums, 如果num<ends.front(), 直接替换；如果num>ends.back()，直接压入（非替换）
@@ -3369,7 +3245,6 @@ int lengthOfLIS(vector<int> &nums){
         }
     return ends.size();
 }
-
 ```
 
 <br>
@@ -3395,21 +3270,66 @@ int lengthOfLIS(vector<int> &nums){
 > 
 > 输入: [1,2,3,4,5,6,7,8,9]
 > 输出: 2
-> 
 > ```
 >
 > 进阶:
 > 你能否用 O(n) 时间复杂度完成此题?
 
 ```c++
+int wiggleMaxLength(vector<int>& nums) {
+    if(nums.size() <= 1)
+        return nums.size();
+
+    vector<int> p(nums.size(), 1);  // p[i] 表示 nums[0...i] 中首先往上摆的最长子序列长度
+    vector<int> q(nums.size(), 1);  // q[i] 表示 nums[0...i] 中首先往下摆的最长子序列长度
+    for(int i = 1; i < nums.size(); ++i)
+        for(int j = 0; j < i; ++j)
+            if(nums[i] > nums[j])           // nums[i] 相比于 nums[j] 向上摆
+                p[i] = max(p[i], q[j] + 1); // q[j]是往下摆，因此下一次就往上摆到达到达nums[j]
+    else if(nums[i] < nums[j])      // nums[i] 相比于 nums[j] 向下摆
+        q[i] = max(q[i], p[j] + 1);
+    return max(q.back(), p.back());
+}
+
+// O(n)，使用贪心思想，用p,q来记录上述两个状态，一遍遍历即可(不知道为什么可以一遍遍历)
+int wiggleMaxLength(vector<int> &nums){
+    if(nums.size() <= 1)
+        return nums.size();
+
+    int p = 1, q = 1;
+    for(int i = 1; i < nums.size(); ++i)
+        if(nums[i] > nums[i - 1])       // 往上摆
+            p = q + 1;
+    else if(nums[i] < nums[i - 1])  // 往下摆
+        q = p + 1;
+    return max(p, q);
+}
+```
+
+[leetcode.718 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+
+> 给两个整数数组 A 和 B ，返回两个数组中公共的、长度最长的子数组的长度。
+>
+> 示例 :
+>
+> ```
+> 输入:
+> A: [1,2,3,2,1]
+> B: [3,2,1,4,7]
+> 
+> 输出: 3
+> 解释: 长度最长的公共子数组是 [3, 2, 1]。
+> ```
+>
+> 说明: 1 <= len(A), len(B) <= 1000，0 <= A[i], B[i] < 100
+
+```c++
 
 ```
 
+[最长公共子数组]
 
-
-
-
-
+> 此题和leetcode.718的区别：718最长重复子数组需要时连续的，本题中的子数组可以不用连续
 
 
 
@@ -3427,7 +3347,6 @@ int lengthOfLIS(vector<int> &nums){
 > 输入: [-2,1,-3,4,-1,2,1,-5,4],
 > 输出: 6
 > 解释: 连续子数组 [4,-1,2,1] 的和最大，为 6。
-> 
 > ```
 
 ```c++
@@ -3445,7 +3364,6 @@ int lengthOfLIS(vector<int> &nums){
 > ```
 > 输入:nums = [1,1,1], k = 2
 > 输出: 2 , [1,1] 与 [1,1] 为两种不同的情况。
-> 
 > ```
 >
 > 说明 : 数组的长度为 [1, 20,000]。数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。
@@ -3470,7 +3388,6 @@ int lengthOfLIS(vector<int> &nums){
 > 输入: [23,2,6,4,7], k = 6
 > 输出: True
 > 解释: [23,2,6,4,7]是大小为 5 的子数组，并且和为 42。
-> 
 > ```
 >
 > 说明: 数组的长度不会超过10,000。你可以认为所有数字总和在 32 位有符号整数范围内。
@@ -3501,7 +3418,6 @@ int lengthOfLIS(vector<int> &nums){
 > 输入：[3,-1,2,-1]
 > 输出：4
 > 解释：从子数组 [2,-1,3] 得到最大和 2 + (-1) + 3 = 4
-> 
 > ```
 
 ```c++
@@ -3509,6 +3425,31 @@ int lengthOfLIS(vector<int> &nums){
 ```
 
 <br>
+
+[leetcode.152 乘积最大子序列](https://leetcode-cn.com/problems/maximum-product-subarray/)
+
+> 给定一个整数数组 nums ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。
+>
+> 示例 :
+>
+> ```
+> 输入: [2,3,-2,4]
+> 输出: 6
+> 解释: 子数组 [2,3] 有最大乘积 6。
+> 示例 2:
+> 
+> 输入: [-2,0,-1]
+> 输出: 0
+> 解释: 结果不能为 2, 因为 [-2,-1] 不是子数组。
+> ```
+
+```c++
+
+```
+
+<br>
+
+TODO: dfs
 
 [leetcode.491 递增子序列 medium](https://leetcode-cn.com/problems/increasing-subsequences/)
 
@@ -3519,7 +3460,6 @@ int lengthOfLIS(vector<int> &nums){
 > ```
 > 输入: [4, 6, 7, 7]
 > 输出: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
-> 
 > ```
 >
 > 说明: 给定数组的长度不会超过15。数组中的整数范围是 [-100,100]。给定数组中可能包含重复数字，相等的数字应该被视为递增的一种情况。
@@ -3545,7 +3485,6 @@ int lengthOfLIS(vector<int> &nums){
 > [1,0,1,0,1]
 > [1,0,1,0,1]
 > [1,0,1,0,1]
-> 
 > ```
 >
 > 提示：A.length <= 30000，0 <= S <= A.length，A[i] 为 0 或 1
@@ -3644,13 +3583,11 @@ int lengthOfLIS(vector<int> &nums){
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
-> 
-> 1            <---
-> /   \
+>    1            <---
+>  /   \
 > 2     3         <---
-> \     \
-> 5     4       <---
-> 
+>  \     \
+>   5     4       <---
 > ```
 
 ```c++
@@ -3673,6 +3610,5 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 }
 
 // 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
-
 ```
 
