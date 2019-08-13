@@ -1293,6 +1293,47 @@ string findLongestWord(string str, vector<string>& vs) {
 
 <br>
 
+[leetcode.713 乘积小于K的子数组 medium](https://leetcode-cn.com/problems/subarray-product-less-than-k/)
+
+> 给定一个正整数数组 nums。
+>
+> 找出该数组内乘积小于 k 的连续的子数组的个数。
+>
+> 示例 :
+>
+> ```
+> 输入: nums = [10,5,2,6], k = 100
+> 输出: 8
+> 解释: 8个乘积小于100的子数组分别为: [10], [5], [2], [6], [10,5], [5,2], [2,6], [5,2,6]。
+> 需要注意的是 [10,5,2] 并不是乘积小于100的子数组。
+> ```
+>
+> 说明: 0 < nums.length <= 50000, 0 < nums[i] < 1000, 0 <= k < 10^6
+
+```c++
+// 思路：由于nums中全都是正数，因此可以使用双指针
+int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+    if(nums.empty() || k == 0)
+        return 0;
+
+    int prod = 1;
+    int left = 0, right = 0;
+    int cnt = 0;
+    while(right < nums.size()){
+        prod *= nums[right];
+        while(left <= right && prod >= k){
+            prod /= nums[left];
+            ++left;
+        }
+        cnt += prod < k ? right - left + 1 : 0;
+        ++right;
+    }
+    return cnt;
+}
+```
+
+<br>
+
 ## 搜索
 
 广度优先搜索BFS、深度优先搜索DFS是最长用的两种搜索方法，广泛应用在图、二维数组、树的搜索和遍历中。它们最本质的区别：<font color="red">**BSF是先入先出的遍历过程，DFS是先入后出的遍历过程**</font>；因此，在搜索过程中，<font color="red">**BFS一般借助于队列，DFS一般借助于栈**</font>，这一点要非常明确！
@@ -1305,10 +1346,10 @@ string findLongestWord(string str, vector<string>& vs) {
 >
 > ```
 > 给定二叉树: [3,9,20,null,null,15,7],
->     3
->    / \
->   9  20
->  /  \
+>  3
+> / \
+> 9  20
+> /  \
 > 15   7
 > 层次遍历结果为：[[3], [9,20], [15,7]]
 > ```
@@ -1368,11 +1409,11 @@ vector<int> levelOrder(TreeNode* root) {
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > ```
 
 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
@@ -1384,10 +1425,10 @@ vector<int> levelOrder(TreeNode* root) {
 > 给定一个二叉树，检查它是否是镜像对称的。
 >
 > ```
->     1
->    / \
->   2   2
->  / \ / \
+>  1
+> / \
+> 2   2
+> / \ / \
 > 3  4 4  3
 > ```
 
@@ -1825,11 +1866,11 @@ void bfs(vector<vector<char>> &board, int row, int col){
 >
 > ```
 > 输入:
->    1
->  /   \
+> 1
+> /   \
 > 2     3
->  \
->   5
+> \
+> 5
 > 
 > 输出: ["1->2->5", "1->3"]
 > 
@@ -1867,8 +1908,8 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 >
 > ```
 > 输入: [1,2,3]
->   1
->  / \
+> 1
+> / \
 > 2   3
 > 输出: 25
 > 解释:
@@ -1876,9 +1917,9 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 > 因此，数字总和 = 12 + 13 = 25.
 > 
 > 输入: [4,9,0,5,1]
->     4
->    / \
->   9   0
+>  4
+> / \
+> 9   0
 >  / \
 > 5   1
 > 输出: 1026
@@ -1925,11 +1966,11 @@ bool dfs(TreeNode *root, long long prefix, long long &res){
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > 
 > ```
 
@@ -1963,16 +2004,16 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 >
 > ```
 > 输入: [1,2,3]
->   1
->  / \
+> 1
+> / \
 > 2   3
 > 输出: 6
 > 
 > 输入: [-10,9,20,null,null,15,7]
->    -10
->    / \
->   9  20
->  /  \
+> -10
+> / \
+> 9  20
+> /  \
 > 15   7
 > 输出: 42
 > ```
@@ -3188,7 +3229,7 @@ int rob(const vector<int> &nums, int left, int right){
 
 ### 子序列问题
 
-注：子序列问题区别于后面的子区间问题：子序列是从原序列中提取满足某条件的数，这些数不一定相邻；而子区间问题则必须满足响铃（形成一个不间断的区间）。
+注：子序列问题区别于后面的子区间问题：子序列是从原序列中提取满足某条件的数，这些数不一定相邻；而子区间问题则必须满足相邻（形成一个不间断的区间）。
 
 [leetcode. 300 最长上升子序列 medium](https://leetcode-cn.com/problems/longest-increasing-subsequence/)
 
@@ -3306,7 +3347,7 @@ int wiggleMaxLength(vector<int> &nums){
 }
 ```
 
-[最长公共子序列]
+**最长公共子序列**
 
 > 对于两个子序列 S1 和 S2，找出它们最长的公共子序列。子序列可以是不连续的
 
@@ -3315,8 +3356,8 @@ int wiggleMaxLength(vector<int> &nums){
 // S1[i] == S2[j], 则dp[i][j] = dp[i - 1][j - 1] + 1
 // S1[i] != S2[j], dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
 int maxCommonLength(const string &s1, const string &s2){
-  	if(s1.empty() || s2.empty())
-      	return 0;
+    if(s1.empty() || s2.empty())
+        return 0;
   	
     vector<vector<int> > dp(s1.size() + 1, vector<int>(s2.size() + 1, 0));
     for(int i = 1; i <= s1.size(); ++i)
@@ -3325,13 +3366,33 @@ int maxCommonLength(const string &s1, const string &s2){
           			dp[i][j] = dp[i - 1][j - 1] + 1;
         		else
           			dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+    
     return dp.back().back();
+}
+
+// 优化空间
+int minDistance(const string &s1, const string &s2){
+    if(s1.empty() || word2.s2())
+        return 0;
+
+    vector<int> dp(s2.size() + 1, 0);
+    vector<int> last_dp(s2.size() + 1, 0);
+    for(int i = 1; i <= s1.size(); ++i){
+        for(int j = 1; j <= s2.size(); ++j)
+            if(s1[i - 1] == s2[j - 1])
+                dp[j] = last_dp[j - 1] + 1;	// dp[i - 1][j - 1]可能已被更新掉，因此用last_dp保存状态
+            else
+                dp[j] = max(dp[j - 1], dp[j]);
+        last_dp = dp;
+    }
+
+    return dp.back();
 }
 ```
 
 <br>
 
-[leetcode.583 两个字符串的删除操作](https://leetcode-cn.com/problems/delete-operation-for-two-strings/submissions/)
+[leetcode.583 两个字符串的删除操作 medium](https://leetcode-cn.com/problems/delete-operation-for-two-strings/submissions/)
 
 > 给定两个单词 word1 和 word2，找到使得 word1 和 word2 相同所需的最小步数，每步可以删除任意一个字符串中的一个字符。
 >
@@ -3362,13 +3423,142 @@ int minDistance(string word1, string word2) {
 
     return word1.size() + word2.size() - 2 * dp.back().back();
 }
+
+// 优化空间同上一题
+```
+
+<br>
+
+[leetcode. 712 两个字符串的最小ASCII删除和 medium](https://leetcode-cn.com/problems/minimum-ascii-delete-sum-for-two-strings/)
+
+> 给定两个字符串s1, s2，找到使两个字符串相等所需删除字符的ASCII值的最小和。
+>
+> 示例 :
+>
+> ```
+> 输入: s1 = "sea", s2 = "eat"
+> 输出: 231
+> 解释: 在 "sea" 中删除 "s" 并将 "s" 的值(115)加入总和。在 "eat" 中删除 "t" 并将 116 加入总和。结束时，两个字符串相等，115 + 116 = 231 就是符合条件的最小和。
+> 
+> 输入: s1 = "delete", s2 = "leet"
+> 输出: 403
+> 解释: 在 "delete" 中删除 "dee" 字符串变成 "let"，将 100[d]+101[e]+101[e] 加入总和。在 "leet" 中删除 "e" 将 101[e] 加入总和。结束时，两个字符串都等于 "let"，结果即为 100+101+101+101 = 403 。如果改为将两个字符串转换为 "lee" 或 "eet"，我们会得到 433 或 417 的结果，比答案更大。
+> ```
+>
+> 注意: 0 < s1.length, s2.length <= 1000。所有字符串中的字符ASCII值在[97, 122]之间。
+
+```c++
+// dp[i][j] - s1前i项和s2前j项的最小ASCII删除和，分两种情况
+// s1[i] == s2[j], 不用删除，则dp[i][j] = dp[i - 1][j - 1]
+// s1[i] != s2[j], 需要删除，可以删除s1[i],也可以删除s2[j]
+//      看删除后哪个更小 => dp[i][j] = min(s1[i] + dp[i - 1][j], s2[j] + dp[i][j - 1])
+int minimumDeleteSum(string s1, string s2) {
+    vector<vector<int>> dp(s1.size() + 1, vector<int>(s2.size() + 1, 0));
+
+    // 第一行，dp[0][j], 表示s2前j个字母变为空字符的ASCII数。第一列同理
+    for(int j = 1; j <= s2.size(); ++j)
+        dp[0][j] = dp[0][j - 1] + int(s2[j - 1]);
+    for(int i = 1; i <= s1.size(); ++i)
+        dp[i][0] = dp[i - 1][0] + int(s1[i - 1]);
+
+    for(int i = 1; i <= s1.size(); ++i)
+        for(int j = 1; j <= s2.size(); ++j)
+            if(s1[i - 1] == s2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1];
+            else
+                dp[i][j] = min(dp[i - 1][j] + s1[i - 1], dp[i][j - 1] + s2[j - 1]);
+    
+    return dp.back().back();
+}
+
+// 优化空间
+int minimumDeleteSum(string s1, string s2){
+    vector<int> dp(s2.size() + 1, 0);
+    vector<int> last_dp(s2.size() + 1, 0);
+
+    for(int j = 1; j <= s2.size(); ++j)
+        dp[j] = dp[j - 1] + int(s2[j - 1]);
+    last_dp = dp;
+
+    for(int i = 1; i <= s1.size(); ++i){
+        dp[0] = dp[0] + int(s1[i - 1]);
+        for(int j = 1; j <= s2.size(); ++j)
+            if(s1[i - 1] == s2[j - 1])
+                dp[j] = last_dp[j - 1]; // 只有这里需要用上一次的状态（即二维dp时该处的左上角）
+        else
+            dp[j] = min(dp[j] + int(s1[i - 1]), dp[j - 1] + int(s2[j - 1]));
+        last_dp = dp;
+    }
+
+    return dp.back();
+}
+```
+
+<br>
+
+[leetcode.72 编辑距离](https://leetcode-cn.com/problems/edit-distance/)
+
+> 给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。
+>
+> 你可以对一个单词进行如下三种操作：插入一个字符，删除一个字符，替换一个字符
+> 示例 :
+>
+> ```
+> 输入: word1 = "horse", word2 = "ros"
+> 输出: 3
+> 解释: 
+> horse -> rorse (将 'h' 替换为 'r')
+> rorse -> rose (删除 'r')
+> rose -> ros (删除 'e')
+> 
+> 输入: word1 = "intention", word2 = "execution"
+> 输出: 5
+> 解释: 
+> intention -> inention (删除 't')
+> inention -> enention (将 'i' 替换为 'e')
+> enention -> exention (将 'n' 替换为 'x')
+> exention -> exection (将 'n' 替换为 'c')
+> exection -> execution (插入 'u')
+> ```
+
+```c++
+//   ∅ a b c d		当 s1[i] != s2[j]时，分三种情况可以从s1->s2
+// ∅ 0 1 2 3 4			操作a. s1[i]处插入字符s[j]使之相等，则比较s1[i + 1], s2[j]即可
+// b 1 1 1 2 3			操作b. s1[i]处的字符删除，直接比较s1[i],s1[j + 1]即可
+// b 2 2 1 2 3			操作c. s1[i]处的字符变为s[j]处的字符，则比较s1[i + 1], s2[j + 1]即可
+// c 3 3 2 1 2		☆这三种操作分别对应的 dp[i][j] 的左侧、上侧、左上侧 + 1，看哪种操作更少
+// 
+// 对比[最长公共子序列]问题，该问题和本问题类似。区别在于：
+// [最长公共子序列]：
+// 		允许操作a,b(删除)，不允许c(修改), 对应的是 dp[i][j] 的左侧、上侧 + 1， 而没有左上侧 + 1
+// [编辑距离]：
+//		允许操作a,b,c，因此是左侧、上侧、左上侧 + 1, 并看哪种更少
+int minDistance(string s1, string s2) {
+    vector<vector<int>> dp(s1.size() + 1, vector<int>(s2.size() + 1, 0));
+
+    for(int j = 1; j <= s2.size(); ++j)
+        dp[0][j] = j;
+    for(int i = 1; i <= s1.size(); ++i)
+        dp[i][0] = i;
+
+    for(int i = 1; i <= s1.size(); ++i)
+        for(int j = 1; j <= s2.size(); ++j)
+            if(s1[i - 1] == s2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1];
+    else
+        dp[i][j] = min(dp[i - 1][j - 1], min(dp[i - 1][j], dp[i][j - 1])) + 1;
+
+    return dp.back().back();
+}
+
+// 优化空间，同前面几个题
 ```
 
 <br>
 
 ### 子区间问题
 
-[leetcode.718 最长重复子数组](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
+[leetcode.718 最长重复子数组 medium](https://leetcode-cn.com/problems/maximum-length-of-repeated-subarray/)
 
 注：区别于上一个题的最长公共子序列（子序列不需要连续），本题最长重复子数组需要自数组连续
 
@@ -3409,8 +3599,8 @@ int findLength(vector<int> &A, vector<int> &B){
     vector<int> dp(B.size() + 1, 0);
     int maxLen = 0;
     for(int i = 1; i <= A.size(); ++i)
-        for(int j = B.size(); j >= 1; --j)  // 注意，这里必须从后往前便利
-            if(A[i - 1] == B[j - 1]){       //   ⬇️  
+        for(int j = B.size(); j >= 1; --j)  // 注意，这里必须从后往前遍历
+            if(A[i - 1] == B[j - 1]){       //   ↓
                 dp[j] = dp[j - 1] + 1;      // dp[j]需要使用前一个，前一个却可能已经更新过了
                 maxLen = max(maxLen, dp[j]);
             }else
@@ -3421,7 +3611,7 @@ int findLength(vector<int> &A, vector<int> &B){
 
 <br>
 
-[leetcode. 53 最大子序和](https://leetcode-cn.com/problems/maximum-subarray/)
+[leetcode. 53 最大子序和 easy](https://leetcode-cn.com/problems/maximum-subarray/)
 
 > 给定一个整数数组 nums ，找到一个具有最大和的连续子数组（子数组最少包含一个元素），返回其最大和。
 >
@@ -3434,7 +3624,173 @@ int findLength(vector<int> &A, vector<int> &B){
 > ```
 
 ```c++
+// 思路：使用curSum,maxSum记录当前区间、最大区间和
+int maxSubArray(vector<int>& nums) {
+    if(nums.empty())
+        return 0;
+    int maxSum = INT_MIN;
+    int curSum = 0;
+    for(const auto &num:nums){			// curSum + num < num 时，说明curSum对区间和为负增益效果
+        curSum = max(num, curSum + num); // 因此直接让num为当前的区间（区间内只含一个数）
+        maxSum = max(curSum, maxSum);
+    }
+    return maxSum;
+}
+```
 
+<br>
+
+[leetcode. 918 环形子数组的最大和 medium](https://leetcode-cn.com/problems/maximum-sum-circular-subarray/)
+
+> 给定一个由整数数组 A 表示的环形数组 C，求 C 的非空子数组的最大可能和。在此处，环形数组意味着数组的末端将会与开头相连呈环状。（形式上，当0 <= i < A.length 时 C[i] = A[i]，而当 i >= 0 时 C[i+A.length] = C[i]）。此外，子数组最多只能包含固定缓冲区 A 中的每个元素一次。（形式上，对于子数组 C[i], C[i+1], ..., C[j]，不存在 i <= k1, k2 <= j 其中 k1 % A.length = k2 % A.length）
+>
+> 示例 1：
+>
+> ```
+> 输入：[1,-2,3,-2]
+> 输出：3
+> 解释：从子数组 [3] 得到最大和 3
+> 示例 2：
+> 
+> 输入：[5,-3,5]
+> 输出：10
+> 解释：从子数组 [5,5] 得到最大和 5 + 5 = 10
+> 示例 3：
+> 
+> 输入：[3,-1,2,-1]
+> 输出：4
+> 解释：从子数组 [2,-1,3] 得到最大和 2 + (-1) + 3 = 4
+> ```
+
+```c++
+// 思路：与leetcode.53最大子序和类似，区别在于53求的是i~j, 本题可以为i~j, 也可以为0~i + j~n
+// 对于 i~j 的情况：直接沿用leetcode.53中的解法
+// 对于 0~i + j~n 的情况：可以求最小子序和, sum-最小子序和即为环形子数组的最大和
+// 判断两种情况谁的结果更大即可
+int maxSubarraySumCircular(vector<int>& A) {
+    if(A.empty())
+        return 0;
+
+    // i~j 的情况
+    int maxSum = INT_MIN;
+    int curSum = 0;
+    bool all_minus = true;
+    for(const auto &num:A){
+        curSum = max(num, curSum + num);
+        maxSum = max(curSum, maxSum);
+        if(num > 0)
+            all_minus = false;
+    }
+    if(all_minus == true)	// 对于所有数均为负数时，minSum == sum
+        return maxSum;		// 此时sum - minSum必然为0, 因此需要返回A中最大值, 即maxSum
+
+    // 0~i + j~n 的情况
+    int sum = 0;            // 保存A的所有元素和
+    int minSum = INT_MAX;
+    curSum = 0;
+    for(const auto &num:A){
+        curSum = min(num, curSum + num);
+        minSum = min(curSum, minSum);
+        sum += num;
+    }
+
+    return max(maxSum, sum - minSum);	// 取
+}
+```
+
+<br>
+
+[leetcode. 413 等差数列划分 medium](https://leetcode-cn.com/problems/arithmetic-slices/)
+
+> 如果一个数列至少有三个元素，并且任意两个相邻元素之差相同，则称该数列为等差数列。例如：
+>
+> 以下数列为等差数列: 1, 3, 5, 7, 9     7, 7, 7, 7        3, -1, -5, -9
+>
+> 以下数列不是等差数列：1, 1, 2, 5, 7
+>
+> 数组 A 包含 N 个数，且索引从0开始。数组 A 的一个子数组划分为数组 (P, Q)，P 与 Q 是整数且满足 0<=P<Q<N 。如果满足以下条件，则称子数组(P, Q)为等差数组：元素 A[P], A[p + 1], ..., A[Q - 1], A[Q] 是等差的。并且 P + 1 < Q 。函数要返回数组 A 中所有为等差数组的子数组个数。
+>
+> 示例:
+>
+> ```
+> A = [1, 2, 3, 4]
+> 返回: 3
+> 解释：A 中有三个子等差数组: [1, 2, 3], [2, 3, 4] 以及自身 [1, 2, 3, 4]。
+> ```
+
+```c++ 
+// 思路：dp[i] - A[i]结尾的子区间的数量（注意，A[i]）
+// 因此，A[i] - A[i - 1] == A[i - 1] - A[i - 2], 则dp[i] = dp[i - 1] + 1
+// 0 1 2 3 4 5 9 10
+// dp[2] = 1, 等差数列为 0 1 2
+// dp[3] = 2, 等差数列为 1 2 3, 0 1 2 3
+// dp[4] = 3, 登差数列为 2 3 4, 1 2 3 4, 0 1 2 3 4
+// dp[5] = 4, 等差数列为 3 4 5, 2 3 4 5, 1 2 3 4 5, 0 1 2 3 4 5
+// dp[6] = dp[7] = 0
+int numberOfArithmeticSlices(vector<int>& A) {
+    if(A.size() <= 2)
+        return 0;
+
+    vector<int> dp(A.size(), 0);
+    for(int i = 2; i < A.size(); ++i)
+        if(A[i] - A[i - 1] == A[i - 1] - A[i - 2])
+            dp[i] = dp[i - 1] + 1;
+
+    return accumulate(dp.begin(), dp.end(), 0);
+}
+
+// 优化空间
+int numberOfArithmeticSlices(vector<int> &A){
+    if(A.size() <= 2)
+        return 0;
+
+    int dp = 0, sum = 0;
+    for(int i = 2; i < A.size(); ++i)
+        if(A[i] - A[i - 1] == A[i - 1] - A[i - 2])
+            dp += 1, sum += dp;
+    else
+        dp = 0;
+
+    return sum;
+}
+```
+
+<br>
+
+[leetcode. 303 区域和检索 - 数组不可变 easy](https://leetcode-cn.com/problems/range-sum-query-immutable/)
+
+> 给定一个整数数组  nums，求出数组从索引 i 到 j  (i ≤ j) 范围内元素的总和，包含 i,  j 两点。
+>
+> 示例：
+>
+> ```
+> 给定 nums = [-2, 0, 3, -5, 2, -1]，求和函数为 sumRange()
+> 
+> sumRange(0, 2) -> 1
+> sumRange(2, 5) -> -1
+> sumRange(0, 5) -> -3
+> ```
+>
+> 说明: 你可以假设数组不可变。会多次调用 sumRange 方法。
+
+```c++
+// 思路：sums保存累加和，则区间[i...j]的和为sums[j] - sums[i - 1] (包含i在内)
+class NumArray {
+private:
+    vector<int> sums;
+public:
+    NumArray(vector<int>& nums) {
+        int sum = 0;
+        for(auto num:nums){
+            sum += num;
+            sums.push_back(sum);
+        }
+    }
+    
+    int sumRange(int i, int j) {
+        return i == 0 ? sums[j] : sums[j] - sums[i - 1];
+    }
+};
 ```
 
 <br>
@@ -3453,7 +3809,26 @@ int findLength(vector<int> &A, vector<int> &B){
 > 说明 : 数组的长度为 [1, 20,000]。数组中元素的范围是 [-1000, 1000] ，且整数 k 的范围是 [-1e7, 1e7]。
 
 ```c++
+// 思路：受leetcode.303启发, 建立累加数组sums, 其中sums[i] = nums[0] + ... + nums[i]
+// 则区间(i, j]的和为sums[j] - sums[i]. 为使(i, j]区间和为 target, 问题转化为:
+// 在区间和sums[0] ··· sums[j - 1]中，是否存在k使得sums[j]-sums[k]为target，存在多少个?
+// 为提高效率，使用哈希表ordered_map保存sum出现的次数
+int subarraySum(vector<int>& nums, int target) {
+    if(nums.empty())
+        return 0;
 
+    unordered_map<int, int> map;
+    map[0] = 1;                             // 这里map[0]=1是为了保证区间[0, i]也能计算
+    int cur_sum = 0, cnt = 0;               // ↓    举个栗子，比如对 nums = 2,3,10  target = 5
+    for(int i = 0; i < nums.size(); ++i){   // ↓    如果不加入map[0] = 2, 则遍历到3时:
+        cur_sum += nums[i];                 // ↓    sum = 5, map = { 2:1 }, cur_sum - target = 0
+        if(map.count(cur_sum - target) > 0) // ↓    此时map中没有0这一项, 没法统计 2 + 3 这一项
+            cnt += map[cur_sum - target];   // 这里
+        ++map[cur_sum];
+    }
+
+    return cnt;
+}
 ```
 
 <br>
@@ -3477,40 +3852,35 @@ int findLength(vector<int> &A, vector<int> &B){
 > 说明: 数组的长度不会超过10,000。你可以认为所有数字总和在 32 位有符号整数范围内。
 
 ```c++
+// 思路：和leetcode.560思路相同，使用累加和，需要改动一些地方
+// 改动1. 对累加和 % target. 在这样的情况下假设区间 [i, j] 的和为target的倍数
+//        则有：sums[i] + n * target = sums[j]  => sums[j] % sums[j] = sums[i] % target
+//        即当出现两个累加和相同时，则可确定存在区间和为target的倍数
+// 改动2. 为了保证区间长度 > 1, 可用unordered_map保存每个累加和第一次出现的位置
+bool checkSubarraySum(vector<int>& nums, int target) {
+    if(nums.size() <= 1)
+        return false;
 
+    unordered_map<int, int> map;
+    map[0] = -1;
+    int cur_sum = 0;
+    for(int i = 0; i < nums.size(); ++i){
+        cur_sum += nums[i];         // 累加和
+        if(target != 0)
+            cur_sum %= target;      // 改动1, 让区间和为0 ... target - 1
+        if(map.count(cur_sum) > 0){ // 存在该累加和
+            if(i - map[cur_sum] > 1)// 且区间长度 > 1
+                return true;
+        }else
+            map[cur_sum] = i;       // 改动2. 保存第一个出现该累加和的位置
+    }
+    return false;
+}
 ```
 
 <br>
 
-[leetcode. 918 环形子数组的最大和](https://leetcode-cn.com/problems/maximum-sum-circular-subarray/)
-
-> 给定一个由整数数组 A 表示的环形数组 C，求 C 的非空子数组的最大可能和。在此处，环形数组意味着数组的末端将会与开头相连呈环状。（形式上，当0 <= i < A.length 时 C[i] = A[i]，而当 i >= 0 时 C[i+A.length] = C[i]）。此外，子数组最多只能包含固定缓冲区 A 中的每个元素一次。（形式上，对于子数组 C[i], C[i+1], ..., C[j]，不存在 i <= k1, k2 <= j 其中 k1 % A.length = k2 % A.length）
->
-> 示例 1：
->
-> ```
-> 输入：[1,-2,3,-2]
-> 输出：3
-> 解释：从子数组 [3] 得到最大和 3
-> 示例 2：
-> 
-> 输入：[5,-3,5]
-> 输出：10
-> 解释：从子数组 [5,5] 得到最大和 5 + 5 = 10
-> 示例 3：
-> 
-> 输入：[3,-1,2,-1]
-> 输出：4
-> 解释：从子数组 [2,-1,3] 得到最大和 2 + (-1) + 3 = 4
-> ```
-
-```c++
-
-```
-
-<br>
-
-[leetcode.152 乘积最大子序列](https://leetcode-cn.com/problems/maximum-product-subarray/)
+[leetcode.152 乘积最大子序列 medium](https://leetcode-cn.com/problems/maximum-product-subarray/)
 
 > 给定一个整数数组 nums ，找出一个序列中乘积最大的连续子序列（该序列至少包含一个数）。
 >
@@ -3528,7 +3898,78 @@ int findLength(vector<int> &A, vector<int> &B){
 > ```
 
 ```c++
+// 思路：使用两个个数组dp1, dp2, 分别表示以nums[i]结尾的最大乘积、最小乘积，再通过maxprod记录最大乘积
+// 则： dp1[i] 必然从 dp1[i - 1]*nums[i], dp2[i - 1]*nums[i], nums[i] 中选择最大的一个
+//      dp2[i] 必然从 ...选择最小的一个
+//      maxprod = max(maxprod, dp1[i]);
+int maxProduct(vector<int>& nums) {
+    int maxprod = nums[0];
+    vector<int> dp1(nums.size(), 0), dp2(nums.size(), 0);
+    dp1[0] = nums[0];
+    dp2[0] = nums[0];
+    for(int i = 1; i < nums.size(); ++i){
+        dp1[i] = max(nums[i], max(dp1[i - 1] * nums[i], dp2[i - 1] * nums[i]));
+        dp2[i] = min(nums[i], min(dp1[i - 1] * nums[i], dp2[i - 1] * nums[i]));
+        maxprod = max(maxprod, dp1[i]);
+    }
+    return maxprod;
+}
 
+// 优化空间
+int maxProduct(vector<int> &nums){
+    int maxprod = nums[0];
+    int dp1 = nums[0], last_dp1 = dp1;		// 使用last_dp1保存上一次的状态
+    int dp2 = nums[0], last_dp2 = dp2;
+    for(int i = 1; i < nums.size(); ++i){
+        dp1 = max(nums[i], max(last_dp1 * nums[i], last_dp2 * nums[i]));
+        dp2 = min(nums[i], min(last_dp1 * nums[i], last_dp2 * nums[i]));
+        maxprod = max(maxprod, dp1);
+        last_dp1 = dp1;
+        last_dp2 = dp2;
+    }
+    return maxprod;
+}
+```
+
+<br>
+
+[leetcode.713 乘积小于K的子数组 medium](https://leetcode-cn.com/problems/subarray-product-less-than-k/)
+
+> 给定一个正整数数组 nums。
+>
+> 找出该数组内乘积小于 k 的连续的子数组的个数。
+>
+> 示例 :
+>
+> ```
+> 输入: nums = [10,5,2,6], k = 100
+> 输出: 8
+> 解释: 8个乘积小于100的子数组分别为: [10], [5], [2], [6], [10,5], [5,2], [2,6], [5,2,6]。
+> 需要注意的是 [10,5,2] 并不是乘积小于100的子数组。
+> ```
+>
+> 说明: 0 < nums.length <= 50000, 0 < nums[i] < 1000, 0 <= k < 10^6
+
+```c++
+// 思路：由于nums中全都是正数，因此可以使用双指针，而非动态规划，注意区别
+int numSubarrayProductLessThanK(vector<int>& nums, int k) {
+    if(nums.empty() || k == 0)
+        return 0;
+
+    int prod = 1;
+    int left = 0, right = 0;
+    int cnt = 0;
+    while(right < nums.size()){
+        prod *= nums[right];
+        while(left <= right && prod >= k){
+            prod /= nums[left];
+            ++left;
+        }
+        cnt += prod < k ? right - left + 1 : 0;
+        ++right;
+    }
+    return cnt;
+}
 ```
 
 <br>
@@ -3667,11 +4108,11 @@ TODO: dfs
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > ```
 
 ```c++
