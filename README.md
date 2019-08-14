@@ -255,7 +255,7 @@ void merge(vector<int> &nums, int left, int mid, int right, int &cnt){
 
 <br>
 
-[leetcode. 280 摆动排序 medium]
+[leetcode. 280 摆动排序 medium](https://leetcode-cn.com/problems/wiggle-sort/)
 
 > 给定一个无序的数组 `nums`，将它重新排列成 `nums[0] <= nums[1] >= nums[2] <= nums[3]...` 的顺序。
 >
@@ -804,7 +804,8 @@ bool isSubsequence(string s, string t) {
 > 输入: S = "ababcbacadefegdehijhklij"
 > 输出: [9,7,8]
 > 解释:
-> 划分结果为 "ababcbaca", "defegde", "hijhklij"。每个字母最多出现在一个片段中。像 "ababcbacadefegde", "hijhklij" 的划分是错误的，因为划分的片段数较少
+> 划分结果为 "ababcbaca", "defegde", "hijhklij"。每个字母最多出现在一个片段中。
+> 像 "ababcbacadefegde", "hijhklij" 的划分是错误的，因为划分的片段数较少
 > ```
 
 ```c++
@@ -1346,7 +1347,7 @@ int numSubarrayProductLessThanK(vector<int>& nums, int k) {
 >
 > ```
 > 给定二叉树: [3,9,20,null,null,15,7],
->  3
+> 3
 > / \
 > 9  20
 > /  \
@@ -1409,11 +1410,11 @@ vector<int> levelOrder(TreeNode* root) {
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
-> 1            <---
-> /   \
+>    1            <---
+>  /   \
 > 2     3         <---
-> \     \
-> 5     4       <---
+>  \     \
+>   5     4       <---
 > ```
 
 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
@@ -1422,15 +1423,29 @@ vector<int> levelOrder(TreeNode* root) {
 
 <br>[leetcode.101 对称二叉树](https://leetcode-cn.com/problems/symmetric-tree/)
 
-> 给定一个二叉树，检查它是否是镜像对称的。
+> 给定一个二叉树，检查它是否是镜像对称的。例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
 >
 > ```
->  1
-> / \
-> 2   2
-> / \ / \
+>     1
+>    / \
+>   2   2
+>  / \ / \
 > 3  4 4  3
 > ```
+>
+> 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
+>
+> ```
+>     1
+>    / \
+>   2   2
+>    \   \
+>    3    3
+> ```
+>
+> 说明:
+>
+> 如果你可以运用递归和迭代两种方法解决这个问题，会很加分。
 
 ```c++
 // 递归法，递归不需要借助queue
@@ -1866,12 +1881,11 @@ void bfs(vector<vector<char>> &board, int row, int col){
 >
 > ```
 > 输入:
-> 1
-> /   \
+>    1
+>  /   \
 > 2     3
-> \
-> 5
-> 
+>  \
+>   5
 > 输出: ["1->2->5", "1->3"]
 > 
 > 解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
@@ -1908,19 +1922,19 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 >
 > ```
 > 输入: [1,2,3]
-> 1
-> / \
-> 2   3
+>     1
+>    / \
+>   2   3
 > 输出: 25
 > 解释:
 > 从根到叶子节点路径 1->2 代表数字 12.从根到叶子节点路径 1->3 代表数字 13.
 > 因此，数字总和 = 12 + 13 = 25.
 > 
 > 输入: [4,9,0,5,1]
->  4
-> / \
-> 9   0
->  / \
+>     4
+>    / \
+>   9   0
+>  / \
 > 5   1
 > 输出: 1026
 > 解释:
@@ -1966,11 +1980,11 @@ bool dfs(TreeNode *root, long long prefix, long long &res){
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
-> 1            <---
-> /   \
+>    1            <---
+>  /   \
 > 2     3         <---
-> \     \
-> 5     4       <---
+>  \     \
+>   5     4       <---
 > 
 > ```
 
@@ -2004,17 +2018,17 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 >
 > ```
 > 输入: [1,2,3]
-> 1
-> / \
-> 2   3
+>        1
+>       / \
+>      2   3
 > 输出: 6
 > 
 > 输入: [-10,9,20,null,null,15,7]
-> -10
-> / \
-> 9  20
-> /  \
-> 15   7
+>    -10
+>    / \
+>   9  20
+>     /  \
+>    15   7
 > 输出: 42
 > ```
 
@@ -3347,6 +3361,8 @@ int wiggleMaxLength(vector<int> &nums){
 }
 ```
 
+<br>
+
 **最长公共子序列**
 
 > 对于两个子序列 S1 和 S2，找出它们最长的公共子序列。子序列可以是不连续的
@@ -3362,11 +3378,11 @@ int maxCommonLength(const string &s1, const string &s2){
     vector<vector<int> > dp(s1.size() + 1, vector<int>(s2.size() + 1, 0));
     for(int i = 1; i <= s1.size(); ++i)
       	for(int j = 1; j <= s2.size(); ++j)
-        		if(s1[i - 1] == s2[j - 1])
-          			dp[i][j] = dp[i - 1][j - 1] + 1;
-        		else
-          			dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
-    
+            if(s1[i - 1] == s2[j - 1])
+                dp[i][j] = dp[i - 1][j - 1] + 1;
+            else
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1]);
+
     return dp.back().back();
 }
 
@@ -4108,11 +4124,11 @@ TODO: dfs
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
-> 1            <---
-> /   \
+>    1            <---
+>  /   \
 > 2     3         <---
-> \     \
-> 5     4       <---
+>  \     \
+>   5     4       <---
 > ```
 
 ```c++
