@@ -20,6 +20,7 @@
     - [斐波那契数列](#斐波那契数列)
     - [子序列问题](#子序列问题)
     - [子区间问题](#子区间问题)
+    - [0-1背包问题](#0-1背包问题)
 - [数据结构](#数据结构)
   - [二叉树](#二叉树)
     - [二叉树的遍历](#二叉树的遍历)
@@ -1410,11 +1411,11 @@ vector<int> levelOrder(TreeNode* root) {
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > ```
 
 思路：使用层次遍历，每层遍历最后一个节点时，保存节点的值
@@ -1426,21 +1427,21 @@ vector<int> levelOrder(TreeNode* root) {
 > 给定一个二叉树，检查它是否是镜像对称的。例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
 >
 > ```
->     1
->    / \
->   2   2
->  / \ / \
+>  1
+> / \
+> 2   2
+> / \ / \
 > 3  4 4  3
 > ```
 >
 > 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
 >
 > ```
->     1
->    / \
->   2   2
->    \   \
->    3    3
+>  1
+> / \
+> 2   2
+> \   \
+> 3    3
 > ```
 >
 > 说明:
@@ -1881,11 +1882,11 @@ void bfs(vector<vector<char>> &board, int row, int col){
 >
 > ```
 > 输入:
->    1
->  /   \
+> 1
+> /   \
 > 2     3
->  \
->   5
+> \
+> 5
 > 输出: ["1->2->5", "1->3"]
 > 
 > 解释: 所有根节点到叶子节点的路径为: 1->2->5, 1->3
@@ -1922,19 +1923,19 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 >
 > ```
 > 输入: [1,2,3]
->     1
->    / \
->   2   3
+>  1
+> / \
+> 2   3
 > 输出: 25
 > 解释:
 > 从根到叶子节点路径 1->2 代表数字 12.从根到叶子节点路径 1->3 代表数字 13.
 > 因此，数字总和 = 12 + 13 = 25.
 > 
 > 输入: [4,9,0,5,1]
->     4
->    / \
->   9   0
->  / \
+>  4
+> / \
+> 9   0
+> / \
 > 5   1
 > 输出: 1026
 > 解释:
@@ -1980,11 +1981,11 @@ bool dfs(TreeNode *root, long long prefix, long long &res){
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > 
 > ```
 
@@ -2018,17 +2019,17 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 >
 > ```
 > 输入: [1,2,3]
->        1
->       / \
->      2   3
+>     1
+>    / \
+>   2   3
 > 输出: 6
 > 
 > 输入: [-10,9,20,null,null,15,7]
->    -10
->    / \
->   9  20
->     /  \
->    15   7
+> -10
+> / \
+> 9  20
+>  /  \
+> 15   7
 > 输出: 42
 > ```
 
@@ -2090,8 +2091,6 @@ int decbitsum(int i, int j){
     return sum;
 }
 ```
-
-
 
 <br>
 
@@ -2530,6 +2529,42 @@ void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &s
         backtracking(nums, res, subset, i + 1);
         subset.pop_back();
     }
+}
+```
+
+<br>
+
+[leetcode.491 递增子序列 medium](https://leetcode-cn.com/problems/increasing-subsequences/)
+
+> 给定一个整型数组, 你的任务是找到所有该数组的递增子序列，递增子序列的长度至少是2。
+>
+> 示例:
+>
+> ```
+> 输入: [4, 6, 7, 7]
+> 输出: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
+> ```
+>
+> 说明: 给定数组的长度不会超过15。数组中的整数范围是 [-100,100]。给定数组中可能包含重复数字，相等的数字应该被视为递增的一种情况。
+
+```c++
+// 思路：与leetcode.90子集II类似，只需要改动两个地方：1.保证子集尺寸>=2才放入res, 2. 保证子集是递增子序列
+vector<vector<int>> findSubsequences(vector<int>& nums) {
+    set<vector<int>> res;
+    vector<int> subset;
+    backtracking(nums, res, subset, 0);
+    return vector<vector<int>> (res.begin(), res.end());
+}
+
+void backtracking(const vector<int> &nums, set<vector<int>> &res, vector<int> &subset, int idx){
+    if(subset.size() >= 2)		// 改动1. 保证子集尺寸>=2才放入res
+        res.insert(subset);
+    for(int i = idx; i < nums.size(); ++i)
+        if(subset.empty() || nums[i] >= subset.back()){		// 改动2. 保证子集是递增子序列
+            subset.push_back(nums[i]);
+            backtracking(nums, res, subset, i + 1);
+            subset.pop_back();
+        }
 }
 ```
 
@@ -3849,6 +3884,48 @@ int subarraySum(vector<int>& nums, int target) {
 
 <br>
 
+[leetcode.930 和相同的二元子数组 medium](https://leetcode-cn.com/problems/binary-subarrays-with-sum/)
+
+> 在由若干 0 和 1  组成的数组 A 中，有多少个和为 S 的非空子数组。
+>
+> 示例：
+>
+> ```
+> 输入：A = [1,0,1,0,1], S = 2
+> 输出：4
+> ```
+>
+> 解释：如下面黑体所示，有 4 个满足题目要求的子数组
+>
+> [**1,0,1**,0,1]
+> [**1,0,1,0**,1]
+> [1,**0,1,0,1**]
+> [1,0,**1,0,1**]
+>
+> 提示：A.length <= 30000，0 <= S <= A.length，A[i] 为 0 或 1
+
+```c++
+// 思路：解法同leetcode.560完全相同
+int numSubarraysWithSum(vector<int>& nums, int target) {
+    if(nums.empty())
+        return 0;
+
+    unordered_map<int, int> map;
+    map[0] = 1;                             
+    int cur_sum = 0, cnt = 0;
+    for(int i = 0; i < nums.size(); ++i){
+        cur_sum += nums[i];
+        if(map.count(cur_sum - target) > 0)
+            cnt += map[cur_sum - target];
+        ++map[cur_sum];
+    }
+
+    return cnt;
+}
+```
+
+<br>
+
 [leetcode. 523 连续的子数组和 medium](https://leetcode-cn.com/problems/continuous-subarray-sum/)
 
 > 给定一个包含非负数的数组和一个目标整数 k，编写一个函数来判断该数组是否含有连续的子数组，其大小至少为 2，总和为 k 的倍数，即总和为 n*k，其中 n 也是一个整数。
@@ -3968,20 +4045,18 @@ int maxProduct(vector<int> &nums){
 
 ```c++
 // 思路：由于nums中全都是正数，因此可以使用双指针，而非动态规划，注意区别
-int numSubarrayProductLessThanK(vector<int>& nums, int k) {
-    if(nums.empty() || k == 0)
+int numSubarrayProductLessThanK(vector<int>& nums, int target) {
+    if(target <= 0 || nums.empty())
         return 0;
 
-    int prod = 1;
     int left = 0, right = 0;
+    int prod = 1;
     int cnt = 0;
     while(right < nums.size()){
         prod *= nums[right];
-        while(left <= right && prod >= k){
-            prod /= nums[left];
-            ++left;
-        }
-        cnt += prod < k ? right - left + 1 : 0;
+        while(left <= right && prod >= target)
+            prod /= nums[left++];
+        cnt += prod < target ? right - left + 1 : 0;
         ++right;
     }
     return cnt;
@@ -3990,55 +4065,96 @@ int numSubarrayProductLessThanK(vector<int>& nums, int k) {
 
 <br>
 
-TODO: dfs
+### 0-1背包问题
 
-[leetcode.491 递增子序列 medium](https://leetcode-cn.com/problems/increasing-subsequences/)
+0-1背包问题是非常经典的动态规划问题，是非常容易考到的点。问题描述：
 
-> 给定一个整型数组, 你的任务是找到所有该数组的递增子序列，递增子序列的长度至少是2。
->
-> 示例:
->
-> ```
-> 输入: [4, 6, 7, 7]
-> 输出: [[4, 6], [4, 7], [4, 6, 7], [4, 6, 7, 7], [6, 7], [6, 7, 7], [7,7], [4,7,7]]
-> ```
->
-> 说明: 给定数组的长度不会超过15。数组中的整数范围是 [-100,100]。给定数组中可能包含重复数字，相等的数字应该被视为递增的一种情况。
+> 有一个容量为N的背包，要用这个背包装下物品的价值最大，每件物品有体积w、价值v两种属性，应该怎么装
 
 ```c++
+// 思路：动态规划，dp[i][j] - 前i件物品体积不超过j的最大价值
+// 假设第i件物品的体积为vol, 价值为val. 则改件物品有两种选项：
+//      1. 放入背包, 则dp[i][j] = dp[i - 1][j - vol] + val
+//      2. 不放入背包, 则dp[i][j] = dp[i - 1][j]
+// 两者取较大的 ===> dp[i][j] = max(dp[i - 1][j - vol] + val, dp[i - 1][j])
 
+// V为背包容量, volumes和values分别为每件物品的体积和价值
+int knapsack(const int V, const vector<int> &volumes, const vector<int> &values){
+    if(V <= 0 || volumes.size() <= 0)	// 确保背包有容积、存在需要放入背包的物体
+        return 0;
+    int num = volumes.size();			// 物品数量为num
+    vector<vector<int>> dp(num, vector<int>(V + 1, 0));
+    
+    // 第0件物品: 在背包容积vol >= volumes[0]时，可以将第0件物品放入背包
+    for(int vol = 0; vol <= V; ++vol)
+        dp[0][vol] = (vol >= volumes[0]) ? values[0] : 0;
+    
+    // 第1, 2, 3, ..., num-1件物品，使用上述通项公式
+    for(int i = 1; i < num; ++i)
+        for(int vol = 0; vol <= V; ++vol)
+            if(vol >= volumes[i])   // 背包容积vol >= 物品体积时, 尝试放入该物品
+                dp[i][vol] = max(dp[i - 1][vol], dp[i - 1][vol - volumes[i]] + values[i]);
+            else                    // 背包容积vol < 物品体积时, 必然不放入该物品
+                dp[i][vol] = dp[i - 1][vol];
+    
+    return dp.back().back();
+}
+
+// 空间优化,由对dp是一行一行进行操作,因此dp可以直接使用一维数组
+int knapsack(const int V, const vector<int> &volumes, const vector<int> &values){
+    if(V <= 0 || volumes.size() <= 0)
+        return 0;
+    int num = volumes.size();
+    vector<int> dp(V + 1, 0);
+    
+    // 第0件物品
+    for(int vol = 0; vol <= V; ++vol)
+        dp[vol] = (vol >= volumes[0]) ? values[0] : 0;
+    
+    // 第1, 2, 3, ..., num-1件物品
+    for(int i = 1; i < num; ++i)
+        for(int vol = V; vol >= 0; --vol)       // vol必须从大到小遍历, 防止小到大遍历时使用已更改数据
+            if(vol >= volumes[i])
+                dp[vol] = max(dp[vol], dp[vol - volumes[i]] + values[i]);
+    return dp.back();
+}
 ```
+
+0-1背包问题的变种：
+
+- 完全0-1背包问题：每种物品可以无限添加
+
+  令每种物品的体积和价值变为1/2/3/4/5...倍，作为一个新物品，每种物品只能加入一次
+
+- 多维0-1背包问题：每种物品有价值、体积、以及其它属性
+
+  使用多维dp即可
+
+- 其它变种...
 
 <br>
 
-[leetcode.930 和相同的二元子数组](https://leetcode-cn.com/problems/binary-subarrays-with-sum/)
+[leetcode. 416 分割等和子集 medium](https://leetcode-cn.com/problems/partition-equal-subset-sum/)
 
-> 在由若干 0 和 1  组成的数组 A 中，有多少个和为 S 的非空子数组。
+> 给定一个只包含正整数的非空数组。是否可以将这个数组分割成两个子集，使得两个子集的元素和相等。
 >
-> 示例：
+> 注意: 每个数组中的元素不会超过 100, 数组的大小不会超过 200
+> 示例 :
 >
 > ```
-> 输入：A = [1,0,1,0,1], S = 2
-> 输出：4
-> 解释：
-> 如下面黑体所示，有 4 个满足题目要求的子数组：
-> [1,0,1,0,1]
-> [1,0,1,0,1]
-> [1,0,1,0,1]
-> [1,0,1,0,1]
+> 输入: [1, 5, 11, 5]
+> 输出: true
+> 解释: 数组可以分割成 [1, 5, 5] 和 [11].
+> 
+> 示例 :
+> 输入: [1, 2, 3, 5]
+> 输出: false
+> 解释: 数组不能分割成两个元素和相等的子集.
 > ```
->
-> 提示：A.length <= 30000，0 <= S <= A.length，A[i] 为 0 或 1
 
 ```c++
 
 ```
-
-
-
-
-
-
 
 
 
