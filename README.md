@@ -1427,7 +1427,7 @@ vector<int> levelOrder(TreeNode* root) {
 > 给定一个二叉树，检查它是否是镜像对称的。例如，二叉树 [1,2,2,3,4,4,3] 是对称的。
 >
 > ```
->  1
+> 1
 > / \
 > 2   2
 > / \ / \
@@ -1437,7 +1437,7 @@ vector<int> levelOrder(TreeNode* root) {
 > 但是下面这个 [1,2,2,null,3,null,3] 则不是镜像对称的:
 >
 > ```
->  1
+> 1
 > / \
 > 2   2
 > \   \
@@ -1923,7 +1923,7 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 >
 > ```
 > 输入: [1,2,3]
->  1
+> 1
 > / \
 > 2   3
 > 输出: 25
@@ -1932,7 +1932,7 @@ void dfs(TreeNode* root, string prefix, vector<string> &res){
 > 因此，数字总和 = 12 + 13 = 25.
 > 
 > 输入: [4,9,0,5,1]
->  4
+> 4
 > / \
 > 9   0
 > / \
@@ -2019,16 +2019,16 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 >
 > ```
 > 输入: [1,2,3]
->     1
->    / \
->   2   3
+>  1
+> / \
+> 2   3
 > 输出: 6
 > 
 > 输入: [-10,9,20,null,null,15,7]
 > -10
 > / \
 > 9  20
->  /  \
+> /  \
 > 15   7
 > 输出: 42
 > ```
@@ -2691,9 +2691,56 @@ bool backtracking(vector<vector<char>> &board, int i, int j,
 
 <br>
 
+[leetcode.698 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/)
+
+> 给定一个整数数组  nums 和一个正整数 k，找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
+>
+> 示例 ：
+>
+> ```
+> 输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+> 输出： True
+> 说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。
+> ```
+>
+> 注意:
+>
+> 1 <= k <= len(nums) <= 16
+> 0 < nums[i] < 10000
+
+```c++
+bool canPartitionKSubsets(vector<int>& nums, int k) {
+    int sum = 0, maxnum = INT_MIN;
+    for(const auto &num:nums)
+        sum += num, maxnum = max(maxnum, num);
+    if(nums.size() < k || sum % k != 0 || maxnum > sum / k)
+        return false;
+    vector<bool> used(nums.size(), false);
+    return backtracking(nums, used, k, sum / k, 0, 0);
+}
+
+bool backtracking(vector<int> &nums, vector<bool> &used, int k, int tarSum, int curSum, int idx){
+    if(k == 0)           // 已经搜索到了k个子集
+        return true;
+    if(curSum == tarSum) // 搜索下一个子集
+        return backtracking(nums, used, k - 1, tarSum, 0, 0);
+
+    for(int i = idx; i < nums.size(); ++i)  // 这里如果每次都从0开始搜索则会超时, 从idx开始
+        if(used[i] == false && curSum + nums[i] <= tarSum){
+            used[i] = true;
+            if(backtracking(nums, used, k, tarSum, curSum + nums[i], i + 1))
+                return true;
+            used[i] = false;
+        }
+    return false;
+}
+```
+
+<br>
+
 ## 分治策略
 
-[leetcode.241 为运算表达式设计优先级](https://leetcode-cn.com/problems/different-ways-to-add-parentheses/)
+[leetcode.241 为运算表达式设计优先级 medium](https://leetcode-cn.com/problems/different-ways-to-add-parentheses/)
 
 > 给定一个含有数字和运算符的字符串，为表达式添加括号，改变其运算优先级以求出不同的结果。你需要给出所有可能的组合的结果。有效的运算符号包含 +, - 以及 * 。
 >
@@ -2743,7 +2790,7 @@ vector<int> diffWaysToCompute(string s) {
 
 <br>
 
-[leetcode. 282 给表达式添加运算符](https://leetcode-cn.com/problems/expression-add-operators/submissions/)
+[leetcode. 282 给表达式添加运算符 hard](https://leetcode-cn.com/problems/expression-add-operators/submissions/)
 
 > 给定一个仅包含数字 0-9 的字符串和一个目标值，在数字之间添加二元运算符（不是一元）+、- 或 * ，返回所有能够得到目标值的表达式。
 >
@@ -4100,8 +4147,8 @@ int knapsack(const int V, const vector<int> &volumes, const vector<int> &values)
     return dp.back().back();
 }
 
-// 空间优化,由对dp是一行一行进行操作,因此dp可以直接使用一维数组
-int knapsack(const int V, const vector<int> &volumes, const vector<int> &values){
+// 空间优化, 因为对dp是一行一行进行操作, 所以dp可以直接使用一维数组
+int knapsack1(const int V, const vector<int> &volumes, const vector<int> &values){
     if(V <= 0 || volumes.size() <= 0)
         return 0;
     int num = volumes.size();
@@ -4111,11 +4158,11 @@ int knapsack(const int V, const vector<int> &volumes, const vector<int> &values)
     for(int vol = 0; vol <= V; ++vol)
         dp[vol] = (vol >= volumes[0]) ? values[0] : 0;
     
-    // 第1, 2, 3, ..., num-1件物品
+    // 第1,2,...,num-1件物品
     for(int i = 1; i < num; ++i)
-        for(int vol = V; vol >= 0; --vol)       // vol必须从大到小遍历, 防止小到大遍历时使用已更改数据
-            if(vol >= volumes[i])
-                dp[vol] = max(dp[vol], dp[vol - volumes[i]] + values[i]);
+        for(int vol = V; vol >= volumes[i]; --vol)// 必须从大到小遍历, 防止小到大遍历时使用已更改数据
+            dp[vol] = max(dp[vol], dp[vol - volumes[i]] + values[i]);
+    
     return dp.back();
 }
 ```
@@ -4153,24 +4200,245 @@ int knapsack(const int V, const vector<int> &volumes, const vector<int> &values)
 > ```
 
 ```c++
+// 思路：0-1背包, 背包容量为sum/2, 物品只存在重量属性, 挑选物品恰好装满背包
+// dp[i][j] - 下标0~i的数,是否存在某个子集使其总重量为j, 递推关系为
+// dp[i][j] = dp[i - 1][j] || dp[i - 1][j - nums[i]]
+bool canPartition1(vector<int> &nums){
+    int sum = accumulate(nums.begin(), nums.end(), 0);
+    if(nums.size() <= 1 || sum % 2 == 1)
+        return false;
+
+    int V = sum / 2;
+    vector<vector<bool>> dp(nums.size(), vector<bool>(V + 1, 0));
+
+    dp[0][0] = true;        // 不放入第0件物品
+    dp[0][nums[0]] = true;  // 要放入第0件物品
+
+    for(int i = 1; i < nums.size(); ++i)
+        for(int vol = 0; vol <= V; ++vol)
+            if(vol >= nums[i])  // 背包容积 >= 物品体积, 尝试放入物体
+                dp[i][vol] = dp[i - 1][vol] || dp[i - 1][vol - nums[i]];
+            else                // 背包容积 < 物品体积，必然不放入物体
+                dp[i][vol] = dp[i - 1][vol];
+
+    return dp.back().back();
+}
+
+// 优化空间, 同时根据可以提前结束节省时间
+bool canPartition(vector<int>& nums) {
+    int sum = accumulate(nums.begin(), nums.end(), 0);
+    if(nums.size() <= 1 || sum % 2 == 1)
+        return false;
+
+    int V = sum / 2;
+    vector<bool> dp(V + 1, false);
+    dp[0] = true;  // 不放入任何物品
+
+    for(const auto &num:nums)
+        for(int vol = V; vol >= num; --vol){ // 必须从大到小遍历, 防止小到大使用了已更改数据
+            dp[vol] = dp[vol] || dp[vol - num];
+            if(dp.back())                   // 已找到, 提前结束
+                return true;
+        }
+    return dp.back();
+}
+```
+
+<br>
+
+[leetcode.494 目标和 medium](https://leetcode-cn.com/problems/target-sum/)
+
+> 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。返回可以使最终数组和为目标数 S 的所有添加符号的方法数。
+>
+> 示例 :
+>
+> ```
+> 输入: nums: [1, 1, 1, 1, 1], S: 3
+> 输出: 5
+> 解释:
+> -1+1+1+1+1 = 3
+> +1-1+1+1+1 = 3
+> +1+1-1+1+1 = 3
+> +1+1+1-1+1 = 3
+> +1+1+1+1-1 = 3
+> 一共有5种方法让最终目标和为3。
+> ```
+>
+> 注意:
+>
+> 数组的长度不会超过20，并且数组中的值全为正数。
+> 初始的数组的和不会超过1000。
+> 保证返回的最终结果为32位整数。
+
+```C++
+// 思路：假设其中符号为+的数的和为P, 符号为-的数的和为N, P + N = nums的和
+// P - N = S  => 两边都加上sum =>  (P + N) + (P - N) = S + sum   =>  P = (S + sum) / 2
+// 转化：是否存在nums的子集, 使其和为(S + sum) / 2, 这样的子集有多少个?
+// dp[j] - 子集和为j的子集个数, dp[j] = dp[j] + dp[j - nums[i]]
+int findTargetSumWays(vector<int>& nums, int S) {
+    int sum = accumulate(nums.begin(), nums.end(), 0);
+    if(sum < S || (sum + S) % 2 != 0)
+        return 0;
+
+    int N = (sum + S) / 2;
+    vector<int> dp(N + 1, 0);
+    dp[0] = 1;      					  // 空集的和为0, 一种情况
+    for(const auto &num:nums)
+        for(int vol = N; vol >= num; --vol) // 必须从大到小遍历, 防止小到大使用了已更改数据
+            dp[vol] = dp[vol] + dp[vol - num];
+
+    return dp.back();
+}
+```
+
+<br>
+
+[leetcode. 282 给表达式添加运算符 hard](https://leetcode-cn.com/problems/expression-add-operators/submissions/)
+
+> 给定一个仅包含数字 0-9 的字符串和一个目标值，在数字之间添加二元运算符（不是一元）+、- 或 * ，返回所有能够得到目标值的表达式。
+>
+> 示例 :
+>
+> ```
+> 输入: num = "123", target = 6
+> 输出: ["1+2+3", "1*2*3"] 
+> 
+> 输入: num = "232", target = 8
+> 输出: ["2*3+2", "2+3*2"]
+> 
+> 输入: num = "105", target = 5
+> 输出: ["1*0+5","10-5"]
+> 
+> 输入: num = "00", target = 0
+> 输出: ["0+0", "0-0", "0*0"]
+> 
+> 输入: num = "3456237490", target = 9191
+> 输出: []
+> ```
+
+提示：此题虽然和leetcode.494目标和类似，但应该使用分治思想求解，具体请查看[分治策略](#分治策略)
+
+<br>
+
+[leetcode.139 单词拆分 medium](https://leetcode-cn.com/problems/word-break/)
+
+> 给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，判定 s 是否可以被空格拆分为一个或多个在字典中出现的单词。
+>
+> 说明：拆分时可以重复使用字典中的单词。你可以假设字典中没有重复的单词。
+> 示例 ：
+>
+> ```
+> 输入: s = "leetcode", wordDict = ["leet", "code"]
+> 输出: true
+> 解释: 返回 true 因为 "leetcode" 可以被拆分成 "leet code"。
+> 
+> 输入: s = "applepenapple", wordDict = ["apple", "pen"]
+> 输出: true
+> 解释: 返回 true 因为 "applepenapple" 可以被拆分成 "apple pen apple"。注意你可以重复使用字典中的单词。
+>      
+> 输入: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+> 输出: false
+> ```
+
+```c++
+// 思路：与leetcode.416类似, 视为0-1背包, 每种物品只有一种属性
+// 转化为：背包的大小为字符串长度, 是否存在一个物品的子集恰好装满背包, 且每种物品都是无限的
+// dp[i] - 前i个字符是否能被拆分为wordDict中的单词, 递推关系为dp[i] = dp[i] || dp[i - word.size()]
+bool wordBreak(string s, vector<string>& wordDict) {
+    vector<bool> dp(s.size() + 1, false);
+    dp[0] = true;
+    for(int i = 1; i <= s.size(); ++i)
+        for(const auto &word:wordDict)
+            if(word.size() <= i && s.substr(i - word.size(), word.size()) == word)
+                dp[i] = dp[i] || dp[i - word.size()];
+    return dp.back();
+}
+```
+
+<br>
+
+[leetcode.140 单词拆分II hard](https://leetcode-cn.com/problems/word-break-ii/)
+
+> 给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，在字符串中增加空格来构建一个句子，使得句子中所有的单词都在词典中。返回所有这些可能的句子。
+>
+> 说明：分隔时可以重复使用字典中的单词。你可以假设字典中没有重复的单词。
+> 示例 ：
+>
+> ```
+> 输入: s = "catsanddog", wordDict = ["cat", "cats", "and", "sand", "dog"]
+> 输出:
+> [
+>   "cats and dog",
+>   "cat sand dog"
+> ]
+> 
+> 输入: s = "pineapplepenapple", wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
+> 输出:
+> [
+>   "pine apple pen apple",
+>   "pineapple pen apple",
+>   "pine applepen apple"
+> ]
+> 解释: 注意你可以重复使用字典中的单词。
+> 
+> 输入: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
+> 输出:
+> []
+> ```
+
+```c++
 
 ```
 
+<br>
 
+[leetcode.698 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/)
 
+> 给定一个整数数组  nums 和一个正整数 k，找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
+>
+> 示例 ：
+>
+> ```
+> 输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+> 输出： True
+> 说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。
+> ```
+>
+> 注意:
+>
+> 1 <= k <= len(nums) <= 16
+> 0 < nums[i] < 10000
 
+```C++
+// 思路1: 可以使用0-1背包的变种, 此题中为多个背包, 物品1种属性,解法比较复杂
+// 思路2: 直接使用backtracking方法
+bool canPartitionKSubsets(vector<int>& nums, int k) {
+    int sum = 0, maxnum = INT_MIN;
+    for(const auto &num:nums)
+        sum += num, maxnum = max(maxnum, num);
+    if(nums.size() < k || sum % k != 0 || maxnum > sum / k)
+        return false;
 
+    vector<bool> used(nums.size(), false);
+    return backtracking(nums, used, k, sum / k, 0, 0);
+}
 
+bool backtracking(vector<int> &nums, vector<bool> &used, int k, int tarSum, int curSum, int idx){
+    if(k == 0)           // 已经搜索到了k个子集
+        return true;
+    if(curSum == tarSum) // 搜索下一个子集
+        return backtracking(nums, used, k - 1, tarSum, 0, 0);
 
-
-
-
-
-
-
-
-
-
+    for(int i = idx; i < nums.size(); ++i)  // 这里如果每次都从0开始搜索则会超时, 从idx开始
+        if(used[i] == false && curSum + nums[i] <= tarSum){
+            used[i] = true;
+            if(backtracking(nums, used, k, tarSum, curSum + nums[i], i + 1))
+                return true;
+            used[i] = false;
+        }
+    return false;
+}
+```
 
 
 
@@ -4240,11 +4508,11 @@ int knapsack(const int V, const vector<int> &volumes, const vector<int> &values)
 > 输入: [1,2,3,null,5,null,4]
 > 输出: [1, 3, 4]
 > 解释:
->    1            <---
->  /   \
+> 1            <---
+> /   \
 > 2     3         <---
->  \     \
->   5     4       <---
+> \     \
+> 5     4       <---
 > ```
 
 ```c++
