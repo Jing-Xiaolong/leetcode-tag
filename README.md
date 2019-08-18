@@ -1,6 +1,6 @@
 [h2pl/leetcode](https://github.com/h2pl/leetcode)的C++实现，附带一些扩充。用于秋招第一遍分tag刷题，查漏补缺，并建立手撸算法的基本手感。
 
-
+# 目录
 
 - [算法思想](#算法思想)
   - [排序](#排序算法)
@@ -21,11 +21,16 @@
     - [子序列问题](#子序列问题)
     - [子区间问题](#子区间问题)
     - [0-1背包问题](#0-1背包问题)
+    - [其它问题](#其它问题)
+  - [数学](#数学)
+    - [素数](#素数)
+    - [公约数和公倍数](#公约数和公倍数)
+    - [进制转换](#进制转换)
 - [数据结构](#数据结构)
   - [二叉树](#二叉树)
     - [二叉树的遍历](#二叉树的遍历)
 
-<br>
+<br><br>
 
 # 算法思想
 
@@ -33,7 +38,7 @@
 
 ### 七大基于比较的排序算法
 
-#### 冒泡排序
+**冒泡排序**
 
 ```c++
 // O(n^2)，稳定，从后往前遍历时发现逆序即立刻交换
@@ -48,7 +53,7 @@ void bubbleSort(vector<int> &ivec){
 
 <br>
 
-#### 选择排序
+**选择排序**
 
 ```c++
 // O(n^2)，不稳定，第i次遍历时，选择下标[i, n)中数值最小的数放在i处
@@ -66,7 +71,7 @@ void selectionSort(vector<int> &ivec){
 
 <br>
 
-#### 插入排序
+**插入排序**
 
 ```c++
 // O(n^2)，稳定，遍历第i个数时，一直将它往前交换直到不再比前一个数更大
@@ -81,7 +86,7 @@ void insertionSort(vector<int> &ivec){
 
 <br>
 
-#### 归并排序
+**归并排序**
 
 ```c++
 // O(nlogn)，稳定，不断分成更小的数组进行归并
@@ -113,7 +118,7 @@ void mergeSort(vector<int> &ivec){
 
 <br>
 
-#### 快速排序
+**快速排序**
 
 ```c++
 //O(nlogn)，不稳定，找到第i个数，使[0,i)中均比它小且(i,n)中均比它大，再对[0,i)和(i,n)进行快排
@@ -141,7 +146,7 @@ void quickSort(vector<int> &ivec){
 
 <br>
 
-#### 堆排序
+**堆排序**
 
 ```c++
 // 自己网上找资料看吧
@@ -698,7 +703,7 @@ int candy(vector<int>& ratings) {
 
 <br>[leetcode.122 买卖股票的最佳时机 II easy](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-ii/)
 
-> 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一支股票）。注意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）
+> 给定一个数组，它的第 i 个元素是一支给定股票第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你可以尽可能地完成更多的交易（多次买卖一l意：你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）
 
 ```c++
 // 思路：只要p[i] > p[i - 1]，就在i-1买入并在i卖出。某天既买入又卖出可视为没有做任何操作
@@ -2019,7 +2024,7 @@ void preorder(TreeNode *root, int level, vector<int> &nums){
 >
 > ```
 > 输入: [1,2,3]
->  1
+> 1
 > / \
 > 2   3
 > 输出: 6
@@ -3323,6 +3328,58 @@ int rob(const vector<int> &nums, int left, int right){
 
 <br>
 
+[leetcode.600 不含连续1的非负整数 hard](https://leetcode-cn.com/problems/non-negative-integers-without-consecutive-ones/)
+
+> 给定一个正整数 n，找出小于或等于 n 的非负整数中，其二进制表示不包含 连续的1 的个数。
+>
+> 示例 :
+>
+> ```
+> 输入: 5
+> 输出: 5
+> 解释: 下面是带有相应二进制表示的非负整数<= 5：
+> 0 : 0
+> 1 : 1
+> 2 : 10
+> 3 : 11
+> 4 : 100
+> 5 : 101
+> 其中，只有整数3违反规则（有两个连续的1），其他5个满足规则。
+> ```
+>
+> 说明: 1 <= n <= 109
+
+```c++
+// 思路：动态规划中的斐波那契数列，假设二进制位数不大于k的无连续1的非负整数位f(k)
+// k = 5时，二进制数为00000-11111，可分为00000-01111 和 10000-10111(11开头的连续两个1，不算在内)
+// 则00000-01111表示f(4), 10000-10111就是f(3), 因此有f(5) = f(4) + f(3)
+// 先求得1位，2位，3位，...，32位的二进制数不存在连续1的个数
+// 再对十进制不超过num的数进行计数即可
+int findIntegers(int num) {
+    vector<int> fib(32, 0);
+    fib[0] = 1;     // 1位的只有 0
+    fib[1] = 2;     // 2位的则有 01, 10
+    for(int i = 2; i <= 31; ++i)
+        fib[i] = fib[i - 1] + fib[i - 2];
+    int bit_num = 31;
+    bool last_bit = false;
+    int res = 0;
+    while(bit_num >= 0){					// 如：对100110, 考察<=100000, 100的数中分别有多少个不存在连续1的数
+        if(num & (1 << bit_num)){
+            res += fib[bit_num];
+            if(last_bit == true)  // 连续两个1, 返回。如100110中的110，因为两个1，比他小的都不满足
+                return res;
+            last_bit = true;
+        }else
+            last_bit = false;
+        --bit_num;
+    }
+    return res + 1; // 遍历到了这里，说明小于num中没有连续的11, num也应该算在内
+}
+```
+
+<br>
+
 ### 子序列问题
 
 注：子序列问题区别于后面的子区间问题：子序列是从原序列中提取满足某条件的数，这些数不一定相邻；而子区间问题则必须满足相邻（形成一个不间断的区间）。
@@ -4173,7 +4230,7 @@ int knapsack1(const int V, const vector<int> &volumes, const vector<int> &values
 
   令每种物品的体积和价值变为1/2/3/4/5...倍，作为一个新物品，每种物品只能加入一次
 
-- 多维0-1背包问题：每种物品有价值、体积、以及其它属性
+- 多维0-1背包问题：每种物品有体积、以及其它属性
 
   使用多维dp即可
 
@@ -4246,6 +4303,56 @@ bool canPartition(vector<int>& nums) {
 
 <br>
 
+[leetcode.698 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/)
+
+> 给定一个整数数组  nums 和一个正整数 k，找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
+>
+> 示例 ：
+>
+> ```
+> 输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4
+> 输出： True
+> 说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。
+> ```
+>
+> 注意:
+>
+> 1 <= k <= len(nums) <= 16
+> 0 < nums[i] < 10000								
+
+```C++
+// 思路1: 可以使用0-1背包的变种, 此题中为多个背包, 物品1种属性,解法比较复杂
+// 思路2: 直接使用backtracking方法
+bool canPartitionKSubsets(vector<int>& nums, int k) {
+    int sum = 0, maxnum = INT_MIN;
+    for(const auto &num:nums)
+        sum += num, maxnum = max(maxnum, num);
+    if(nums.size() < k || sum % k != 0 || maxnum > sum / k)
+        return false;
+
+    vector<bool> used(nums.size(), false);
+    return backtracking(nums, used, k, sum / k, 0, 0);
+}
+
+bool backtracking(vector<int> &nums, vector<bool> &used, int k, int tarSum, int curSum, int idx){
+    if(k == 0)           // 已经搜索到了k个子集
+        return true;
+    if(curSum == tarSum) // 搜索下一个子集
+        return backtracking(nums, used, k - 1, tarSum, 0, 0);
+
+    for(int i = idx; i < nums.size(); ++i)  // 这里如果每次都从0开始搜索则会超时, 从idx开始
+        if(used[i] == false && curSum + nums[i] <= tarSum){
+            used[i] = true;
+            if(backtracking(nums, used, k, tarSum, curSum + nums[i], i + 1))
+                return true;
+            used[i] = false;
+        }
+    return false;
+}
+```
+
+​	<br>
+
 [leetcode.494 目标和 medium](https://leetcode-cn.com/problems/target-sum/)
 
 > 给定一个非负整数数组，a1, a2, ..., an, 和一个目标数，S。现在你有两个符号 + 和 -。对于数组中的任意一个整数，你都可以从 + 或 -中选择一个符号添加在前面。返回可以使最终数组和为目标数 S 的所有添加符号的方法数。
@@ -4316,7 +4423,7 @@ int findTargetSumWays(vector<int>& nums, int S) {
 > 输出: []
 > ```
 
-提示：此题虽然和leetcode.494目标和类似，但应该使用分治思想求解，具体请查看[分治策略](#分治策略)
+**提示：此题虽然和leetcode.494目标和类似，但应该使用分治思想求解，具体请查看[分治策略](#分治策略)**
 
 <br>
 
@@ -4335,7 +4442,7 @@ int findTargetSumWays(vector<int>& nums, int S) {
 > 输入: s = "applepenapple", wordDict = ["apple", "pen"]
 > 输出: true
 > 解释: 返回 true 因为 "applepenapple" 可以被拆分成 "apple pen apple"。注意你可以重复使用字典中的单词。
->      
+>   
 > 输入: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 > 输出: false
 > ```
@@ -4357,6 +4464,79 @@ bool wordBreak(string s, vector<string>& wordDict) {
 
 <br>
 
+[leetcode.322 零钱兑换 medium](https://leetcode-cn.com/problems/coin-change/)
+
+> 给定不同面额的硬币 coins 和一个总金额 amount。编写一个函数来计算可以凑成总金额所需的最少的硬币个数。如果没有任何一种硬币组合能组成总金额，返回 -1。
+>
+> 示例 :
+>
+> ```
+> 输入: coins = [1, 2, 5], amount = 11
+> 输出: 3 
+> 解释: 11 = 5 + 5 + 1
+> 
+> 输入: coins = [2], amount = 3
+> 输出: -1
+> 说明:你可以认为每种硬币的数量是无限的。
+> ```
+
+```c++
+// 和leetcode.139单词拆分类似，是一个0-1背包问题，每种物品无限多
+int coinChange(vector<int>& coins, int amount) {
+    vector<int> dp(amount + 1, INT_MAX);
+    dp[0] = 0;
+    for(int i = 1; i < dp.size(); ++i)
+        for(const auto &coin:coins)
+            if(coin <= i && dp[i - coin] != INT_MAX)
+                dp[i] = min(dp[i], dp[i - coin] + 1);
+    return dp.back() == INT_MAX ? -1 : dp.back();
+}
+```
+
+<br>
+
+[leetcode.377 组合总数IV medium](https://leetcode-cn.com/problems/combination-sum-iv/)
+
+> 给定一个由正整数组成且不存在重复数字的数组，找出和为给定目标正整数的组合的个数。
+>
+> 示例:
+>
+> ```
+> nums = [1, 2, 3]
+> target = 4
+> 所有可能的组合为：
+> (1, 1, 1, 1)
+> (1, 1, 2)
+> (1, 2, 1)
+> (1, 3)
+> (2, 1, 1)
+> (2, 2)
+> (3, 1)
+> 请注意，顺序不同的序列被视作不同的组合。因此输出为 7。
+> ```
+>
+> 进阶：
+> 如果给定的数组中含有负数会怎么样？
+> 问题会产生什么变化？
+> 我们需要在题目中添加什么限制来允许负数的出现？
+
+```c++
+// 思路：又双叒叕是每种物品无限多的0-1背包问题
+int combinationSum4(vector<int>& nums, int target) {
+    vector<unsigned long long> dp(target + 1, 0);
+    dp[0] = 1;
+    for(int i = 1; i < dp.size(); ++i)
+        for(const auto &num:nums)
+            if(num <= i)
+                dp[i] += dp[i - num];
+    return dp.back();
+}
+
+// 存在负数时：TODO
+```
+
+<br>
+
 [leetcode.140 单词拆分II hard](https://leetcode-cn.com/problems/word-break-ii/)
 
 > 给定一个非空字符串 s 和一个包含非空单词列表的字典 wordDict，在字符串中增加空格来构建一个句子，使得句子中所有的单词都在词典中。返回所有这些可能的句子。
@@ -4368,16 +4548,16 @@ bool wordBreak(string s, vector<string>& wordDict) {
 > 输入: s = "catsanddog", wordDict = ["cat", "cats", "and", "sand", "dog"]
 > 输出:
 > [
->   "cats and dog",
->   "cat sand dog"
+> "cats and dog",
+> "cat sand dog"
 > ]
 > 
 > 输入: s = "pineapplepenapple", wordDict = ["apple", "pen", "applepen", "pine", "pineapple"]
 > 输出:
 > [
->   "pine apple pen apple",
->   "pineapple pen apple",
->   "pine applepen apple"
+> "pine apple pen apple",
+> "pineapple pen apple",
+> "pine applepen apple"
 > ]
 > 解释: 注意你可以重复使用字典中的单词。
 > 
@@ -4387,102 +4567,728 @@ bool wordBreak(string s, vector<string>& wordDict) {
 > ```
 
 ```c++
+// 思路1:直接使用回溯backtracking方法，但是会超时，写在这里做下参考
+vector<string> wordBreak(string s, vector<string>& wordDict) {
+    vector<string> res;
+    string sbroken;
+    backtracking(s, res, sbroken, wordDict, 0);
+    return res;
+}
+void backtracking(const string &s, vector<string> &res, string sbroken, 
+                 vector<string> &wordDict, int idx){
+    if(idx == s.size()){
+        res.push_back(sbroken);
+        return;
+    }
+    for(const auto &word:wordDict)
+        if(word.size() + idx <= s.size() && s.substr(idx, word.size()) == word){
+            string tmp = sbroken;
+            sbroken += sbroken.empty() ? word : (" " + word);
+            backtracking(s, res, sbroken, wordDict, idx + word.size());
+            sbroken = tmp;
+        }
+}
+
+// 思路2:使用动态规划，unordered_map<string, vector<string>> 记录s的拆分结果
+vector<string> wordBreak(string s, vector<string>& wordDict) {
+    unordered_map<string, vector<string>> map;
+    map[""] = {""};     // 这里初始化空串的拆分方式，肥肠重要！！
+    dynamicProg(s, wordDict, map);        
+    return map[s];
+}
+void dynamicProg(string s, vector<string> &wordDict, 
+                          unordered_map<string, vector<string>> &map){
+    if(map.count(s) > 0 || s.empty())    // s已被拆分过或为空，直接返回，不用拆分
+        return;
+    vector<string> res;
+    for(const auto &word:wordDict)
+        if(s.substr(0, word.size()) == word){           				// s可拆分为word + 后半部分
+            dynamicProg(s.substr(word.size()), wordDict, map);  // 继续拆分后半
+
+            auto brokens = map[s.substr(word.size())];  				// 将word和后半部分的拆分组合起来
+            for(auto broken:brokens)            
+                res.push_back(word + (broken.empty() ? "" : " ") + broken);
+        }
+  
+    map[s] = res;   // s的拆分结果放入map备用
+}
+```
+
+<br>
+
+[leetcode.472 连接词 hard](https://leetcode-cn.com/problems/concatenated-words/)
+
+> 给定一个不含重复单词的列表，编写一个程序，返回给定单词列表中所有的连接词。
+>
+> 连接词的定义为：一个字符串完全是由至少两个给定数组中的单词组成的。
+>
+> 示例:
+>
+> ```
+> 输入: ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
+> 输出: ["catsdogcats","dogcatsdog","ratcatdogcat"]
+> 解释: "catsdogcats"由"cats", "dog" 和 "cats"组成; 
+>   "dogcatsdog"由"dog", "cats"和"dog"组成; 
+>   "ratcatdogcat"由"rat", "cat", "dog"和"cat"组成。
+> ```
+>
+> 说明:
+>
+> 给定数组的元素总数不超过 10000。
+> 给定数组中元素的长度总和不超过 600000。
+> 所有输入字符串只包含小写字母。
+> 不需要考虑答案输出的顺序。
+
+```c++
+// 思路1：与leetcode.139单词拆分基本一样，只需要对words中的每个词调用单词拆分函数即可
+// 这一思路很容易超时
+vector<string> findAllConcatenatedWordsInADict(vector<string>& words) {
+    if(words.size() <= 1)
+        return {};
+
+    vector<string> res;
+    unordered_set<string> wordsets(words.begin(), words.end());
+    for(const auto &s:words){
+        wordsets.erase(s);  // 不能拆分为自己
+        vector<bool> dp(s.size() + 1, false);
+        dp[0] = true;
+        for(int i = 1; i <= s.size(); ++i){
+            for(int j = 0; j < i; ++j)
+                if(dp[j] == true && wordsets.count(s.substr(j, i - j)) > 0)
+                    dp[i] = true;
+
+            if(dp.back() == true){  // 找到后提前截止
+                res.push_back(s);
+                wordsets.insert(s);
+                break;
+            }
+        }    
+        wordsets.insert(s);         // 没找到也要将该词复原
+    }
+    return res;
+}
+
+// 思路二：使用前缀树
+// TODO: 写完数据结构中的树再来解这个题
+```
+
+<br>
+
+[leetcode.474 一和零 medium](https://leetcode-cn.com/problems/ones-and-zeroes/)
+
+> 在计算机界中，我们总是追求用有限的资源获取最大的收益。现在，假设你分别支配着 m 个 0 和 n 个 1。另外，还有一个仅包含 0 和 1 字符串的数组。你的任务是使用给定的 m 个 0 和 n 个 1 ，找到能拼出存在于数组中的字符串的最大数量。每个 0 和 1 至多被使用一次。
+>
+> 注意: 给定 0 和 1 的数量都不会超过 100。给定字符串数组的长度不会超过 600。
+> 示例 :
+>
+> ```
+> 输入: Array = {"10", "0001", "111001", "1", "0"}, m = 5, n = 3
+> 输出: 4
+> 解释: 总共 4 个字符串可以通过 5 个 0 和 3 个 1 拼出，即 "10","0001","1","0" 。
+> 
+> 输入: Array = {"10", "0", "1"}, m = 1, n = 1
+> 输出: 2
+> 解释: 你可以拼出 "10"，但之后就没有剩余数字了。更好的选择是拼出 "0" 和 "1" 。
+> ```
+
+```c++
+// 思路：多维背包为题，每个物品都有两类属性，0、1的数量，两类属性的背包容量为m、n，最多能放多少个物品
+int findMaxForm(vector<string>& strs, int m, int n) {
+    vector<vector<int>> dp(m + 1, vector<int>(n + 1, 0));
+    for(const auto &s:strs){
+        int zeros = 0, ones = 0;
+        for(const auto &c:s)
+            c == '0' ? ++zeros : ++ones;	// 统计属性
+        for(int i = m; i >= zeros; --i)		// 必须大到小遍历，防止小到大使用已更改数据
+            for(int j = n; j >= ones; --j)
+                dp[i][j] = max(dp[i][j], dp[i - zeros][j - ones] + 1);
+    }
+    return dp.back().back();
+}
+```
+
+<br>
+
+### 其它问题
+
+[leetcode.123 买卖股票的最佳时间III hard](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iii/submissions/)
+
+> 给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你最多可以完成 两笔 交易。注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+>
+> 示例 :
+>
+> ```
+> 输入: [3,3,5,0,0,3,1,4]
+> 输出: 6
+> 解释: 在第 4 天（股票价格 = 0）的时候买入，在第 6 天（股票价格 = 3）的时候卖出，这笔交易所能获得利润 = 3-0 = 3 。随后，在第 7 天（股票价格 = 1）的时候买入，在第 8 天 （股票价格 = 4）的时候卖出，这笔交易所能获得利润 = 4-1 = 3 。
+> 
+> 输入: [1,2,3,4,5]
+> 输出: 4
+> 解释: 在第 1 天（股票价格 = 1）的时候买入，在第 5 天 （股票价格 = 5）的时候卖出, 这笔交易所能获得利润 = 5-1 = 4 。   
+> 注意你不能在第 1 天和第 2 天接连购买股票，之后再将它们卖出。因为这样属于同时参与了多笔交易，你必须在再次购买前出售掉之前的股票。
+> 
+> 输入: [7,6,4,3,1] 
+> 输出: 0 
+> 解释: 在这个情况下, 没有交易完成, 所以最大利润为 0。
+> ```
+
+```c++
+// 思路：动态规划
+// local[i][j] - 到达第i天最多可进行j次交易并且最后一次交易在最后一天卖出的最大利润, 此为局部最大值
+// global[i][j] - 到达第i天最多可进行j次交易的最大利润，此为全局最大值
+// 局部最大：前一天少交易一次的全局最优加上>0的差值,和前一天的局部最后加差值(不在前一天卖，而在这一天卖)，取大值
+// 全局最大：比较当天的局部最优，对比前一天的全局最优，两者取较大值
+// 	local[i][j] = max(global[i - 1][j - 1] + max(diff, 0), local[i - 1][j] + diff)
+// 	global[i][j] = max(local[i][j], global[i - 1][j])
+int maxProfit1(vector<int>& prices) {
+    if(prices.empty())
+        return 0;
+    vector<vector<int>> global(prices.size(), vector<int>(2 + 1, 0));
+    vector<vector<int>> local(prices.size(), vector<int>(2 + 1, 0));
+    for(int i = 1; i < prices.size(); ++i){
+        int diff = prices[i] - prices[i - 1];
+        for(int j = 1; j <= 2; ++j){
+            local[i][j] = max(global[i - 1][j - 1] + max(0, diff), local[i - 1][j] + diff);
+            global[i][j] = max(local[i][j], global[i - 1][j]);
+        }
+    }
+    return global.back().back();
+}
+
+// 优化空间
+int maxProfit(vector<int> &prices){
+    if(prices.empty())
+        return 0;
+    vector<int> global(2 + 1, 0);
+    vector<int> local(2 + 1, 0);
+    for(int i = 1; i < prices.size(); ++i){
+        int diff = prices[i] - prices[i - 1];
+        for(int j = 2; j >= 1; --j){    // 必须从大到小遍历，防止小到大使用已更新数据
+            local[j] = max(global[j - 1] + max(0, diff), local[j] + diff);
+            global[j] = max(local[j], global[j]);
+        }
+    }
+    return global.back();
+}
+```
+
+<br>
+
+[leetcode.188 买卖股票的最佳时机IV hard](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-iv/)
+
+> 给定一个数组，它的第 i 个元素是一支给定的股票在第 i 天的价格。设计一个算法来计算你所能获取的最大利润。你最多可以完成 k 笔交易。注意: 你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。
+>
+> 示例 :
+>
+> ```
+> 输入: [2,4,1], k = 2
+> 输出: 2
+> 解释: 在第 1 天 (股票价格 = 2) 的时候买入，在第 2 天 (股票价格 = 4) 的时候卖出，这笔交易所能获得利润 = 4-2 = 2 。
+> 
+> 输入: [3,2,6,5,0,3], k = 2
+> 输出: 7
+> 解释: 在第 2 天 (股票价格 = 2) 的时候买入，在第 3 天 (股票价格 = 6) 的时候卖出, 这笔交易所能获得利润 = 6-2 = 4。随后，在第 5 天 (股票价格 = 0) 的时候买入，在第 6 天 (股票价格 = 3) 的时候卖出, 这笔交易所能获得利润 = 3-0 = 3 。
+> ```
+
+```c++
+// 思路：同leetcode.123买卖股票最佳时机III完全类似
+int maxProfit(int k, vector<int>& prices) {
+    if(prices.size() <= 1)
+        return 0;
+  
+    // 可交易的次数大于股票数量，可以随意进行买卖，此题退化为leetcode.122买卖股票最佳时机II
+    if(k >= prices.size()){
+        int prof = 0;
+        for(int i = 1; i < prices.size(); ++i)
+            prof += (prices[i] - prices[i - 1] >= 0) ? prices[i] - prices[i - 1] : 0;
+        return prof;
+    }
+
+    vector<vector<int>> local(prices.size(), vector<int>(k + 1, 0));
+    vector<vector<int>> global(prices.size(), vector<int>(k + 1, 0));
+    for(int i = 1; i < prices.size(); ++i){
+        int diff = prices[i] - prices[i - 1];
+        for(int j = 1; j <= k; ++j){
+            local[i][j] = max(global[i - 1][j - 1] + max(0, diff), local[i - 1][j] + diff);
+            global[i][j] = max(local[i][j], global[i - 1][j]);
+        }
+    }
+    return global.back().back();
+}
+
+// 空间优化，同leetcode.123完全类似
+```
+
+<br>
+
+[leetcode. 309 最佳买卖股票时机，含冷冻期 medium](https://leetcode-cn.com/problems/best-time-to-buy-and-sell-stock-with-cooldown/)
+
+> 给定一个整数数组，其中第 i 个元素代表了第 i 天的股票价格 。设计一个算法计算出最大利润。在满足以下约束条件下，你可以尽可能地完成更多的交易（多次买卖一支股票）。你不能同时参与多笔交易（你必须在再次购买前出售掉之前的股票）。卖出股票后，你无法在第二天买入股票 (即冷冻期为 1 天)。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3,0,2]
+> 输出: 3 
+> 解释: 对应的交易状态为: [买入, 卖出, 冷冻期, 买入, 卖出]
+> ```
+
+```c++
+// 动态规划的思想：
+// sell[i] - 第i天结束后，手里没有股票，获得的最大收益
+// hold[i] - 第i天结束后，手里持有股票，获得的最大收益
+// 对sell[i], 当天啥也没干(sell[i - 1]), 当天卖出昨天持有的股票(hold[i - 1], price[i])，取较大值。
+// sell[i] = max(sell[i - 1], hold[i - 1] + price[i]) ,	由于当天结束手里没有股票，因此当天不可能买入。
+// 对hold[i], 当天啥也没干(hold[i - 1]), 当天买入了股票(sell[i - 2] - price[i])，取较大值。
+// hold[i] = max(hold[i - 1], sell[i - 2] - price[i]), 由于当天结束手里持有股票，因此当天不可能卖出
+int maxProfit(vector<int>& prices) {
+    if(prices.size() <= 1)
+        return 0;
+    vector<int> sell(prices.size(), INT_MIN);
+    vector<int> hold(prices.size(), INT_MIN);
+    sell[0] = 0;            // 第0天卖出股票，收益为0
+    hold[0] = -prices[0];   // 第0天买入股票，收益为-prices[0]
+    sell[1] = max(sell[0], hold[0] + prices[1]);
+    hold[1] = max(hold[0], 0 - prices[1]);
+    for(int i = 2; i < prices.size(); ++i){
+        sell[i] = max(sell[i - 1], hold[i - 1] + prices[i]);
+        hold[i] = max(hold[i - 1], sell[i - 2] - prices[i]);
+    }
+    return sell.back();
+}
+```
+
+<br>
+
+[leetcode.338 比特位计数 medium](https://leetcode-cn.com/problems/counting-bits/)
+
+> 给定一个非负整数 num。对于 0 ≤ i ≤ num 范围中的每个数字 i ，计算其二进制数中的 1 的数目并将它们作为数组返回。
+>
+> 示例 :
+>
+> ```
+> 输入: 2
+> 输出: [0,1,1]
+> 
+> 输入: 5
+> 输出: [0,1,1,2,1,2]
+> ```
+>
+> 进阶:
+>
+> 给出时间复杂度为O(n*sizeof(integer))的解答非常容易。但你可以在线性时间O(n)内用一趟扫描做到吗？
+> 要求算法的空间复杂度为O(n)。
+> 你能进一步完善解法吗？要求在C++或任何其他语言中不使用任何内置函数（如 C++ 中的 __builtin_popcount）来执行此操作。
+
+```c++
+// 动态规划: dp[i] - 十进制i的二进制表示中1的个数
+// n & (n - 1) 用来去除n的最低位上的1，因此该结果恰好比n少一个二进制1 ==>> dp[n] = dp[n & (n - 1)] + 1
+// n 					 = 1100
+// n - 1 			 = 1011
+// n & (n - 1) = 1000
+vector<int> countBits(int num) {
+    vector<int> dp(num + 1, 0);
+    for(int i = 1; i <= num; ++i)
+        dp[i] = dp[i & (i - 1)] + 1;
+    return dp;
+}
+```
+
+<br>
+
+[leetcode.646 最长数对链 medium](https://leetcode-cn.com/problems/maximum-length-of-pair-chain/)
+
+> 给出 n 个数对。 在每一个数对中，第一个数字总是比第二个数字小。现在，我们定义一种跟随关系，当且仅当 b < c 时，数对(c, d) 才可以跟在 (a, b) 后面。我们用这种形式来构造一个数对链。
+>
+> 给定一个对数集合，找出能够形成的最长数对链的长度。你不需要用到所有的数对，你可以以任何顺序选择其中的一些数对来构造。
+>
+> 示例 :
+>
+> ```
+> 输入: [[1,2], [2,3], [3,4]]
+> 输出: 2
+> 解释: 最长的数对链是 [1,2] -> [3,4]
+> ```
+
+```c++
+// 思路1:动态规划法O(n^2), 类似暴力求解
+int findLongestChain1(vector<vector<int>> &pairs){
+    sort(pairs.begin(), pairs.end());
+    vector<int> dp(pairs.size(), 1);
+    for(int i = 0; i < pairs.size(); ++i)
+        for(int j = 0; j < i; ++j)
+            if(pairs[j][1] < pairs[i][0])
+                dp[i] = max(dp[i], dp[j] + 1);
+    return *max_element(dp.begin(), dp.end());
+}
+
+// 思路2:贪心算法O(nlogn)，按照第二个数字小到大排序，最小的压入栈，
+// 遍历每个数对，数对第一个数比栈顶数对的第二个数大即将其入栈,遍历完成后栈的大小即为所求
+int findLongestChain(vector<vector<int>>& pairs) {
+    if(pairs.empty())
+        return 0;
+    sort(pairs.begin(), pairs.end(), comp);
+    stack<vector<int>> st;
+    st.push(pairs[0]);
+    for(int i = 1; i < pairs.size(); ++i)
+        if(st.top()[1] < pairs[i][0])
+            st.push(pairs[i]);
+    return st.size();
+}
+bool comp(vector<int> p1, vector<int> p2){
+    return p1[1] < p2[1];
+}
+```
+
+<br>
+
+[leetcode.650 只有两个键的键盘 medium](https://leetcode-cn.com/problems/2-keys-keyboard/)
+
+> 最初在一个记事本上只有一个字符 'A'。你每次可以对这个记事本进行两种操作：
+>
+> Copy All (复制全部) : 你可以复制这个记事本中的所有字符(部分的复制是不允许的)。
+> Paste (粘贴) : 你可以粘贴你上一次复制的字符。
+> 给定一个数字 n 。你需要使用最少的操作次数，在记事本中打印出恰好 n 个 'A'。输出能够打印出 n 个 'A' 的最少操作次数。
+>
+> 示例 :
+>
+> ```
+> 输入: 3
+> 输出: 3
+> 解释:
+> 最初, 我们只有一个字符 'A'。
+> 第 1 步, 我们使用 Copy All 操作。
+> 第 2 步, 我们使用 Paste 操作来获得 'AA'。
+> 第 3 步, 我们使用 Paste 操作来获得 'AAA'。
+> ```
+>
+> 说明: n 的取值范围是 [1, 1000] 。
+
+```c++
+// 动态规划，dp[i] - i个A最少可有多少次操作
+  int minSteps(int n) {
+      vector<int> dp(n + 1, INT_MAX);
+      dp[1] = 0;  // 1个字符，无需操作，本身就有
+    
+      // 复制前i个字符(1次操作), 粘贴若干次
+      for(int i = 1; i < dp.size(); ++i)
+          for(int paste = 1; i + paste * i < dp.size(); ++paste)
+              dp[i + paste * i] = min(dp[i + paste * i], dp[i] + 1 + paste);	
+      return dp.back();
+  }
+```
+
+<br>
+
+## 数学
+
+### 素数
+
+[leetcode.204 计数质数 easy](https://leetcode-cn.com/problems/count-primes/)
+
+> 统计所有小于非负整数 *n* 的质数的数量。
+>
+> **示例:**
+>
+> ```
+> 输入: 10
+> 输出: 4
+> 解释: 小于 10 的质数一共有 4 个, 它们是 2, 3, 5, 7 。
+> ```
+
+```c++
+// 找到一个质数a，可以将小于n的a的倍数全部刨除
+int countPrimes(int n) {
+    if(n <= 1)
+        return 0;
+  
+    vector<int> primes(n, true);
+    int cnt = 0;
+    for(int i = 2; i < primes.size(); ++i){
+        if(primes[i] == false)	// 该数不是质数，不用理会
+            continue;
+        ++cnt;									// 该数是质数，计数+1，并将该质数的倍数全部排除在外
+        for(int multi = 2; multi*i < n; ++multi)
+            primes[multi * i] = false;
+    }
+    return cnt;
+}
+```
+
+<br>
+
+[leetcode.263 丑数 easy](https://leetcode-cn.com/problems/ugly-number/)
+
+> 编写一个程序判断给定的数是否为丑数。丑数就是只包含质因数 2, 3, 5 的正整数。
+>
+> 示例 :
+>
+> ```
+> 输入: 6
+> 输出: true
+> 解释: 6 = 2 × 3
+> 
+> 输入: 8
+> 输出: true
+> 解释: 8 = 2 × 2 × 2
+> 
+> 输入: 14
+> 输出: false 
+> 解释: 14 不是丑数，因为它包含了另外一个质因数 7。
+> ```
+>
+> 说明：1 是丑数。输入不会超过 32 位有符号整数的范围: [−2^31,  2^31 − 1]。
+
+```c++
+bool isUgly(int num) {
+    if(num <= 0)
+        return false;
+    while(num % 2 == 0)     // 排除质因子2
+        num /= 2;
+    while(num % 3 == 0)     // 排除质因子3
+        num /= 3;
+    while(num % 5 == 0)     // 排除质因子5
+        num /= 5;
+    return num == 1;
+}
+```
+
+<br>
+
+[leetcode.264 丑数II medium](https://leetcode-cn.com/problems/ugly-number-ii/)、[剑指 offer 丑数](https://www.nowcoder.com/practice/6aa9e04fc3794f68acf8778237ba065b?tpId=13&tqId=11186&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+
+> 编写一个程序，找出第 n 个丑数。丑数就是只包含质因数 2, 3, 5 的正整数。
+>
+> 示例:
+>
+> ```
+> 输入: n = 10
+> 输出: 12
+> 解释: 1, 2, 3, 4, 5, 6, 8, 9, 10, 12 是前 10 个丑数。
+> ```
+>
+> 说明:  1 是丑数。n 不超过1690。
+
+```c++
+// 质因子|  1倍  2倍  3倍  4倍  5倍 
+//   2  |   2    4   6    8   10			由质因子个1/2/3/4...倍即可生成丑数序列
+//   3  |   3    6   9    12  15
+//   5  |   5    10  15   20  25
+int nthUglyNumber(int n) {
+    vector<int> uglys = {1};					// 初始化，第一个丑数是1
+    int p2 = 0, p3 = 0, p5 = 0;
+    while(uglys.size() < n){
+        // 对uglys={1}, 		 下一个丑数必然是1*2, 1*3, 1*5的较小值，得到uglys={1,2}
+      	// 对uglys={1,2}, 	 下一个丑数必然是2*2, 1*3, 1*5的较小值，得到uglys={1,2,3}
+      	// 对uglys={1,2,3}, 下一个丑数必然是2*2, 2*3, 1*5的较小值，得到uglys={1,2,3,4}  以此类推
+        int nextUgly = min(uglys[p2]*2, min(uglys[p3]*3, uglys[p5]*5));
+        if(nextUgly == uglys[p2]*2)			// 如果下一个丑数是uglys[p2]*2，则将下标p2右移一格. 下面同理
+            ++p2;   										
+        if(nextUgly == uglys[p3]*3)
+            ++p3;
+        if(nextUgly == uglys[p5]*5)
+            ++p5;
+        uglys.push_back(nextUgly);			// 下一个丑数放入丑数数组里
+    }
+    return uglys.back();
+}
+```
+
+<br>
+
+[leetcode. 313 超级丑数 medium](https://leetcode-cn.com/problems/super-ugly-number/)
+
+> 编写一段程序来查找第 n 个超级丑数。超级丑数是指其所有质因数都是长度为 k 的质数列表 primes 中的正整数。
+>
+> 示例:
+>
+> ```
+> 输入: n = 12, primes = [2,7,13,19]
+> 输出: 32 
+> 解释: 给定长度为 4 的质数列表 primes = [2,7,13,19]，前 12 个超级丑数序列为：[1,2,4,7,8,13,14,16,19,26,28,32] 。
+> ```
+>
+> 说明:
+>
+> 1 是任何给定 primes 的超级丑数。
+> 给定 primes 中的数字以升序排列。
+> 0 < k ≤ 100, 0 < n ≤ 106, 0 < primes[i] < 1000 。
+> 第 n 个超级丑数确保在 32 位有符整数范围内。
+
+```c++
+// 思路：本题和leetcode.264丑数的解法完全一致
+int nthSuperUglyNumber(int n, vector<int>& primes) {
+    vector<int> uglys = {1};
+    vector<int> idxs(primes.size(), 0);
+    while(uglys.size() < n){
+        int nextUgly = INT_MAX;
+        for(int i = 0; i < idxs.size(); ++i)
+            nextUgly = min(nextUgly, uglys[idxs[i]] * primes[i]);
+        for(int i = 0; i < idxs.size(); ++i)
+            if(nextUgly == uglys[idxs[i]] * primes[i])
+                ++idxs[i];
+        uglys.push_back(nextUgly);
+    }
+    return uglys.back();
+}
+```
+
+<br>
+
+### 公约数和公倍数
+
+最大公约数求法：辗转相除法，即`gcd(a,b) = gcd(b, a % b)`
+
+```c++
+int gcd(int a, int b){		// a、b谁大谁小没有要求
+    return (a % b == 0) ? b : gcd(b, a % b);
+}
+int gcd(int a, int b){		// 和上一个两者等价
+    return b == 0 ? a : gcd(b, a % b);
+}
+```
+
+最大公倍数求法：两数乘积除以最大公约数
+
+```c++
+int lcm(int a, int b){
+    return a * b / gcd(a, b);
+}
+```
+
+<Br>
+
+### 进制转换
+
+[leetcode. 504 七进制数 easy](https://leetcode-cn.com/problems/base-7/)
+
+> 给定一个整数，将其转化为7进制，并以字符串形式输出。
+>
+> 示例 :
+>
+> ```
+> 输入: 100
+> 输出: "202"
+> 示例 2:
+> 
+> 输入: -7
+> 输出: "-10"
+> 注意: 输入范围是 [-1e7, 1e7] 。
+> ```
+
+```c++
+// 100 = 2 * 7^2 + 0 * 7^1 + 2 * 7^0
+string convertToBase7(int num) {
+    if(num == 0)
+        return "0";
+    string res;
+    bool sign = num < 0;
+    num = num > 0 ? num : -num;
+    while(num > 0){
+        res = to_string(num % 7) + res;
+        num /= 7;
+    }
+    return sign ? ("-" + res) : res;
+}
+```
+
+<br>
+
+[leetcode.168 Excel表列名称 easy](https://leetcode-cn.com/problems/excel-sheet-column-title/)
+
+> 给定一个正整数，返回它在 Excel 表中相对应的列名称。
+>
+> 例如，
+>
+> ```
+> 1 -> A
+> 2 -> B
+> 3 -> C
+> ...
+> 26 -> Z
+> 27 -> AA
+> 28 -> AB 
+> ...
+> ```
+>
+> 示例 :
+>
+> ```
+> 输入: 1
+> 输出: "A"
+> 
+> 输入: 28
+> 输出: "AB"
+> 
+> 输入: 701
+> 输出: "ZY"
+> ```
+
+```c++
+// 思路：本题是26进制转换的一个变种，要肥肠注意与普通的26进制的区别
+// 比如7进制，每一位上可能出现的数是 0，1，2，3，4，5，6
+// 再比如普通的26进制，每一位上可能出现的数是 0，1，2，...，24，25
+// 但是，本题是26进制转换的一个变种，每一位上可能出现的数数 1，2，3，...，24，25，26，要肥肠注意
+```
+
+<br>
+
+[leetcode.171 Excel表列序号 easy](https://leetcode-cn.com/problems/excel-sheet-column-number/)
+
+> 给定一个Excel表格中的列名称，返回其相应的列序号。
+>
+> 例如，
+>
+> ```
+> A -> 1
+> B -> 2
+> C -> 3
+> ...
+> Z -> 26
+> AA -> 27
+> AB -> 28 
+> ...
+> ```
+>
+> 示例 
+>
+> ```:
+> 输入: "A"
+> 输出: 1
+> 
+> 输入: "AB"
+> 输出: 28
+> 
+> 输入: "ZY"
+> 输出: 701
+> ```
+
+```c++
 
 ```
 
 <br>
 
-[leetcode.698 划分为k个相等的子集](https://leetcode-cn.com/problems/partition-to-k-equal-sum-subsets/)
+[leetcode.405 数字转换成十六进制数 easy](https://leetcode-cn.com/problems/convert-a-number-to-hexadecimal/)
 
-> 给定一个整数数组  nums 和一个正整数 k，找出是否有可能把这个数组分成 k 个非空子集，其总和都相等。
+> 给定一个整数，编写一个算法将这个数转换为十六进制数。对于负整数，我们通常使用 补码运算 方法。
+>
+> 注意:
+>
+> 十六进制中所有字母(a-f)都必须是小写。
+> 十六进制字符串中不能包含多余的前导零。如果要转化的数为0，那么以单个字符'0'来表示；对于其他情况，十六进制字符串中的第一个字符将不会是0字符。 
+> 给定的数确保在32位有符号整数范围内。
+> 不能使用任何由库提供的将数字直接转换或格式化为十六进制的方法。
 >
 > 示例 ：
 >
 > ```
-> 输入： nums = [4, 3, 2, 3, 5, 2, 1], k = 4
-> 输出： True
-> 说明： 有可能将其分成 4 个子集（5），（1,4），（2,3），（2,3）等于总和。
+> 输入:26
+> 输出:"1a"
+> 
+> 输入:-1
+> 输出:"ffffffff"
 > ```
->
-> 注意:
->
-> 1 <= k <= len(nums) <= 16
-> 0 < nums[i] < 10000
-
-```C++
-// 思路1: 可以使用0-1背包的变种, 此题中为多个背包, 物品1种属性,解法比较复杂
-// 思路2: 直接使用backtracking方法
-bool canPartitionKSubsets(vector<int>& nums, int k) {
-    int sum = 0, maxnum = INT_MIN;
-    for(const auto &num:nums)
-        sum += num, maxnum = max(maxnum, num);
-    if(nums.size() < k || sum % k != 0 || maxnum > sum / k)
-        return false;
-
-    vector<bool> used(nums.size(), false);
-    return backtracking(nums, used, k, sum / k, 0, 0);
-}
-
-bool backtracking(vector<int> &nums, vector<bool> &used, int k, int tarSum, int curSum, int idx){
-    if(k == 0)           // 已经搜索到了k个子集
-        return true;
-    if(curSum == tarSum) // 搜索下一个子集
-        return backtracking(nums, used, k - 1, tarSum, 0, 0);
-
-    for(int i = idx; i < nums.size(); ++i)  // 这里如果每次都从0开始搜索则会超时, 从idx开始
-        if(used[i] == false && curSum + nums[i] <= tarSum){
-            used[i] = true;
-            if(backtracking(nums, used, k, tarSum, curSum + nums[i], i + 1))
-                return true;
-            used[i] = false;
-        }
-    return false;
-}
-```
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
