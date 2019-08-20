@@ -26,6 +26,7 @@
     - [素数](#素数)
     - [公约数和公倍数](#公约数和公倍数)
     - [进制转换](#进制转换)
+    - [阶乘](#阶乘)
 - [数据结构](#数据结构)
   - [二叉树](#二叉树)
     - [二叉树的遍历](#二叉树的遍历)
@@ -4442,7 +4443,7 @@ int findTargetSumWays(vector<int>& nums, int S) {
 > 输入: s = "applepenapple", wordDict = ["apple", "pen"]
 > 输出: true
 > 解释: 返回 true 因为 "applepenapple" 可以被拆分成 "apple pen apple"。注意你可以重复使用字典中的单词。
->   
+> 
 > 输入: s = "catsandog", wordDict = ["cats", "dog", "sand", "and", "cat"]
 > 输出: false
 > ```
@@ -4628,8 +4629,8 @@ void dynamicProg(string s, vector<string> &wordDict,
 > 输入: ["cat","cats","catsdogcats","dog","dogcatsdog","hippopotamuses","rat","ratcatdogcat"]
 > 输出: ["catsdogcats","dogcatsdog","ratcatdogcat"]
 > 解释: "catsdogcats"由"cats", "dog" 和 "cats"组成; 
->   "dogcatsdog"由"dog", "cats"和"dog"组成; 
->   "ratcatdogcat"由"rat", "cat", "dog"和"cat"组成。
+> "dogcatsdog"由"dog", "cats"和"dog"组成; 
+> "ratcatdogcat"由"rat", "cat", "dog"和"cat"组成。
 > ```
 >
 > 说明:
@@ -5229,6 +5230,16 @@ string convertToBase7(int num) {
 // 比如7进制，每一位上可能出现的数是 0，1，2，3，4，5，6
 // 再比如普通的26进制，每一位上可能出现的数是 0，1，2，...，24，25
 // 但是，本题是26进制转换的一个变种，每一位上可能出现的数数 1，2，3，...，24，25，26，要肥肠注意
+string convertToTitle(int n) {
+    string res;
+    while(n > 0){
+        n -= 1;		// 关键点
+        res = table[n % 26] + res;
+        n /= 26;
+    }
+    return res;
+}
+vector<string> table = { "A","B","C","D","E","F","G","H","I","J","K","L","M","N","O","P","Q","R","S","T","U","V","W","X","Y","Z" };
 ```
 
 <br>
@@ -5264,7 +5275,14 @@ string convertToBase7(int num) {
 > ```
 
 ```c++
-
+int titleToNumber(string s) {
+    long long res = 0;
+    for(int i = 0; i < s.size(); ++i){
+        res *= 26;
+        res += s[i] - 'A' + 1;
+    }
+    return res > INT_MAX ? INT_MAX : res;;
+}
 ```
 
 <br>
@@ -5290,11 +5308,231 @@ string convertToBase7(int num) {
 > 输出:"ffffffff"
 > ```
 
+```c++
+// 思路：转化为无符号之后再进制转换
+string toHex(int num) {
+    if(num == 0)
+        return "0";
+    unsigned int n = num;
+    string res;
+    while(n != 0){
+        res = table[n % 16] + res;
+        n /= 16;
+    }
+    return res;
+}
+vector<string> table = {"0","1","2","3","4","5","6","7","8","9","a","b","c","d","e","f"};
+```
 
+<br>
 
+[leetcode.483 最小好进制](https://leetcode-cn.com/problems/smallest-good-base/)
 
+> 对于给定的整数 n, 如果n的k（k>=2）进制数的所有数位全为1，则称 k（k>=2）是 n 的一个好进制。
+>
+> 以字符串的形式给出 n, 以字符串的形式返回 n 的最小好进制。
+>
+> 示例 ：
+>
+> ```
+> 输入："13"
+> 输出："3"
+> 解释：13 的 3 进制是 111。
+> 
+> 输入："4681"
+> 输出："8"
+> 解释：4681 的 8 进制是 11111。
+> 
+> 输入："1000000000000000000"
+> 输出："999999999999999999"
+> 解释：1000000000000000000 的 999999999999999999 进制是 11。
+> ```
+>
+> 提示：n的取值范围是 [3, 10^18]。输入总是有效且没有前导 0。
 
+```c++
+// 思路：数字n是(n-1)进制下的11，(n-1)进制是好进制，因此最小好进制必然为k=[2,n-1], 可用二分法
+// k进制，共m位1，则有关系式
+// n = 1 + k + k^2 + ... + k^(m - 1) = (1 - k^m) / (1 - k) >= k^(m - 1)  => k <= n^(1-m)
+// k >= 2, 则有m <= 1 + logn/logk <= 1 + logn/log2
+// 为使位数m更大，可让 m 从 1+logn/log2 -> 2进行遍历，遍历过程中二分搜索进制k
+string smallestGoodBase(string n) {
+    unsigned long long num = stol(n);
+    for(int m = log(num) / log(2) + 1; m >= 2; --m){          // 搜索位数m
+        int k_left = 2, k_right = pow(num, 1.0 / (m - 1)) + 1;    // 搜索进制k
+        while(k_left <= k_right){
+            int k_mid = (k_right - k_left) / 2 + k_left;
+            unsigned long long sum = 0;
+            for(int i = 0; i < m; ++i)
+                sum = sum * k_mid + 1;
+            if(sum == num)
+                return to_string(k_mid);
+            else if(sum < num)
+                k_left = k_mid + 1;
+            else
+                k_right = k_mid - 1;
+        }
+    }
+    return to_string(num - 1);  // n-1进制的11
+}
+```
 
+<br>
+
+[leetcode.468 验证IP地址 medium](https://leetcode-cn.com/problems/validate-ip-address/)
+
+> 编写一个函数来验证输入的字符串是否是有效的 IPv4 或 IPv6 地址。
+>
+> IPv4 地址由十进制数和点来表示，每个地址包含4个十进制数，其范围为 0 - 255， 用(".")分割。比如，172.16.254.1；
+>
+> 同时，IPv4 地址内的数不会以 0 开头。比如，地址 172.16.254.01 是不合法的。
+>
+> IPv6 地址由8组16进制的数字来表示，每组表示 16 比特。这些组数字通过 (":")分割。比如,  2001:0db8:85a3:0000:0000:8a2e:0370:7334 是一个有效的地址。而且，我们可以加入一些以 0 开头的数字，字母可以使用大写，也可以是小写。所以， 2001:db8:85a3:0:0:8A2E:0370:7334 也是一个有效的 IPv6 address地址 (即，忽略 0 开头，忽略大小写)。
+>
+> 然而，我们不能因为某个组的值为 0，而使用一个空的组，以至于出现 (::) 的情况。 比如， 2001:0db8:85a3::8A2E:0370:7334 是无效的 IPv6 地址。
+>
+> 同时，在 IPv6 地址中，多余的 0 也是不被允许的。比如， 02001:0db8:85a3:0000:0000:8a2e:0370:7334 是无效的。
+>
+> 说明: 你可以认为给定的字符串里没有空格或者其他特殊字符。
+>
+> 示例 :
+>
+> ```
+> 输入: "172.16.254.1"
+> 输出: "IPv4"
+> 解释: 这是一个有效的 IPv4 地址, 所以返回 "IPv4"。
+> 
+> 输入: "2001:0db8:85a3:0:0:8A2E:0370:7334"
+> 输出: "IPv6"
+> 解释: 这是一个有效的 IPv6 地址, 所以返回 "IPv6"。
+> 
+> 输入: "256.256.256.256"
+> 输出: "Neither"
+> 解释: 这个地址既不是 IPv4 也不是 IPv6 地址。
+> ```
+
+```c++
+// 没什么难度，就是需要考虑的情况过多
+string validIPAddress(string IP) {
+    vector<int> seg;    // 分割符 . : 的位置
+    for(int i = 0; i < IP.size(); ++i)
+        if(IP[i] == '.' || IP[i] == ':')
+            seg.push_back(i);
+    if(seg.size() == 3){        // IPv4, 3个 .
+        for(auto c:IP)
+            if(!(isdigit(c) || c == '.'))
+                return "Neither";
+        string ad1 = IP.substr(0, seg[0]);
+        string ad2 = IP.substr(seg[0] + 1, seg[1] - seg[0] - 1);
+        string ad3 = IP.substr(seg[1] + 1, seg[2] - seg[1] - 1);
+        string ad4 = IP.substr(seg[2] + 1);
+        if(ad1.empty() || ad1.size() > 3 || stoi(ad1) > 255 || (ad1[0] == '0' && ad1.size() > 1)
+           || ad2.empty() || ad2.size() > 3 || stoi(ad2) > 255 || (ad2[0] == '0' && ad2.size() > 1)
+           || ad3.empty() || ad3.size() > 3 || stoi(ad3) > 255 || (ad3[0] == '0' && ad3.size() > 1)
+           || ad4.empty() || ad4.size() > 4 || stoi(ad4) > 255 || (ad4[0] == '0' && ad4.size() > 1))
+            return "Neither";
+        else
+            return "IPv4";
+    }else if(seg.size() == 7){  // IPv6, 7个 :
+        string ad1 = IP.substr(0, seg[0]);
+        if(ad1.empty() || hex2dec(ad1) > 65535 || ad1.size() > 4)
+            return "Neither";
+        for(int i = 0; i < seg.size() - 1; ++i){
+            string ad = IP.substr(seg[i] + 1, seg[i + 1] - seg[i] - 1);
+            if(ad.empty() || hex2dec(ad) > 65535 || ad.size() > 4)
+                return "Neither";
+        }
+        string ad8 = IP.substr(seg[6] + 1);
+        if(ad8.empty() || hex2dec(ad8) > 65535 || ad8.size() > 4)
+            return "Neither";
+        return "IPv6";
+    }else           // 分割符号数量不对
+        return "Neither";
+    return "";
+}
+
+int hex2dec(string s){
+    int res = 0;
+    for(int i = 0; i < s.size(); ++i)
+        if(isdigit(s[i]))
+            res = res * 16 + s[i] - '0';
+    else if(isalpha(s[i])){
+        if(tolower(s[i]) > 'f')
+            return 65536;
+        res = res * 16 + (tolower(s[i]) - 'a' + 10);
+    }else
+        return 65536;
+    return res;
+}
+```
+
+<br>
+
+### 阶乘
+
+[leetcode.172 阶乘后的零 easy](https://leetcode-cn.com/problems/factorial-trailing-zeroes/)
+
+> 给定一个整数 n，返回 n! 结果尾数中零的数量。
+>
+> 示例 :
+>
+> ```
+> 输入: 3
+> 输出: 0
+> 解释: 3! = 6, 尾数中没有零。
+> 示例 2:
+> 
+> 输入: 5
+> 输出: 1
+> 解释: 5! = 120, 尾数中有 1 个零.
+> ```
+
+```C++
+// 思路：阶乘后的所有零都是由质因子 5 引起的，因此n!由多少5的质因子就有多少个0
+// n = 1-9      1个0     (5引起)
+// n = 10-14    2个0     (多了一个10)
+// n = 15-19    3个0     (多了一个15)
+// n = 20-24    4个0     (多了一个20)
+// n = 25-29    5+1个0   (多了一个25，且有两个5的质因子)
+int trailingZeroes(int n) {
+    int res = 0;
+    while(n > 0){
+        res += n / 5;
+        n /= 5;
+    }
+    return res;
+}
+```
+
+[leetcode.1006 笨阶乘 medium](https://leetcode-cn.com/problems/clumsy-factorial/)
+
+> 通常，正整数 n 的阶乘是所有小于或等于 n 的正整数的乘积。例如，factorial(10) = 10 * 9 * 8 * 7 * 6 * 5 * 4 * 3 * 2 * 1。
+>
+> 相反，我们设计了一个笨阶乘 clumsy：在整数的递减序列中，我们以一个固定顺序的操作符序列来依次替换原有的乘法操作符：乘法(*)，除法(/)，加法(+)和减法(-)。
+>
+> 例如，clumsy(10) = 10 * 9 / 8 + 7 - 6 * 5 / 4 + 3 - 2 * 1。然而，这些运算仍然使用通常的算术运算顺序：我们在任何加、减步骤之前执行所有的乘法和除法步骤，并且按从左到右处理乘法和除法步骤。
+>
+> 另外，我们使用的除法是地板除法（floor division），所以 10 * 9 / 8 等于 11。这保证结果是一个整数。
+>
+> 实现上面定义的笨函数：给定一个整数 N，它返回 N 的笨阶乘。
+>
+> 示例 ：
+>
+> ```
+> 输入：4
+> 输出：7
+> 解释：7 = 4 * 3 / 2 + 1
+> 
+> 输入：10
+> 输出：12
+> 解释：12 = 10 * 9 / 8 + 7 - 6 * 5 / 4 + 3 - 2 * 1
+> ```
+>
+> 提示：1 <= N <= 10000，-2^31 <= answer <= 2^31 - 1  
+
+```c++
+
+```
 
 <br>
 
