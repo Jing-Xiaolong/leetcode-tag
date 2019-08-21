@@ -27,6 +27,8 @@
     - [公约数和公倍数](#公约数和公倍数)
     - [进制转换](#进制转换)
     - [阶乘](#阶乘)
+    - [字符串加减法](#字符串加减法)
+    - [相遇问题](#相遇问题)
 - [数据结构](#数据结构)
   - [二叉树](#二叉树)
     - [二叉树的遍历](#二叉树的遍历)
@@ -952,7 +954,9 @@ int leastInterval(vector<char>& tasks, int n) {
 }
 ```
 
-<br>[leetcode.861 翻转矩阵后的得分 medium](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
+<br>
+
+[leetcode.861 翻转矩阵后的得分 medium](https://leetcode-cn.com/problems/score-after-flipping-matrix/)
 
 > 有一个二维矩阵 A 其中每个元素的值为 0 或 1 。移动是指选择任一行或列，并转换该行或列中的每一个值：将所有 0 都更改为 1，将所有 1 都更改为 0。在做出任意次数的移动后，将该矩阵的每一行都按照二进制数来解释，矩阵的得分就是这些数字的总和。返回尽可能高的分数。
 >
@@ -998,6 +1002,65 @@ int matrixScore(vector<vector<int>>& A) {
         sum += sum_row;
     }
     return sum;
+}
+```
+
+<br>
+
+[leetcode. 853 车队 medium](https://leetcode-cn.com/problems/car-fleet/)
+
+> N  辆车沿着一条车道驶向位于 target 英里之外的共同目的地。
+>
+> 每辆车 i 以恒定的速度 speed[i] （英里/小时），从初始位置 position[i] （英里） 沿车道驶向目的地。
+>
+> 一辆车永远不会超过前面的另一辆车，但它可以追上去，并与前车以相同的速度紧接着行驶。
+>
+> 此时，我们会忽略这两辆车之间的距离，也就是说，它们被假定处于相同的位置。
+>
+> 车队 是一些由行驶在相同位置、具有相同速度的车组成的非空集合。注意，一辆车也可以是一个车队。
+>
+> 即便一辆车在目的地才赶上了一个车队，它们仍然会被视作是同一个车队。
+>
+> 会有多少车队到达目的地?
+>
+>  示例：
+>
+> ```
+> 输入：target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]
+> 输出：3
+> 解释：
+> 从 10 和 8 开始的车会组成一个车队，它们在 12 处相遇。
+> 从 0 处开始的车无法追上其它车，所以它自己就是一个车队。
+> 从 5 和 3 开始的车会组成一个车队，它们在 6 处相遇。
+> 请注意，在到达目的地之前没有其它车会遇到这些车队，所以答案是 3。
+> ```
+>
+> 提示：
+>
+> 0 <= N <= 10 ^ 4
+> 0 < target <= 10 ^ 6
+> 0 < speed[i] <= 10 ^ 6
+> 0 <= position[i] < target
+> 所有车的初始位置各不相同。
+
+```c++
+// 计算每个车到达终点的所花时间, 并将车队按起始位置进行排序
+// 从最后一个车开始开始遍历, 时间比最后一个车还短的车必然是同一个车队
+int carFleet(int target, vector<int>& position, vector<int>& speed) {
+    vector<pair<int,double>> times;     // 每辆车到达终点花费的时间
+    for(int i = 0; i < position.size(); ++i)
+        times.push_back({position[i], (target - position[i]) * 1.0 / speed[i]}); 
+    sort(times.begin(), times.end());
+
+    int count = 0, idx = times.size() - 1;
+    while(idx >= 0){
+        ++count;                        // 车队+1
+        double t = times[idx].second;   // 最后一个车的花费的时间
+        --idx;
+        while(idx >= 0 && times[idx].second <= t)
+            --idx;                      // 跳过所有花费时间比最后一个车还短的
+    }
+    return count;
 }
 ```
 
@@ -5159,6 +5222,48 @@ int lcm(int a, int b){
 
 <Br>
 
+[leetcode.858 镜面反射](https://leetcode-cn.com/problems/mirror-reflection/submissions/)
+
+> 有一个特殊的正方形房间，每面墙上都有一面镜子。除西南角以外，每个角落都放有一个接受器，编号为 0， 1，以及 2。
+>
+> 正方形房间的墙壁长度为 p，一束激光从西南角射出，首先会与东墙相遇，入射点到接收器 0 的距离为 q 。
+>
+> 返回光线最先遇到的接收器的编号（保证光线最终会遇到一个接收器）。
+>
+> 示例：
+>
+> ```
+> 输入： p = 2, q = 1
+> 输出： 2
+> 解释： 这条光线在第一次被反射回左边的墙时就遇到了接收器 2 。
+> ```
+>
+> <img src="img/6.png" width="150px">
+
+```c++
+// 本质上是求最大公约数, 得到 gcd = gcd_func(p, q)
+// 水平方向走了 w = p / gcd 格, 竖直方向走了 h = q / gcd 格
+// 根据 w 和 q 的奇偶性判断哪个接收器接收
+int mirrorReflection(int p, int q) {
+    int gcd = gcd_func(p, q);
+    int w = p / gcd, h = q / gcd;
+    if((w % 2 == 1) && (h % 2 == 0))  // 横向走了奇数格, 纵向走了偶数格
+        return 0;
+    if((w % 2 == 1) && (h % 2 == 1))  // 横向走了奇数格, 纵向走了奇数格
+        return 1;
+    if((w % 2 == 0) && (h % 2 == 1))  // 横向走了偶数个, 纵向走了奇数格
+        return 2;
+    return -1;                        // 不可能横向偶数个, 纵向偶数格, 因为保证有解
+}
+
+// 函数：求最大公约数
+int gcd_func(int a, int b){
+    return b == 0 ? a : gcd_func(b, a % b);
+}
+```
+
+<br>
+
 ### 进制转换
 
 [leetcode. 504 七进制数 easy](https://leetcode-cn.com/problems/base-7/)
@@ -5531,8 +5636,383 @@ int trailingZeroes(int n) {
 > 提示：1 <= N <= 10000，-2^31 <= answer <= 2^31 - 1  
 
 ```c++
-
+// 思路：前3个数一组，然后每4个数一组，最后0~3个数一组
+int clumsy(int N) {
+    int res = 0;
+    if(N == 1)
+        return N;
+    if(N == 2)
+        return N * (N - 1);
+    if(N >= 3)
+        res = N * (N - 1) / (N - 2);
+    N -= 3;
+    while(N >= 4){
+        res += N - (N - 1) * (N - 2) / (N - 3);
+        N -= 4;
+    }
+    if(N == 3)
+        res = res + 3 - 2 * 1;
+    if(N == 2)
+        res = res + 2 - 1;
+    if(N == 1)
+        res = res + 1;
+    return res;
+}
 ```
+
+<br>
+
+[leetcode.793 阶乘函数后K个零 hard](https://leetcode-cn.com/problems/preimage-size-of-factorial-zeroes-function/)
+
+> f(x) 是 x! 末尾是0的数量。（回想一下 x! = 1 * 2 * 3 * ... * x，且0! = 1）
+>
+> 例如， f(3) = 0 ，因为3! = 6的末尾没有0；而 f(11) = 2 ，因为11!= 39916800末端有2个0。给定 K，找出多少个非负整数x ，有 f(x) = K 的性质。
+>
+> 示例 :
+>
+> ```
+> 输入:K = 0
+> 输出:5
+> 解释: 0!, 1!, 2!, 3!, and 4! 均符合 K = 0 的条件。
+> 
+> 输入:K = 5
+> 输出:0
+> 解释:没有匹配到这样的 x!，符合K = 5 的条件。
+> ```
+>
+> 注意：K是范围在 [0, 10^9] 的整数。
+
+```c++
+// 与leetcode.172类似, n!的零数量为 K = n/5 + n/5/5 + ... = n/5*(1-1/5^k)/(1-1/5) < n/4 => n > 4K
+// 只要有1个n使得n!=K, 那必然一共有5个; 否则一个都没有
+int preimageSizeFZF(int K) {
+    long long left_n = 0, right_n = ((long long)K) * 5;
+    while(left_n <= right_n){
+        long long mid_n = (right_n - left_n) / 2 + left_n;
+        long long zeros = trailingZeroes(mid_n);
+        if(zeros < K)
+            left_n = mid_n + 1;
+        else if(zeros > K)
+            right_n = mid_n - 1;
+        else
+            return 5;
+    }
+    return 0;
+}
+
+long long trailingZeroes(long long n) {	// n!的零的个数
+    long long res = 0;
+    while(n > 0){
+        res += n / 5;
+        n /= 5;
+    }
+    return res;
+}
+```
+
+<br>
+
+[编程之美2.2]
+
+> 求N!的二进制表示中最低位1的位置
+
+```c++
+// 思路：二进制 000001 每乘以一个质因数2, 则000001中的最低位1往左移1位
+// 转化为 N！有多少个质因数2
+int lowestOne(int N){
+    int res = 0;
+    while(N > 0){
+        res += n / 2;
+        n /= 2;
+    }
+    return res;
+}
+```
+
+<br>
+
+### 字符串加减法
+
+[leetcode.67 二进制求和 easy](https://leetcode-cn.com/problems/add-binary/)
+
+> 给定两个二进制字符串，返回他们的和（用二进制表示）。输入为非空字符串且只包含数字 1 和 0。
+>
+> 示例 :
+>
+> ```
+> 输入: a = "11", b = "1"
+> 输出: "100"
+> 
+> 输入: a = "1010", b = "1011"
+> 输出: "10101"
+> ```
+
+```c++
+string addBinary(string a, string b) {
+    string res;
+    int p1 = a.size() - 1, p2 = b.size() - 1;// 从后往前遍历
+    int carry = 0;                           // 是否有进位
+    while(p1 >= 0 || p2 >= 0 || carry > 0){
+        int cur = carry;
+        if(p1 >= 0)
+            cur += stoi(a.substr(p1--, 1));
+        if(p2 >= 0)
+            cur += stoi(b.substr(p2--, 1));
+        res = to_string(cur % 2) + res;
+        carry = cur / 2;
+    }
+    return res;
+}
+```
+
+<br>
+
+[leetcode.415 字符串相加 easy](https://leetcode-cn.com/problems/add-strings/)
+
+> 给定两个字符串形式的非负整数 num1 和num2 ，计算它们的和。
+>
+> 注意：
+>
+> num1 和num2 的长度都小于 5100.
+> num1 和num2 都只包含数字 0-9.
+> num1 和num2 都不包含任何前导零。
+> 你不能使用任何內建 BigInteger 库， 也不能直接将输入的字符串转换为整数形式。
+
+```c++
+// 与leetcode.67完全一致
+string addStrings(string num1, string num2) {
+    string res;
+    int p1 = num1.size() - 1, p2 = num2.size() - 1;
+    int carry = 0;
+    while(p1 >= 0 || p2 >= 0 || carry > 0){
+        int cur = carry;
+        if(p1 >= 0)
+            cur += stoi(num1.substr(p1--, 1));
+        if(p2 >= 0)
+            cur += stoi(num2.substr(p2--, 1));
+        res = to_string(cur % 10) + res; // 改为 % 10
+        carry = cur / 10;                // 该为 / 10
+    }
+    return res;
+}
+```
+
+<br>
+
+[leetcode.2 两数相加 medium](https://leetcode-cn.com/problems/add-two-numbers/)
+
+> 给出两个 非空 的链表用来表示两个非负的整数。其中，它们各自的位数是按照 逆序 的方式存储的，并且它们的每个节点只能存储 一位 数字。
+>
+> 如果，我们将这两个数相加起来，则会返回一个新的链表来表示它们的和。
+>
+> 您可以假设除了数字 0 之外，这两个数都不会以 0 开头。
+>
+> 示例：
+>
+> ```
+> 输入：(2 -> 4 -> 3) + (5 -> 6 -> 4)
+> 输出：7 -> 0 -> 8
+> 原因：342 + 465 = 807
+> ```
+
+```c++
+// 思路与上面的题一致
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    ListNode *head = new ListNode(0);   // 哨兵头结点
+    ListNode *cur = head, *p1 = l1, *p2 = l2;
+    int carry = 0;
+    while(p1 != nullptr || p2 != nullptr || carry > 0){
+        int sum = carry;
+        if(p1 != nullptr){
+            sum += p1->val;
+            p1 = p1->next;
+        }
+        if(p2 != nullptr){
+            sum += p2->val;
+            p2 = p2->next;
+        }
+        cur->next = new ListNode(sum % 10);
+        cur = cur->next;
+        carry = sum / 10;
+    }
+    return head->next;
+}
+```
+
+<br>
+
+[leetcode.445 两数相加II medium](https://leetcode-cn.com/problems/add-two-numbers-ii/)
+
+> 给定两个非空链表来代表两个非负整数。数字最高位位于链表开始位置。它们的每个节点只存储单个数字。将这两数相加会返回一个新的链表。你可以假设除了数字 0 之外，这两个数字都不会以零开头。
+>
+> 进阶: 如果输入链表不能修改该如何处理？换句话说，你不能对列表中的节点进行翻转。
+>
+> 示例:
+>
+> ```
+> 输入: (7 -> 2 -> 4 -> 3) + (5 -> 6 -> 4)
+> 输出: 7 -> 8 -> 0 -> 7
+> ```
+
+```c++
+// 与leetcode.445类似, 但此题是按顺序进行存储的
+// 思路1：借助栈
+// 思路2：对较短一个链表前面补齐0使长度相等, 然后递归
+ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+    if(l1 == nullptr || l2 == nullptr)
+        return l1 == nullptr ? l2 : l1;
+    stack<ListNode*> st1, st2;
+    ListNode* p = l1;
+    while(p != nullptr){
+        st1.push(p);
+        p = p->next;
+    }
+    p = l2;
+    while(p != nullptr){
+        st2.push(p);
+        p = p->next;
+    }
+
+    int carry = 0;
+    ListNode *cur = nullptr;
+    while(!st1.empty() || !st2.empty() || carry > 0){
+        int sum = carry;
+        if(!st1.empty()){
+            sum += st1.top()->val;
+            st1.pop();
+        }
+        if(!st2.empty()){
+            sum += st2.top()->val;
+            st2.pop();
+        }
+        ListNode *node = new ListNode(sum % 10);
+        node->next = cur;
+        cur = node;
+        carry = sum / 10;
+    }
+    return cur;
+}
+```
+
+<br>
+
+[leetcode.43 字符串相乘](https://leetcode-cn.com/problems/multiply-strings/)
+
+> 给定两个以字符串形式表示的非负整数 num1 和 num2，返回 num1 和 num2 的乘积，它们的乘积也表示为字符串形式。
+>
+> 示例 :
+>
+> ```
+> 输入: num1 = "2", num2 = "3"
+> 输出: "6"
+> 示例 2:
+> 
+> 输入: num1 = "123", num2 = "456"
+> 输出: "56088"
+> ```
+>
+> 说明：
+>
+> num1 和 num2 的长度小于110。
+> num1 和 num2 只包含数字 0-9。
+> num1 和 num2 均不以零开头，除非是数字 0 本身。
+> 不能使用任何标准库的大数类型（比如 BigInteger）或直接将输入转换为整数来处理。
+
+```c++
+// 关键点：num1的i位 * num2的j位 -> 不考虑进位时, 对输出的i+j位产生贡献
+// idx 4  3  2  1  0       
+//           1  2  3
+//        X  4  5  6
+//      _____________
+//           6 12 18
+//        5 10 18
+//     4  8 15
+//
+string multiply(string num1, string num2) {
+    if(num1 == "0" || num2 == "0")
+        return "0";
+
+    vector<int> bitres(num1.size() + num2.size() - 1, 0);
+    for(int i = 0; i < num1.size(); ++i)
+        for(int j = 0; j < num2.size(); ++j)
+            bitres[i + j] += (num1[i] - '0') * (num2[j] - '0');
+
+    string res;
+    int carry = 0;
+    for(int i = bitres.size() - 1; i >= 0; --i){
+        int sum = carry + bitres[i];
+        res = to_string(sum % 10) + res;
+        carry = sum / 10;
+    }
+    if(carry)
+        res = to_string(carry) + res;
+
+    return res;
+}
+```
+
+<br>
+
+### 相遇问题
+
+[leetcode.453 最少移动次数使数组元素相等 easy](https://leetcode-cn.com/problems/minimum-moves-to-equal-array-elements/)
+
+> 给定一个长度为 n 的非空整数数组，找到让数组所有元素相等的最小移动次数。每次移动可以使 n - 1 个元素增加 1。
+>
+> 示例:
+>
+> ```
+> 输入: [1,2,3]
+> 输出: 3
+> 解释: 只需要3次移动（注意每次移动会增加两个元素的值）：
+> [1,2,3]  =>  [2,3,3]  =>  [3,4,3]  =>  [4,4,4]
+> ```
+
+```c++
+// 其中n-1个数+1等价于另一个数-1, 最小步数为：每个数-1, 一直减到最小值即可
+int minMoves(vector<int>& nums) {
+    int min = *min_element(nums.begin(), nums.end());
+    int moves = 0;
+    for(auto num:nums)
+        moves += num - min;
+    return moves;
+}
+```
+
+<br>
+
+[leetcode.462 最少移动次数使数组元素相等II medium](https://leetcode-cn.com/problems/minimum-moves-to-equal-array-elements-ii/)
+
+> 给定一个非空整数数组，找到使所有数组元素相等所需的最小移动数，其中每次移动可将选定的一个元素加1或减1。 您可以假设数组的长度最多为10000。
+>
+> 例如:
+>
+> ```
+> 输入: [1,2,3]
+> 输出: 2
+> 说明：只有两个动作是必要的（记得每一步仅可使其中一个元素加1或减1）： 
+> [1,2,3]  =>  [2,2,3]  =>  [2,2,2]
+> ```
+
+```c++
+// 将所有数移动到中位数
+// 思路1：先排序再计算O(nlogn)
+// 思路2: 快排找到中位数再计算O(n)
+int minMoves2(vector<int>& nums) {
+    sort(nums.begin(), nums.end());
+    int moves = 0;
+    int left = 0, right = nums.size() - 1;
+    while(left <= right)	// ↓ 等价于 moves += (nums[right--] - mid) + (mid - nums[left++])
+        moves += nums[right--] - nums[left++];	
+    return moves;        
+}
+```
+
+<br>
+
+<br>
+
+<br>
 
 <br>
 
