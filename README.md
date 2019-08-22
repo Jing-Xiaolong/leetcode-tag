@@ -1,37 +1,55 @@
-[h2pl/leetcode](https://github.com/h2pl/leetcode)的C++实现，附带一些扩充。用于秋招第一遍分tag刷题，查漏补缺，并建立手撸算法的基本手感。
+Leetcode算法思想分类解答<Br>
 
 # 目录
 
-- [算法思想](#算法思想)
-  - [排序](#排序算法)
-    - [七大基于比较的排序算法](#七大基于比较的排序算法)
-    - [利用排序思想的算法](#利用排序思想的算法)
-  - [二分查找](#二分查找)
-  - [贪心思想](#贪心思想)
-  - [双指针思想](#双指针思想)
-  - [搜索](#搜索)
-    - [广度优先搜索BFS](#广度优先搜索BFS)
-    - [深度优先搜索DFS](#深度优先搜索DFS)
-    - [回溯法backtracking](#回溯法backtracking)
-  - [分治策略](#分治策略)
-  - [动态规划](#动态规划)
-    - [分割整数](#分割整数)
-    - [矩阵路径](#矩阵路径)
-    - [斐波那契数列](#斐波那契数列)
-    - [子序列问题](#子序列问题)
-    - [子区间问题](#子区间问题)
-    - [0-1背包问题](#0-1背包问题)
-    - [其它问题](#其它问题)
-  - [数学](#数学)
-    - [素数](#素数)
-    - [公约数和公倍数](#公约数和公倍数)
-    - [进制转换](#进制转换)
-    - [阶乘](#阶乘)
-    - [字符串加减法](#字符串加减法)
-    - [相遇问题](#相遇问题)
-- [数据结构](#数据结构)
-  - [二叉树](#二叉树)
-    - [二叉树的遍历](#二叉树的遍历)
+- [排序](#排序算法)
+
+  - [七大基于比较的排序算法](#七大基于比较的排序算法)
+  - [利用排序思想的算法](#利用排序思想的算法)
+
+- [二分查找](#二分查找)
+
+- [贪心思想](#贪心思想)
+
+- [双指针思想](#双指针思想)
+
+- [搜索](#搜索)
+
+  - [广度优先搜索BFS](#广度优先搜索BFS)
+  - [深度优先搜索DFS](#深度优先搜索DFS)
+  - [回溯法backtracking](#回溯法backtracking)
+
+- [分治策略](#分治策略)
+
+- [动态规划](#动态规划)
+
+  - [分割整数](#分割整数)
+  - [矩阵路径](#矩阵路径)
+  - [斐波那契数列](#斐波那契数列)
+  - [子序列问题](#子序列问题)
+  - [子区间问题](#子区间问题)
+  - [0-1背包问题](#0-1背包问题)
+  - [其它问题](#其它问题)
+
+- [数学](#数学)
+
+  - [素数](#素数)
+
+  - [公约数和公倍数](#公约数和公倍数)
+
+  - [进制转换](#进制转换)
+
+  - [阶乘](#阶乘)
+
+  - [字符串加减法](#字符串加减法)
+
+  - [相遇问题](#相遇问题)
+
+  - [多数投票问题](#多数投票问题)
+
+  - [其它数学问题](#其它数学问题)
+
+    
 
 <br><br>
 
@@ -1023,7 +1041,7 @@ int matrixScore(vector<vector<int>>& A) {
 >
 > 会有多少车队到达目的地?
 >
->  示例：
+> 示例：
 >
 > ```
 > 输入：target = 12, position = [10,8,0,5,3], speed = [2,4,1,1,3]
@@ -6010,54 +6028,359 @@ int minMoves2(vector<int>& nums) {
 
 <br>
 
-<br>
+### 多数投票问题
+
+[leetcode.169 求众数 easy](https://leetcode-cn.com/problems/majority-element/)、[剑指 offer 数组中出现次数超过一半的数字](https://www.nowcoder.com/practice/e8a1b01a2df14cb2b228b30ee6a92163?tpId=13&tqId=11181&tPage=2&rp=2&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+
+> 给定一个大小为 n 的数组，找到其中的众数。众数是指在数组中出现次数大于 ⌊ n/2 ⌋ 的元素。
+>
+> 你可以假设数组是非空的，并且给定的数组总是存在众数。
+>
+> 示例 :
+>
+> ```
+> 输入: [3,2,3]
+> 输出: 3
+> 
+> 输入: [2,2,1,1,1,2,2]
+> 输出: 2
+> ```
+
+```c++
+// 思路1:排序后的中间数 O(nlogn)
+// 思路2:统计出现次数unordered_map
+// 思路3:优化思路2的空间消耗 =>  Boyer-Moore多数投票算法
+int majorityElement(vector<int>& nums) {
+    int midsz = nums.size() / 2;
+    unordered_map<int,int> umap;
+    for(const auto &num:nums)
+        if(++umap[num] > midsz)
+            return num;
+    return 0;
+}
+
+int majorityElement(vector<int>& nums){
+    int cnt = 0, me = 0;
+    for(const auto &num:nums)
+        if(cnt == 0){
+            me = num;
+            ++cnt;
+        }else
+            num != me ? --cnt : ++ cnt;
+    return me;
+}
+```
+
+<Br>
+
+[leetcode.229 求众数II medium](https://leetcode-cn.com/problems/majority-element-ii/)
+
+> 给定一个大小为 n 的数组，找出其中所有出现超过 ⌊ n/3 ⌋ 次的元素。
+>
+> 说明: 要求算法的时间复杂度为 O(n)，空间复杂度为 O(1)。
+>
+> 示例 :
+>
+> ```
+> 输入: [3,2,3]
+> 输出: [3]
+> 
+> 输入: [1,1,1,3,3,2,2,2]
+> 输出: [1,2]
+> ```
+
+```c++
+// 思路：与leetcode.169类似，是Boyer-moore多数投票算法的变种
+vector<int> majorityElement(vector<int>& nums) {
+    if(nums.empty())
+        return {};
+
+    int n = nums[0], cntn = 0;  // 第一候选人及其计数次数
+    int m = nums[0], cntm = 0;  // 第二候选人及其计数次数
+    for(const auto &num:nums)
+        if(num == n)
+            ++cntn;
+        else if(num == m)
+            ++cntm;
+        else if(cntn == 0)
+            cntn = 1, n = num;
+        else if(cntm == 0)
+            cntm = 1, m = num;
+        else
+            --cntn, --cntm;
+
+    // 对候选人进行统计
+    cntn = 0, cntm = 0;
+    for(const auto &num:nums){
+        if(num == n)
+            ++cntn;
+        if(num == m)
+            ++cntm;
+    }
+
+    // 出现次数 > n/3即为所求
+    vector<int> res;
+    if(cntn > nums.size() / 3)
+        res.push_back(n);
+    if(cntm > nums.size() / 3)
+        res.push_back(m);
+    if(n == m)
+        res.pop_back();
+
+    return res;
+}
+```
 
 <br>
 
+### 其它数学问题
+
+[leetcode.367 有效的完全平方数 medium](https://leetcode-cn.com/problems/valid-perfect-square/)
+
+> 给定一个正整数 num，编写一个函数，如果 num 是一个完全平方数，则返回 True，否则返回 False。
+>
+> 说明：不要使用任何内置的库函数，如  sqrt。
+>
+> 示例 ：
+>
+> ```
+> 输入：16
+> 输出：True
+> 
+> 输入：14
+> 输出：False
+> ```
+
+```c++
+// 思路1:二分法
+// 思路2:检查1,2,3,4,5....的平方是否为num
+bool isPerfectSquare1(int num) {
+    if(num < 0)
+        return false;
+    int left = 1, right = num;
+    while(left <= right){
+        int mid = (right - left) / 2 + left;
+        if(num / mid == mid && num % mid == 0)
+            return true;
+        else if( num / mid > mid)
+            left = mid + 1;
+        else
+            right = mid - 1;
+    }
+    return false;
+}
+
+bool isPerfectSquare(int num){
+    int i = 1;
+    while(num / i >= i)
+        if(num / i == i && num % i == 0)
+            return true;
+        else
+            ++i;
+    
+    return false;
+}
+```
+
 <br>
 
-# 数据结构
+[leetcode.191 位1的个数 easy](https://leetcode-cn.com/problems/number-of-1-bits/submissions/)、[剑指 offer 二进制中1的个数](https://www.nowcoder.com/practice/8ee967e43c2c4ec193b040ea7fbb10b8?tpId=13&tqId=11164&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
 
-## 二叉树
+> 返回其二进制表达式中数字位数为 ‘1’ 的个数
 
-### 二叉树的遍历
+```c++
+// n = n & (n - 1) 可以消除最低位的1
+// 检查一共需要消除多少次
+int hammingWeight(uint32_t n) {
+    int cnt = 0;
+    while(n != 0){
+        ++cnt;
+        n = n & (n - 1);
+    }
+    return cnt;
+}
+```
 
-[leetcode.199 二叉树的右视图](https://leetcode-cn.com/problems/binary-tree-right-side-view/)
+<br>
 
-> 给定一棵二叉树，想象自己站在它的右侧，按照从顶部到底部的顺序，返回从右侧所能看到的节点值。
+[leetcode.231 2的幂 easy](https://leetcode-cn.com/problems/power-of-two/submissions/)
+
+> 给定一个整数，编写一个函数来判断它是否是 2 的幂次方。
+>
+> 示例 :
+>
+> ```
+> 输入: 1
+> 输出: true
+> 解释: 20 = 1
+> 
+> 输入: 16
+> 输出: true
+> 解释: 24 = 16
+> 
+> 输入: 218
+> 输出: false
+> ```
+
+```c++
+// 只需判断n的二进制表示中是否只有一位1
+// 利用 n & (n - 1) 消除 n 的最低位1, 看结果是否为零即可
+bool isPowerOfTwo(int n) {
+    return n > 0 && (n & (n - 1)) == 0;
+}
+```
+
+<br>
+
+[leetcode.326 3的幂 easy](https://leetcode-cn.com/problems/power-of-three/)
+
+> 给定一个整数，写一个函数来判断它是否是 3 的幂次方。
+>
+> 示例 :
+>
+> ```
+> 输入: 27
+> 输出: true
+> 示例 2:
+> 
+> 输入: 0
+> 输出: false
+> 
+> 输入: 9
+> 输出: true
+> 
+> 输入: 45
+> 输出: false
+> ```
+
+```c++
+// 小于INT_MAX的3的幂的最大数为3^19=1162261467，它只有质因子3
+// 只要 3^19 % n == 0 即可
+bool isPowerOfThree(int n) {
+  return n > 0 && 1162261467 % n == 0;
+}
+```
+
+<br>
+
+[leetcode. 342 4的幂](https://leetcode-cn.com/problems/power-of-four/)
+
+> 给定一个整数 (32 位有符号整数)，请编写一个函数来判断它是否是 4 的幂次方。
+>
+> 示例 :
+>
+> ```
+> 输入: 16
+> 输出: true
+> 
+> 输入: 5
+> 输出: false
+> ```
+
+```c++
+// 确保 num 只有一位二进制 1, 且该位1在偶数位上
+bool isPowerOfFour(int n) {
+    return n > 0 && (n & (n - 1)) == 0 && (n & 0x55555555); // 0x5 -> 0101
+}
+```
+
+<br>
+
+[leetcode. 628 三个数的最大乘积](https://leetcode-cn.com/problems/maximum-product-of-three-numbers/)
+
+> 给定一个整型数组，在数组中找出由三个数组成的最大乘积，并输出这个乘积。
+>
+> 示例 :
+>
+> ```
+> 输入: [1,2,3]
+> 输出: 6
+> 示例 2:
+> 
+> 输入: [1,2,3,4]
+> 输出: 24
+> ```
+>
+> 注意:
+>
+> 给定的整型数组长度范围是[3,104]，数组中所有的元素范围是[-1000, 1000]。
+> 输入的数组中任意三个数的乘积不会超出32位有符号整数的范围。
+
+```c++
+// 思路：最大的三个数m1, m2, m3，最小的两个数n1, n2 (可能为负)
+// 最大值必然是 m1*m2*m3, m1*n1*n2中的一个
+int maximumProduct(vector<int>& nums) {
+    int max1 = INT_MIN, max2 = INT_MIN, max3 = INT_MIN;
+    int min1 = INT_MAX, min2 = INT_MAX;
+    for(const auto &num:nums){
+        if(num > max1){
+            max3 = max2;
+            max2 = max1;
+            max1 = num;
+        }else if(num > max2){
+            max3 = max2;
+            max2 = num;
+        }else if(num > max3){
+            max3 = num;
+        }
+
+        if(num < min1){
+            min2 = min1;
+            min1 = num;
+        }else if(num < min2)
+            min2 = num;
+    }
+    return max(max1 * max2 * max3, max1 * min1 * min2);
+}
+```
+
+<br>
+
+[leetcode.238 除自身以外数组的乘积 medium](https://leetcode-cn.com/problems/product-of-array-except-self/)、[剑指 offer 构建乘积数组](https://www.nowcoder.com/practice/94a4d381a68b47b7a8bed86f2975db46?tpId=13&tqId=11204&tPage=1&rp=1&ru=/ta/coding-interviews&qru=/ta/coding-interviews/question-ranking)
+
+> 给定长度为 n 的整数数组 nums，其中 n > 1，返回输出数组 output ，其中 output[i] 等于 nums 中除 nums[i] 之外其余各元素的乘积。
 >
 > 示例:
 >
 > ```
-> 输入: [1,2,3,null,5,null,4]
-> 输出: [1, 3, 4]
-> 解释:
-> 1            <---
-> /   \
-> 2     3         <---
-> \     \
-> 5     4       <---
+> 输入: [1,2,3,4]
+> 输出: [24,12,8,6]
+> 说明: 请不要使用除法，且在 O(n) 时间复杂度内完成此题。
 > ```
+>
+> 进阶：
+> 你可以在常数空间复杂度内完成这个题目吗？（ 出于对空间复杂度分析的目的，输出数组不被视为额外空间。）
 
 ```c++
-// 思路：DFS-先序遍历（右侧开始），某层最先达到的节点即为该层最右侧的节点
-vector<int> rightSideView(TreeNode* root) {
-    if(root == nullptr)
-        return {};
+// idx  0   1   2   3
+//      1   2   3   4
+//  b0  \   2   6   24
+//  b1  1   \   3   12
+//  b2  1   2   \   8
+//  b3  1   2   6   \
+// 第一遍0-n遍历：计算下三角，第二遍n-0遍历：计算上三角
+vector<int> productExceptSelf(vector<int>& nums) {
+    vector<int> B(nums.size(), 1);
 
-    vector<int> res;
-    preorder(root, 0, res);        
-    return res;
-}
-void preorder(TreeNode *root, int level, vector<int> &nums){
-    if(root == nullptr)
-        return;
-    if(nums.size() == level)
-        nums.push_back(root->val);
-    preorder(root->right, level + 1, nums);
-    preorder(root->left, level + 1, nums);
-}
+    int tmp = 1;
+    for(int i = 0; i < nums.size() - 1; ++i){
+        tmp *= nums[i];
+        B[i + 1] *= tmp;
+    }
 
-// 此题也可使用BFS做，即层次遍历，每层最后一个节点放入vector中即可
+    tmp = 1;
+    for(int i = nums.size() - 1; i > 0; --i){
+        tmp *= nums[i];
+        B[i - 1] *= tmp;
+    }
+
+    return B;
+}
 ```
+
+<br>
+
+[leetcode.152 乘积最大子序列 medium](https://leetcode-cn.com/problems/maximum-product-subarray/)
+
+动态规划中的子区间问题，查看[动态规划-子区间问题](#子区间问题)
 
